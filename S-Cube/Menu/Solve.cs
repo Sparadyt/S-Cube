@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 
-public static class Solves
+public static partial class Solves
 {
     private static Stopwatch time;
     private static List<SolveData.LapData> laps = new List<SolveData.LapData>();
     private static string solvesFolder;
     private static bool isRunning;
+    private static SolveData openedSolve;
 
     private static (string option, Action action)[] options =
     {
         ("Exit", () => Environment.Exit(0)),
         ("Do Solve", Do)
     };
-    
+
     public static void Home()
     {
         while (true)
@@ -28,19 +29,19 @@ public static class Solves
             {
                 Console.WriteLine($"{i}. {options[i].option}");
             }
-           
+
             for (int i = options.Length - 1; i < SolveData.Solves.Count + options.Length - 1; i++)
             {
                 Console.WriteLine($"{i + 1}. Solve Number: {SolveData.Solves[i - options.Length + 1].Number}");
             }
 
-            //Console.WriteLine($"\n(Enter {options.Length - 1} to view Solver number 1)");
+            Console.WriteLine($"\n(Enter {options.Length} to view Solve number 1)");
             string inputStr = MainMenu.GetNumber(false, (int)SolveData.Amount + options.Length - 1);
 
 
             if (inputStr.StartsWith("Error"))
                 continue;
-                
+
             int input = Convert.ToInt32(inputStr);
 
             if (input < options.Length)
@@ -49,20 +50,20 @@ public static class Solves
                 continue;
             }
 
-            else
-                continue;
-
-            SolveData openedSolve = SolveData.Solves[input - options.Length + 1];
+            openedSolve = SolveData.Solves[input - options.Length];
+            Open();
         }
     }
 
     public static void Do()
     {
-        while(true)
+        string solvesFolder = @"S-Cube/All Solves/Default";
+
+        while (true)
         {
             Console.Clear();
 
-            string? scramble = "(No Scramble)";
+            string? scramble = "No Scramble Provided";
 
             Console.WriteLine("S-Cube \nDO SOLVE\n");
             Console.WriteLine("Enter 'S' to generate a random scramble");
@@ -131,7 +132,7 @@ public static class Solves
             Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter any key to continue)");
 
-            SolveData solve = new SolveData(time.Elapsed, scramble, "(No Description)", currentDate);
+            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, laps);
             Console.ReadKey();
             Console.Clear();
             laps.Clear();
@@ -171,7 +172,7 @@ public static class Solves
 
     static void Laps()
     {
-        while(true)
+        while (true)
         {
             ConsoleKeyInfo key = Console.ReadKey();
 

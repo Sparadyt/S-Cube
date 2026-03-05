@@ -9,11 +9,11 @@ class SolveData
     public TimeSpan Time { get; private set; }
     public static TimeSpan AverageTime { get; private set; }
     public string? Description;
-    readonly DateTime? date;
-    readonly string? scramble;
+    public readonly DateTime? Date;
+    public readonly string? Scramble;
     public string? SolvesFolder;
-    readonly string? usedAlgorithm;
-    public struct LapData
+    public readonly string? UsedAlgorithm;
+    public class LapData
     {
         public readonly TimeSpan? Time;
         public string? Name;
@@ -25,19 +25,18 @@ class SolveData
         }
     }
 
-    public List<LapData> Laps {get; private set;} = new List<LapData>();
-    public string solvesFolder;
+    public List<LapData> Laps = new List<LapData>();
 
-    public SolveData(TimeSpan time, string? scramble, string? description, DateTime date)
+    public SolveData(TimeSpan time, string? scramble, string? description, DateTime date, string solvesFolder, List<LapData>? laps)
     {
         Amount++;
         this.Number = Amount;
         this.Time = time;
-        this.scramble = scramble;
+        this.Scramble = scramble;
         this.Description = description;
-        this.date = date;
-        this.usedAlgorithm = null;
-        this.solvesFolder = @"S-Cube/All Solves/Default";
+        this.Date = date;
+        this.SolvesFolder = solvesFolder;
+        this.Laps = laps;
 
         Solves.Add(this);
         AverageTime =
