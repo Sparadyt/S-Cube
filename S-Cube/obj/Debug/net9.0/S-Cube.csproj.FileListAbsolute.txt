@@ -12,3 +12,4 @@ C:\projects\Useful+\S-Cube\S-Cube\obj\Debug\net9.0\refint\S-Cube.dll
 C:\projects\Useful+\S-Cube\S-Cube\obj\Debug\net9.0\S-Cube.pdb
 C:\projects\Useful+\S-Cube\S-Cube\obj\Debug\net9.0\S-Cube.genruntimeconfig.cache
 C:\projects\Useful+\S-Cube\S-Cube\obj\Debug\net9.0\ref\S-Cube.dll
+c:\projects\Useful+\S-Cube\S-Cube\obj\Debug\net9.0\S-Cube.sourcelink.json

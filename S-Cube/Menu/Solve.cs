@@ -6,7 +6,7 @@ using System.Diagnostics;
 public static class Solves
 {
     private static Stopwatch time;
-    private static List<(TimeSpan? time, string? name)> laps = new List<(TimeSpan? time, string? name)>();
+    private static List<SolveData.LapData> laps = new List<SolveData.LapData>();
     private static string solvesFolder;
     private static bool isRunning;
 
@@ -102,7 +102,7 @@ public static class Solves
                 Console.WriteLine("Enter 'Space' to make a new lap");
                 for (int i = 0; i < laps.Count; i++)
                 {
-                    Console.WriteLine($"{laps[i].name}: {laps[i].time?.ToString(@"mm\:ss\:ff")}");
+                    Console.WriteLine($"{laps[i].Name}: {laps[i].Time?.ToString(@"mm\:ss\:ff")}");
                 }
                 Console.WriteLine();
 
@@ -125,7 +125,7 @@ public static class Solves
             Console.Clear();
             for (int i = 0; i < laps.Count; i++)
             {
-                Console.WriteLine($"{laps[i].name}: {laps[i].time?.ToString(@"mm\:ss\.fff")}");
+                Console.WriteLine($"{laps[i].Name}: {laps[i].Time?.ToString(@"mm\:ss\.fff")}");
             }
 
             Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
@@ -177,7 +177,7 @@ public static class Solves
 
             if (key.Key == ConsoleKey.Spacebar)
             {
-                laps.Add((time.Elapsed, $"Lap {laps.Count + 1}"));
+                laps.Add(new SolveData.LapData(time.Elapsed, $"Lap {laps.Count + 1}"));
             }
 
             else

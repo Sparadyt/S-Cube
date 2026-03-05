@@ -11,7 +11,8 @@ public static class MainMenu
         {
             ("Exit", () => Environment.Exit(0)),
             ("Solves", Solves.Home),
-            ("Do Solve", Solves.Do)
+            ("Do Solve", Solves.Do),
+            ("Stats", Stats.Home)
         };
 
         while (true)
@@ -51,7 +52,7 @@ public static class MainMenu
         {
             Console.WriteLine("Enter a number");
             Console.Write("> ");
-            string input = Console.ReadLine().Trim();
+            string? input = Console.ReadLine().Trim();
 
             //---Error Handling
             //Reason for the error is included in return because it might be important
