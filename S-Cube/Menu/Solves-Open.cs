@@ -141,7 +141,7 @@ public static partial class Solves
                 Console.WriteLine("0. Exit");
                 for (int i = 0; i < laps.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {laps[i].Name}: {laps[i].Time?.ToString(@"mm\:ss\:ff")}");
+                    Console.WriteLine($"{i + 1}. {laps[openedSolve.Number - 1][i].Name}: {laps[openedSolve.Number - 1][i].Time?.ToString(@"mm\:ss\:ff")}");
                 }
                 
                 string? input = MainMenu.GetNumber(false, openedSolve.Laps.Count);

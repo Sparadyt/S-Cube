@@ -6,7 +6,8 @@ using System.Diagnostics;
 public static partial class Solves
 {
     private static Stopwatch time;
-    private static List<SolveData.LapData> laps = new List<SolveData.LapData>();
+    private static List<List<SolveData.LapData>> laps = new List<List<SolveData.LapData>>();
+    static int lapNum = 0;
     private static string solvesFolder;
     private static bool isRunning;
     private static SolveData openedSolve;
@@ -51,6 +52,7 @@ public static partial class Solves
             }
 
             openedSolve = SolveData.Solves[input - options.Length];
+
             Open();
         }
     }
@@ -62,6 +64,7 @@ public static partial class Solves
         while (true)
         {
             Console.Clear();
+            laps.Add(new List<SolveData.LapData>());
 
             string? scramble = "No Scramble Provided";
 
@@ -101,9 +104,9 @@ public static partial class Solves
                 Console.Clear();
 
                 Console.WriteLine("Enter 'Space' to make a new lap");
-                for (int i = 0; i < laps.Count; i++)
+                for (int i = 0; i < laps[lapNum].Count; i++)
                 {
-                    Console.WriteLine($"{laps[i].Name}: {laps[i].Time?.ToString(@"mm\:ss\:ff")}");
+                    Console.WriteLine($"{laps[lapNum][i].Name}: {laps[lapNum][i].Time?.ToString(@"mm\:ss\:ff")}");
                 }
                 Console.WriteLine();
 
@@ -124,18 +127,21 @@ public static partial class Solves
             time.Stop();
 
             Console.Clear();
-            for (int i = 0; i < laps.Count; i++)
+
+            for (int i = 0; i < laps[lapNum].Count; i++)
             {
-                Console.WriteLine($"{laps[i].Name}: {laps[i].Time?.ToString(@"mm\:ss\.fff")}");
+                Console.WriteLine($"{laps[lapNum][i].Name}: {laps[lapNum][i].Time?.ToString(@"mm\:ss\.fff")}");
             }
 
             Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter any key to continue)");
 
-            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, laps);
+            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, laps[lapNum]);
+            
             Console.ReadKey();
             Console.Clear();
-            laps.Clear();
+
+            lapNum++;
         }
     }
 
@@ -178,7 +184,7 @@ public static partial class Solves
 
             if (key.Key == ConsoleKey.Spacebar)
             {
-                laps.Add(new SolveData.LapData(time.Elapsed, $"Lap {laps.Count + 1}"));
+                laps[lapNum].Add(new SolveData.LapData(time.Elapsed, $"Lap {laps[lapNum].Count + 1}"));
             }
 
             else
