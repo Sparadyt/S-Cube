@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("S-Cube")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a8303d6b8146a5fadc0bbde9e7fe2a82d0e8f95")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72ca96bdf42f8b3ab87977e6e503e8a599faa1f9")]
 [assembly: System.Reflection.AssemblyProductAttribute("S-Cube")]
 [assembly: System.Reflection.AssemblyTitleAttribute("S-Cube")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

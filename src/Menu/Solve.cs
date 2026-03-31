@@ -14,7 +14,7 @@ public static partial class Solves
 
     private static (string option, Action action)[] options =
     {
-        ("Exit", () => Environment.Exit(0)),
+        ("Exit", Exit),
         ("Do Solve", Do)
     };
 
@@ -193,5 +193,10 @@ public static partial class Solves
                 return;
             }
         }
+    }
+
+    static void Exit()
+    {
+        return;
     }
 }
