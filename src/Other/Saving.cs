@@ -6,11 +6,36 @@ public static class Saving
 {
     static string? localProjectPath;
     static string? roamingProjectPath;
+    static string appName = "S-Cube";
+    static string? bareBoneSolvesPath;
+    static string? advanceSolvesPath;
 
-    public static UpdateValue()
+    public static void UpdateValue()
     {
-        localProjectpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        roamingProjectpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        //vgg
+        string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        string roamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+        if (!Path.Exists(Path.Combine(localPath, appName)))
+        {
+            Directory.CreateDirectory(Path.Combine(localPath, appName));
+            localProjectPath = Path.Combine(localPath, appName);
+        }
+
+        string allSolvesPath = Path.Combine(localProjectPath, "AllSolves");
+        CreateFolder(allSolvesPath);
+
+        bareBoneSolvesPath = Path.Combine(allSolvesPath, "BareBoneSolves");
+        CreateFolder(bareBoneSolvesPath);
+
+        advanceSolvesPath = Path.Combine(allSolvesPath, "AdvanceSolves");
+        CreateFolder(advanceSolvesPath);
+    }
+
+    static void CreateFolder(string path)
+    {
+        if (!Path.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
     }
 }
