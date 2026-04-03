@@ -52,6 +52,9 @@ public static class Saving
 
     static void SaveBBSolve(BBSolveData solve)
     {
-        //
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
     }
 }
