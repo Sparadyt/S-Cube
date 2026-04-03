@@ -1,7 +1,7 @@
 A simple cubing tool.
 
 # How to Run:
-* Install [https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-9.0.312-windows-x64-installer](.NET Version 9)
+* Install [.NET Version 9](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-9.0.312-windows-x64-installer
 * Download the code as .zip
 * Unzip the code
 * Double click the .lnk shortcut
