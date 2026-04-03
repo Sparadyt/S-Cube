@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 public static class Saving
 {
-    static string? localProjectPath = "";
-    static string? roamingProjectPath = "";
+    public static string? LocalProjectPath { get; private set; } = "";
+    public static string? RoamingProjectPath { get; private set; } = "";
     static string appName = "S-Cube";
     static string? bareBoneSolvesPath = "";
     static string? advanceSolvesPath = "";
@@ -20,10 +20,10 @@ public static class Saving
         if (!Path.Exists(Path.Combine(localPath, appName)))
         {
             Directory.CreateDirectory(Path.Combine(localPath, appName));
-            localProjectPath = Path.Combine(localPath, appName);
+            LocalProjectPath = Path.Combine(localPath, appName);
         }
 
-        string allSolvesPath = Path.Combine(localProjectPath, "AllSolves");
+        string allSolvesPath = Path.Combine(LocalProjectPath, "AllSolves");
         CreateFolder(allSolvesPath);
 
         bareBoneSolvesPath = Path.Combine(allSolvesPath, "BareBoneSolves");
@@ -35,10 +35,10 @@ public static class Saving
         if (!Path.Exists(Path.Combine(roamingPath, appName)))
         {
             Directory.CreateDirectory(Path.Combine(roamingPath, appName));
-            roamingProjectPath = Path.Combine(localPath, appName);
+            RoamingProjectPath = Path.Combine(localPath, appName);
         }
 
-        statsPath = Path.Combine(roamingProjectPath, "Stats.json");
+        statsPath = Path.Combine(RoamingProjectPath, "Stats.json");
         CreateFolder(statsPath);
     }
 

@@ -5,12 +5,12 @@ using System.Diagnostics;
 
 public static partial class Solves
 {
-    private static Stopwatch time;
-    private static List<List<SolveData.LapData>> laps = new List<List<SolveData.LapData>>();
+    static Stopwatch time;
+    static List<List<SolveData.LapData>> laps = new List<List<SolveData.LapData>>();
     static int lapNum = 0;
-    private static string solvesFolder;
-    private static bool isRunning;
-    private static SolveData openedSolve;
+    static string solvesFolder;
+    static bool isRunning;
+    static SolveData? openedSolve;
 
     private static (string option, Action action)[] options =
     {
@@ -59,7 +59,7 @@ public static partial class Solves
 
     public static void Do()
     {
-        string solvesFolder = @"S-Cube/All Solves/Default";
+        string solvesFolder = "";
 
         while (true)
         {
@@ -77,7 +77,7 @@ public static partial class Solves
 
             if (key.Key == ConsoleKey.S)
             {
-                scramble = GenerateScramble();
+                scramble = ScrambleGenerator.GenerateScramble();
                 Console.WriteLine($"\nScramble: {scramble}");
                 Console.WriteLine("(Enter any key to continue)");
                 Console.ReadKey();
@@ -98,6 +98,9 @@ public static partial class Solves
 
             Thread lapThread = new Thread(Laps);
             lapThread.Start();
+
+            //To Do:
+            //Fix text flashing without making the program feel unresponsive
 
             while (isRunning)
             {
@@ -145,44 +148,13 @@ public static partial class Solves
         }
     }
 
-    static string GenerateScramble()
-    {
-        Console.Clear();
-        char previousMove = '0';
-        char move = 'A';
-        char[] moves = { 'R', 'L', 'U', 'D', 'F', 'B' };
-        string[] modifiers = { "", "'", "2", "w" };
-
-        string scramble = "";
-
-        for (int i = 0; i < MainMenu.rand.Next(20, 26); i++)
-        {
-            while (true)
-            {
-                move = moves[MainMenu.rand.Next(moves.Length)];
-
-                if (move == previousMove)
-                    continue;
-
-                else
-                    break;
-            }
-
-            previousMove = move;
-            string modifier = modifiers[MainMenu.rand.Next(modifiers.Length)];
-            scramble += move + modifier + " ";
-        }
-
-        return scramble.Trim();
-    }
-
     static void Laps()
     {
         while (true)
         {
             ConsoleKeyInfo key = Console.ReadKey();
 
-            if (key.Key == ConsoleKey.Spacebar)
+            if (key.Key == ConsoleKey.Enter)
             {
                 laps[lapNum].Add(new SolveData.LapData(time.Elapsed, $"Lap {laps[lapNum].Count + 1}"));
             }

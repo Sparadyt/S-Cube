@@ -24,20 +24,24 @@ public static class Stats
 
     static void ShowAverageTime()
     {
+        Console.Write("Average Time: ");
         if (SolveData.Amount == 0)
         {
-            Console.WriteLine("Average Time: N/A");
+            Console.WriteLine("N/A");
             return;
         }
-        
-        Console.WriteLine($"Average Time: {SolveData.AverageTime.ToString(@"mm\:ss\.fff")}");
+
+        Console.WriteLine(SolveData.AverageTime.ToString(@"mm\:ss\.fff"));
     }
+
+    //To Do: Add AO5 and AO12
 
     static void ShowBestTime()
     {
+        Console.Write("Best Time: ");
         if (SolveData.Solves.Count == 0)
         {
-            Console.WriteLine("Best Time: N/A");
+            Console.WriteLine("N/A");
             return;
         }
 
@@ -50,14 +54,15 @@ public static class Stats
             }
         }
 
-        Console.WriteLine($"Best Time: {bestTime.ToString(@"mm\:ss\.fff")}");
+        Console.WriteLine(bestTime.ToString(@"mm\:ss\.fff"));
     }
 
     static void ShowWorstTime()
     {
+        Console.Write("Worst Time: ");
         if (SolveData.Solves.Count == 0)
         {
-            Console.WriteLine("Worst Time: N/A");
+            Console.WriteLine("N/A");
             return;
         }
 
@@ -70,6 +75,6 @@ public static class Stats
             }
         }
         
-        Console.WriteLine($"Worst Time: {worstTime.ToString(@"mm\:ss\.fff")}");
+        Console.WriteLine(worstTime.ToString(@"mm\:ss\.fff"));
     }
 }

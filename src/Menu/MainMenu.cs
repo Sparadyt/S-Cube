@@ -26,7 +26,7 @@ public static class MainMenu
                 Console.WriteLine($"{i}. {options[i].option}");
             }
 
-            string input = GetNumber(false, options.Length - 1);
+            string input = GetNumber(false, options.Length - 1, true);
 
             //Handling Input
             if (input.StartsWith("Error"))
@@ -49,11 +49,22 @@ public static class MainMenu
         Console.Clear();
     }
 
-    public static string GetNumber(bool negativeAllowed, int? maxNumber)
+    public static string GetNumber(bool negativeAllowed, int? maxNumber,  bool getKey = false)
     {
+        string? input = "";
+
         Console.WriteLine("Enter a number");
         Console.Write("> ");
-        string? input = Console.ReadLine().Trim();
+
+        if (!getKey)
+        {
+            input = Console.ReadLine();
+        }
+
+        else
+        {
+            input = Console.ReadKey().KeyChar.ToString();
+        }
 
         //---Error Handling
         //Reason for the error is included in return because it might be important
@@ -98,7 +109,7 @@ public static class MainMenu
         Console.Write("> ");
         string? input = Console.ReadLine().Trim().ToLower();
 
-        if(!nullAllowed)
+        if (!nullAllowed)
         {
             if (string.IsNullOrWhiteSpace(input))
             {

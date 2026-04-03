@@ -6,13 +6,13 @@ class SolveData
     public static List<SolveData> Solves = new List<SolveData>();
     public int Number { get; private set; }
     public static int Amount { get; private set; }
-    public TimeSpan Time { get; private set; }
+    public TimeSpan Time;
     public static TimeSpan AverageTime { get; private set; }
     public string? Description;
-    public readonly DateTime? Date;
-    public readonly string? Scramble;
+    public DateTime? Date;
+    public string? Scramble;
     public string? SolvesFolder;
-    public readonly string? UsedAlgorithm;
+    public string? UsedAlgorithm;
     public class LapData
     {
         public readonly TimeSpan? Time;

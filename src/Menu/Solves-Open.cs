@@ -113,19 +113,12 @@ public static partial class Solves
         {
             Console.Clear();
             Console.WriteLine("S-Cube \nCHANGE SOLVE FOLDER\n");
-            string? newFolder = MainMenu.GetString("Enter the new folder's name", true);
-
-            if (string.IsNullOrWhiteSpace(newFolder))
-            {
-                newFolder = "S-Cube/All Solves/Default";
-            }
+            string? newFolder = MainMenu.GetString("Enter the new folder's name", false);
 
             if (newFolder.StartsWith("Error"))
-            {
-                return;
-            }
+                continue;
 
-            openedSolve.SolvesFolder = $"S-Cube/All Solves/{newFolder}";
+            openedSolve.SolvesFolder = Path.Combine(Saving.LocalProjectPath, newFolder);;
             return;
         }
     }
