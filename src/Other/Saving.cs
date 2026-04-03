@@ -49,4 +49,9 @@ public static class Saving
             Directory.CreateDirectory(path);
         }
     }
+
+    static void SaveBBSolve(BBSolveData solve)
+    {
+        //
+    }
 }
