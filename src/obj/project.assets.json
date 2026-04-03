@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj",
+      "projectUniqueName": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
       "projectName": "S-Cube",
-      "projectPath": "C:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj",
+      "projectPath": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
       "packagesPath": "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\",
-      "outputPath": "C:\\projects\\Useful+\\S-Cube\\S-Cube\\obj\\",
+      "outputPath": "C:\\Projects\\Useful+\\S-Cube\\src\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HELLO-WORLD\\AppData\\Roaming\\NuGet\\NuGet.Config"

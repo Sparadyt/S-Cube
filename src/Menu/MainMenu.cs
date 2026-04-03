@@ -15,6 +15,7 @@ public static class MainMenu
             ("Stats", Stats.Home)
         };
 
+        Saving.CreateFiles();
         while (true)
         {
             Console.Clear();

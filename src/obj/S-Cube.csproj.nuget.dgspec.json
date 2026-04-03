@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj": {}
+    "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj": {}
   },
   "projects": {
-    "c:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj": {
+    "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj",
+        "projectUniqueName": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
         "projectName": "S-Cube",
-        "projectPath": "c:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj",
+        "projectPath": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
         "packagesPath": "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\",
-        "outputPath": "c:\\projects\\Useful+\\S-Cube\\S-Cube\\obj\\",
+        "outputPath": "C:\\Projects\\Useful+\\S-Cube\\src\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HELLO-WORLD\\AppData\\Roaming\\NuGet\\NuGet.Config"
