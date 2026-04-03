@@ -70,6 +70,6 @@ public static class Stats
             }
         }
         
-        Console.WriteLine($"Best Time: {worstTime.ToString(@"mm\:ss\.fff")}");
+        Console.WriteLine($"Worst Time: {worstTime.ToString(@"mm\:ss\.fff")}");
     }
 }
