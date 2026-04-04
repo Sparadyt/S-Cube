@@ -26,15 +26,15 @@ public static class MainMenu
                 Console.WriteLine($"{i}. {options[i].option}");
             }
 
-            string input = GetNumber(false, options.Length - 1, true);
+            string inputStr = GetNumber(false, options.Length - 1, true);
 
             //Handling Input
-            if (input.StartsWith("Error"))
+            if (inputStr.StartsWith("Error"))
             {
                 continue;
             }
 
-            options[Convert.ToInt32(input)].action();
+            options[int.Parse(inputStr)].action();
         }
     }
 

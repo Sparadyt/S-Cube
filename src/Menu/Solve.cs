@@ -43,7 +43,7 @@ public static partial class Solves
             if (inputStr.StartsWith("Error"))
                 continue;
 
-            int input = Convert.ToInt32(inputStr);
+            int input = int.Parse(inputStr);
 
             if (input < options.Length)
             {
@@ -52,7 +52,6 @@ public static partial class Solves
             }
 
             openedSolve = SolveData.Solves[input - options.Length];
-
             Open();
         }
     }
@@ -106,7 +105,7 @@ public static partial class Solves
             {
                 Console.Clear();
 
-                Console.WriteLine("Enter 'Space' to make a new lap");
+                Console.WriteLine("Enter 'Enter' to make a new lap");
                 for (int i = 0; i < laps[lapNum].Count; i++)
                 {
                     Console.WriteLine($"{laps[lapNum][i].Name}: {laps[lapNum][i].Time?.ToString(@"mm\:ss\:ff")}");
