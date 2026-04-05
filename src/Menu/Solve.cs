@@ -12,14 +12,14 @@ public static partial class Solves
     static bool isRunning;
     static SolveData? openedSolve;
 
-    private static (string option, Action action)[] options =
+    public static void Home()
     {
-        ("Exit", Exit),
+    (string option, Action action)[] options =
+    {
+        ("Exit", null),
         ("Do Solve", Do)
     };
 
-    public static void Home()
-    {
         while (true)
         {
             Console.Clear();
@@ -45,6 +45,9 @@ public static partial class Solves
 
             int input = int.Parse(inputStr);
 
+            if (input == 0)
+                return;
+                
             if (input < options.Length)
             {
                 options[input].action();
@@ -67,7 +70,7 @@ public static partial class Solves
 
             string? scramble = "No Scramble Provided";
 
-            Console.WriteLine("S-Cube \nDO SOLVE\n");
+            Console.WriteLine("S-Cube \nDO SOLVE \n");
             Console.WriteLine("Enter 'S' to generate a random scramble");
             Console.WriteLine("Enter 'Esc' or 'E' or Exit");
             Console.WriteLine("Enter any other key to start");
@@ -83,24 +86,17 @@ public static partial class Solves
             }
 
             else if (key.Key == ConsoleKey.Escape || (key.KeyChar.ToString().ToLower()) == "e")
-            {
                 return;
-            }
 
             Console.Clear();
-            isRunning = true;
-            DateTime currentDate = DateTime.Now;
 
+            DateTime currentDate = DateTime.Now;
             time = Stopwatch.StartNew();
-            TimeSpan previousTime = new TimeSpan();
-            int millisecondToWait = 500;
 
             Thread lapThread = new Thread(Laps);
             lapThread.Start();
 
-            //To Do:
-            //Fix text flashing without making the program feel unresponsive
-
+            isRunning = true;
             while (isRunning)
             {
                 Console.Clear();
@@ -112,18 +108,8 @@ public static partial class Solves
                 }
                 Console.WriteLine();
 
-                if (time.Elapsed.Milliseconds >= millisecondToWait)
-                {
-                    Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
-                    previousTime = time.Elapsed;
-                }
-
-                else
-                {
-                    Console.WriteLine("Time: " + previousTime.ToString(@"mm\:ss\.ff"));
-                }
-
-                Thread.Sleep(50);
+                Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
+                Thread.Sleep(100);
             }
 
             time.Stop();
@@ -141,7 +127,6 @@ public static partial class Solves
             SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, laps[lapNum]);
             
             Console.ReadKey();
-            Console.Clear();
 
             lapNum++;
         }
@@ -164,10 +149,5 @@ public static partial class Solves
                 return;
             }
         }
-    }
-
-    static void Exit()
-    {
-        return;
     }
 }

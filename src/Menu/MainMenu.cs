@@ -11,7 +11,9 @@ public static class MainMenu
         {
             ("Exit", () => Environment.Exit(0)),
             ("Solves", Solves.Home),
+            ("Bare-Bones Solves", BBSolves.Home),
             ("Do Solve", Solves.Do),
+            ("Do Bare-Bones Solve", BBSolves.Do),
             ("Stats", Stats.Home)
         };
 
@@ -30,9 +32,7 @@ public static class MainMenu
 
             //Handling Input
             if (inputStr.StartsWith("Error"))
-            {
                 continue;
-            }
 
             options[int.Parse(inputStr)].action();
         }
@@ -49,7 +49,7 @@ public static class MainMenu
         Console.Clear();
     }
 
-    public static string GetNumber(bool negativeAllowed, int? maxNumber,  bool getKey = false)
+    public static string GetNumber(bool negativeAllowed, long? maxNumber,  bool getKey = false)
     {
         string? input = "";
 

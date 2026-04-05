@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public static class ScrambleGenerator
 {
+    //To Do:
+    //break `GenerateScramble` into multiple other methods
     public static string GenerateScramble()
     {
         Console.Clear();
