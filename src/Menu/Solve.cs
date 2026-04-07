@@ -85,7 +85,7 @@ public static partial class Solves
                 Console.ReadKey();
             }
 
-            else if (key.Key == ConsoleKey.Escape || (key.KeyChar.ToString().ToLower()) == "e")
+            else if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
                 return;
 
             Console.Clear();

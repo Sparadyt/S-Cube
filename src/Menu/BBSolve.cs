@@ -92,6 +92,7 @@ public static class BBSolves
             Console.WriteLine("(Enter any key to continue)");
 
             BBSolveData solve = new BBSolveData(time.Elapsed, currentDate);
+            Saving.SaveBBSolve(solve);
             Console.ReadKey();
         }
     }

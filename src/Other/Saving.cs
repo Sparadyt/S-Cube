@@ -8,7 +8,7 @@ public static class Saving
     public static string? LocalProjectPath { get; private set; } = "";
     public static string? RoamingProjectPath { get; private set; } = "";
     static string appName = "S-Cube";
-    static string? bareBoneSolvesPath = "";
+    static string? BBSolvesPath = "";
     static string? advanceSolvesPath = "";
     static string? statsPath = "";
 
@@ -17,29 +17,23 @@ public static class Saving
         string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         string roamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-        if (!Path.Exists(Path.Combine(localPath, appName)))
-        {
-            Directory.CreateDirectory(Path.Combine(localPath, appName));
-            LocalProjectPath = Path.Combine(localPath, appName);
-        }
+        CreateFolder(Path.Combine(localPath, appName));
+        LocalProjectPath = Path.Combine(localPath, appName);
 
         string allSolvesPath = Path.Combine(LocalProjectPath, "AllSolves");
         CreateFolder(allSolvesPath);
 
-        bareBoneSolvesPath = Path.Combine(allSolvesPath, "BareBoneSolves");
-        CreateFolder(bareBoneSolvesPath);
+        BBSolvesPath = Path.Combine(allSolvesPath, "BareBoneSolves");
+        CreateFolder(BBSolvesPath);
 
         advanceSolvesPath = Path.Combine(allSolvesPath, "AdvanceSolves");
         CreateFolder(advanceSolvesPath);
 
-        if (!Path.Exists(Path.Combine(roamingPath, appName)))
-        {
-            Directory.CreateDirectory(Path.Combine(roamingPath, appName));
-            RoamingProjectPath = Path.Combine(localPath, appName);
-        }
+        CreateFolder(Path.Combine(roamingPath, appName));
+        RoamingProjectPath = Path.Combine(roamingPath, appName);
 
         statsPath = Path.Combine(RoamingProjectPath, "Stats.json");
-        CreateFolder(statsPath);
+        CreateFile(statsPath);
     }
 
     static void CreateFolder(string path)
@@ -50,11 +44,43 @@ public static class Saving
         }
     }
 
-    static void SaveBBSolve(BBSolveData solve)
+    static void CreateFile(string path)
+    {
+        File.WriteAllText(path, "");
+    }
+
+    public static void SaveBBSolve(BBSolveData solve)
     {
         var options = new JsonSerializerOptions
         {
             WriteIndented = true
         };
+
+        string json = JsonSerializer.Serialize(solve, options);
+
+        if (!Path.Exists(LocalProjectPath))
+        {
+            MainMenu.PrintError("Project Path Doesn't Exist", "The Local Project's path does not exist. Solve not saved.");
+            return;
+        }
+
+        if (!Path.Exists(BBSolvesPath))
+        {
+            MainMenu.PrintError("BB Solves Path Doesn' Exist", "The BB Solve's path does not exist. Solve not saved.");
+            return;
+        }
+
+        string solveNumber = solve.Number.ToString();
+        File.WriteAllText(Path.Combine(BBSolvesPath, solveNumber), json);
+    }
+
+    public static void UpdateValues()
+    {
+        string[] BBSolves = Directory.GetFiles(BBSolvesPath, "*.json");
+
+        foreach(string BBSolvePath in BBSolves)
+        {
+            BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(BBSolvePath);
+        }
     }
 }
