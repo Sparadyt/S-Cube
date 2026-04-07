@@ -10,12 +10,15 @@ public static class Saving
     static string appName = "S-Cube";
     static string? BBSolvesPath = "";
     static string? advanceSolvesPath = "";
-    static string? statsPath = "";
+    static string? settingsPath = "";
 
     public static void CreateFiles()
     {
         string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         string roamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+        if (!Directory.Exists(Path.Combine(localPath, appName)))
+            Settings.NewUser = true;
 
         CreateFolder(Path.Combine(localPath, appName));
         LocalProjectPath = Path.Combine(localPath, appName);
@@ -32,8 +35,8 @@ public static class Saving
         CreateFolder(Path.Combine(roamingPath, appName));
         RoamingProjectPath = Path.Combine(roamingPath, appName);
 
-        statsPath = Path.Combine(RoamingProjectPath, "Stats.json");
-        CreateFile(statsPath);
+        settingsPath = Path.Combine(RoamingProjectPath, "Settings.json");
+        CreateFile(settingsPath);
     }
 
     static void CreateFolder(string path)
@@ -77,6 +80,11 @@ public static class Saving
     public static void UpdateValues()
     {
         string[] BBSolves = Directory.GetFiles(BBSolvesPath, "*.json");
+        if(BBSolves.Length == 0)
+        {
+            Settings.NewUser = true;
+            return;
+        }
 
         foreach(string BBSolvePath in BBSolves)
         {

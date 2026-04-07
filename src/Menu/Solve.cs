@@ -88,6 +88,7 @@ public static partial class Solves
             else if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
                 return;
 
+
             Console.Clear();
 
             DateTime currentDate = DateTime.Now;

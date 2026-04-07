@@ -14,10 +14,12 @@ public static class MainMenu
             ("Bare-Bones Solves", BBSolves.Home),
             ("Do Solve", Solves.Do),
             ("Do Bare-Bones Solve", BBSolves.Do),
-            ("Stats", Stats.Home)
+            ("Stats", Stats.Home),
+            ("Settings", Settings.Home)
         };
 
         Saving.CreateFiles();
+        Saving.UpdateValues();
         while (true)
         {
             Console.Clear();

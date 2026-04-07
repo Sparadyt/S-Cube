@@ -12,7 +12,11 @@ public static class ScrambleGenerator
         char[] moves = { 'R', 'L', 'U', 'D', 'F', 'B' };
         List<char> avilableMoves = new List<char>(moves.ToList());
 
-        string[] modifiers = { "", "", "", "'", "'", "2", "2", "w" };
+        List<string> modifiers = new List<string>();
+        modifiers = ["", "", "", "'", "'", "2", "2"];
+
+        if (Settings.AddWideMoves)
+            modifiers.Add("w");
 
         string scramble = "";
         for (int i = 0; i < MainMenu.rand.Next(20, 26); i++)
@@ -38,7 +42,7 @@ public static class ScrambleGenerator
             avilableMoves.RemoveAt(Array.IndexOf(avilableMoves.ToArray(), move));
 
             previousMove = move;
-            string modifier = modifiers[MainMenu.rand.Next(modifiers.Length)];
+            string modifier = modifiers[MainMenu.rand.Next(modifiers.Count)];
             scramble += move + modifier + " ";
         }
 
