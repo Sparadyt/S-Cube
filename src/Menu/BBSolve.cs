@@ -56,10 +56,7 @@ public static class BBSolves
     }
 
     public static void Do()
-    {
-        if (Settings.Preferences["Inspection"].Value == "true")
-            Solves.Inspection();
-            
+    {    
         while (true)
         {
             Console.Clear();
