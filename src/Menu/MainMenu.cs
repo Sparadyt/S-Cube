@@ -21,6 +21,7 @@ public static class MainMenu
 
         Saving.CreateFiles();
         Saving.UpdateValues();
+        CheckForErrors();
         while (true)
         {
             Console.Clear();
@@ -132,5 +133,10 @@ public static class MainMenu
         }
 
         return input;
+    }
+
+    static void CheckForErrors()
+    {
+        //
     }
 }
