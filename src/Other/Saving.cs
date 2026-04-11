@@ -81,7 +81,7 @@ public static class Saving
         } while (guids.Contains(name));
         guids.Add(name);
        
-        File.WriteAllText(Path.Combine(BBSolvesPath, name), json);
+        File.WriteAllText(Path.Combine(BBSolvesPath, Path.Combine(name, ".json")), json);
     }
 
     public static void UpdateValues()
