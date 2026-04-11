@@ -15,7 +15,8 @@ public static class MainMenu
             ("Do Solve", Solves.Do),
             ("Do Bare-Bones Solve", BBSolves.Do),
             ("Stats", Stats.Home),
-            ("Settings", Settings.Home)
+            ("Settings", Settings.Home),
+            ("About", About.Home)
         };
 
         Saving.CreateFiles();

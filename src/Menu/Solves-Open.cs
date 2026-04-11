@@ -18,6 +18,7 @@ public static partial class Solves
             Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine($"Description: {openedSolve.Description}");
             Console.WriteLine($"Scramble: {openedSolve.Scramble}");
+            Console.WriteLine($"Algorithm: {openedSolve.UsedAlgorithm}");
             Console.WriteLine();
 
             Console.WriteLine($"Date: {openedSolve.Date}");

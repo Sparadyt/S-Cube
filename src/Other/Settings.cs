@@ -14,6 +14,11 @@ public static class Settings
         {"Inspection", new Preference("Inspection", "bool", "true", "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")}
     };
 
+    public static Dictionary<string, string> UserData = new Dictionary<string, string>
+    {
+        {"NewUser", "false"}
+    };
+
     public static readonly string[] PreferencesNames = Preferences.Keys.ToArray();
     public static void Home()
     {
@@ -37,9 +42,14 @@ public static class Settings
             
             Preference pickedPreference = Preferences[GetPreference(number - 1)];
 
-            if(pickedPreference.Type == "bool")
+            if (pickedPreference.Type == "bool")
             {
                 pickedPreference = BoolPreference(number - 1);
+            }
+
+            else if(pickedPreference.Type == "string")
+            {
+                pickedPreference = StringPreference(number - 1);
             }
         }
     }
@@ -81,17 +91,19 @@ public static class Settings
             }
 
             //String
-            else if(preference.Type == "string")
+            else if (preference.Type == "string")
             {
                 Console.Write("\"");
                 Console.Write(preference.Value);
                 Console.Write("\"");
             }
 
-            //Else
-            Console.WriteLine(preference.Value);
-                    
-            Console.WriteLine(preference.Info);
+            else
+            {
+                Console.WriteLine(preference.Value);
+                Console.WriteLine(preference.Info);
+            }
+            
             Console.WriteLine();
         }
     }
@@ -144,6 +156,38 @@ public static class Settings
                 continue;
             }
 
+            Thread.Sleep(1000);
+            break;
+        }
+
+        return preference;
+    }
+
+    static Preference StringPreference(int index)
+    {
+        Preference preference = Preferences[GetPreference(index)];
+
+        while (true)
+        {
+            Console.Clear();
+
+            Console.WriteLine($"{preference.Name}: \"{preference.Value}\"");
+            Console.WriteLine(preference.Info);
+            Console.WriteLine();
+
+            Console.WriteLine("Enter a new value for this preference");
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                MainMenu.PrintError("Invalid Input", "Please enter something.");
+                continue;
+            }
+
+            preference.Value = input;
+            Console.WriteLine("Preference updated sucessfully!");
             Thread.Sleep(1000);
             break;
         }

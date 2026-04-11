@@ -12,7 +12,7 @@ class SolveData
     public DateTime? Date;
     public string? Scramble;
     public string? SolvesFolder;
-    public string? UsedAlgorithm;
+    public string? UsedAlgorithm = Settings.Preferences["Default Algorithm"].Value;
     public class LapData
     {
         public readonly TimeSpan? Time;

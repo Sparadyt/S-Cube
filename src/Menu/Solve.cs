@@ -88,7 +88,6 @@ public static partial class Solves
             else if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
                 return;
 
-
             Console.Clear();
 
             if (Settings.Preferences["Inspection"].Value == "true")
@@ -164,7 +163,8 @@ public static partial class Solves
 
         while(inspection.Elapsed.Seconds < 15)
         {
-            Console.WriteLine($"\r{15 - inspection.Elapsed.Seconds}");
+            Console.Clear();
+            Console.WriteLine(15 - inspection.Elapsed.Seconds);
             Thread.Sleep(1000);
         }
     }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public static class Saving
 {
+    static List<string> guids = new List<string>();
     public static string? LocalProjectPath { get; private set; } = "";
     public static string? RoamingProjectPath { get; private set; } = "";
     static string appName = "S-Cube";
@@ -42,7 +43,7 @@ public static class Saving
         if (!Path.Exists(path))
         {
             Directory.CreateDirectory(path);
-            Settings.AdvancePreferences["New User"].Value = "true";
+            Settings.UserData["NewUser"] = "true";
         }
     }
 
@@ -72,8 +73,15 @@ public static class Saving
             return;
         }
 
-        string solveNumber = solve.Number.ToString();
-        File.WriteAllText(Path.Combine(BBSolvesPath, solveNumber), json);
+        string name = "";
+
+        do
+        {
+            name = Guid.NewGuid().ToString("N");
+        } while (guids.Contains(name));
+        guids.Add(name);
+       
+        File.WriteAllText(Path.Combine(BBSolvesPath, name), json);
     }
 
     public static void UpdateValues()
@@ -81,12 +89,13 @@ public static class Saving
         string[] BBSolves = Directory.GetFiles(BBSolvesPath, "*.json");
         if (BBSolves.Length == 0)
         {
-            Settings.AdvancePreferences["New User"].Value = "true";
+            Settings.UserData["NewUser"] = "true";
             return;
         }
 
         foreach (string BBSolvePath in BBSolves)
         {
+            guids.Add(Path.GetFileNameWithoutExtension(BBSolvesPath));
             BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(BBSolvePath);
         }
     }
