@@ -40,11 +40,21 @@ public static class MainMenu
         }
     }
 
-    public static void PrintError(string title, string message)
+    public static void PrintError(string title, string message, bool devError = false)
     {
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Error: {title}");
+
+        if (!devError)
+            Console.WriteLine($"Error: {title}");
+        else
+            Console.WriteLine($"Dev Error: {title}");
+
         Console.WriteLine(message);
+
+        if(devError)
+        {
+            Console.WriteLine("(Dex Error is the fault of the developer. If you want to, you can help the developer of making a issue in the Github page)");
+        }
         Console.WriteLine("(Enter any key to continue)");
         Console.ReadKey();
         Console.ResetColor();

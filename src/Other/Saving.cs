@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 public static class Saving
@@ -16,9 +17,6 @@ public static class Saving
     {
         string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         string roamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-        if (!Directory.Exists(Path.Combine(localPath, appName)))
-            Settings.NewUser = true;
 
         CreateFolder(Path.Combine(localPath, appName));
         LocalProjectPath = Path.Combine(localPath, appName);
@@ -44,6 +42,7 @@ public static class Saving
         if (!Path.Exists(path))
         {
             Directory.CreateDirectory(path);
+            Settings.AdvancePreferences["New User"].Value = "true";
         }
     }
 
@@ -80,15 +79,21 @@ public static class Saving
     public static void UpdateValues()
     {
         string[] BBSolves = Directory.GetFiles(BBSolvesPath, "*.json");
-        if(BBSolves.Length == 0)
+        if (BBSolves.Length == 0)
         {
-            Settings.NewUser = true;
+            Settings.AdvancePreferences["New User"].Value = "true";
             return;
         }
 
-        foreach(string BBSolvePath in BBSolves)
+        foreach (string BBSolvePath in BBSolves)
         {
             BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(BBSolvePath);
         }
+    }
+
+    public static void Restart(int errorCode)
+    {
+        Process.Start(Environment.ProcessPath);
+        Environment.Exit(errorCode);
     }
 }

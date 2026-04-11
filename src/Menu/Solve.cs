@@ -91,6 +91,9 @@ public static partial class Solves
 
             Console.Clear();
 
+            if (Settings.Preferences["Inspection"].Value == "true")
+                Inspection();
+
             DateTime currentDate = DateTime.Now;
             time = Stopwatch.StartNew();
 
@@ -149,6 +152,20 @@ public static partial class Solves
                 isRunning = false;
                 return;
             }
+        }
+    }
+
+    public static void Inspection()
+    {
+        Console.WriteLine("INSPECTION");
+        Console.WriteLine("(You can turn this off in the settings)");
+        Stopwatch inspection = new Stopwatch();
+        inspection.Start();
+
+        while(inspection.Elapsed.Seconds < 15)
+        {
+            Console.WriteLine($"\r{15 - inspection.Elapsed.Seconds}");
+            Thread.Sleep(1000);
         }
     }
 }

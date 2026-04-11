@@ -57,6 +57,9 @@ public static class BBSolves
 
     public static void Do()
     {
+        if (Settings.Preferences["Inspection"].Value == "true")
+            Solves.Inspection();
+            
         while (true)
         {
             Console.Clear();
@@ -67,7 +70,7 @@ public static class BBSolves
 
             ConsoleKeyInfo key = Console.ReadKey();
 
-            if (key.Key == ConsoleKey.Escape || (key.KeyChar.ToString().ToLower()) == "e")
+            if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
                 return;
 
             Console.Clear();
