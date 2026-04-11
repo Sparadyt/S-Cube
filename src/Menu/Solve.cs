@@ -156,14 +156,16 @@ public static partial class Solves
 
     public static void Inspection()
     {
-        Console.WriteLine("INSPECTION");
-        Console.WriteLine("(You can turn this off in the settings)");
         Stopwatch inspection = new Stopwatch();
         inspection.Start();
 
         while(inspection.Elapsed.Seconds < 15)
         {
             Console.Clear();
+
+            Console.WriteLine("INSPECTION");
+            Console.WriteLine("(You can turn this off in the settings)");
+        
             Console.WriteLine(15 - inspection.Elapsed.Seconds);
             Thread.Sleep(1000);
         }
