@@ -18,7 +18,6 @@ public static partial class Solves
             Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine($"Description: {openedSolve.Description}");
             Console.WriteLine($"Scramble: {openedSolve.Scramble}");
-            Console.WriteLine($"Algorithm: {openedSolve.UsedAlgorithm}");
             Console.WriteLine();
 
             Console.WriteLine($"Date: {openedSolve.Date}");
@@ -58,7 +57,7 @@ public static partial class Solves
 
         else
         {
-            Console.WriteLine("Used Algorithm: No Used Algorithm Provided");
+            Console.WriteLine("Used Algorithm: N/A");
         }
     }
 
