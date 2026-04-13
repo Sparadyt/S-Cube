@@ -14,12 +14,13 @@ public static class About
     public static void Home()
     {
         Console.Clear();
+        Console.WriteLine("S-Cube \nABOUT \n");
         string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYX";
 
         for (int i = 0; i < keys.Length; i++)
         {
             Console.WriteLine($"{keys[i]}:");
-            Console.WriteLine($"{i}: {links[keys[i]]}");
+            Console.WriteLine($"{letters[i]}: {links[keys[i]]}");
         }
 
         Console.WriteLine("Enter the indicated charactor to open that link to open the link");
@@ -29,7 +30,13 @@ public static class About
 
         if (key.Key == ConsoleKey.Escape)
             return;
-            
+
+        if (letters.IndexOf(char.ToUpperInvariant(key.KeyChar)) < keys.Length)
+        {
+            MainMenu.PrintError("Invalid Input", "Please enter a valid input.");
+            return;
+        }
+        
         for (int i = 0; i < keys.Length; i++)
         {
             if (char.ToUpperInvariant(key.KeyChar) == letters[i])

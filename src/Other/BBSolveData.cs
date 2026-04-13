@@ -16,6 +16,8 @@ public class BBSolveData
         Console.WriteLine("Empty One");
         Amount++;
         Number = Amount;
+
+        Solves.Add(this);
     }
     public BBSolveData(TimeSpan time, DateTime date)
     {

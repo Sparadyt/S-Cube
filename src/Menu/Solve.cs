@@ -99,6 +99,8 @@ public static partial class Solves
             Thread lapThread = new Thread(Laps);
             lapThread.Start();
 
+            MainMenu.Stats.TimeSpentSolving.Start();
+            MainMenu.Stats.AdvanceSolvesTimer.Start();
             isRunning = true;
             while (isRunning)
             {
@@ -115,6 +117,8 @@ public static partial class Solves
                 Thread.Sleep(100);
             }
 
+            MainMenu.Stats.TimeSpentSolving.Stop();
+            MainMenu.Stats.AdvanceSolvesTimer.Stop();
             time.Stop();
 
             Console.Clear();

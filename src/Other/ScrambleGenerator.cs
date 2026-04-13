@@ -24,14 +24,14 @@ public static class ScrambleGenerator
         }
 
         string scramble = "";
-        for (int i = 0; i < MainMenu.rand.Next(20, 26); i++)
+        for (int i = 0; i <Random.Shared.Next(20, 26); i++)
         {
             if ((i % 2) == 0)
             {
                 avilableMoves = moves;
             }
 
-            move = avilableMoves[MainMenu.rand.Next(avilableMoves.Length)];
+            move = avilableMoves[Random.Shared.Next(avilableMoves.Length)];
 
             //Removing unnecessary moves
             avilableMoves.Replace(move.ToString(), "");
@@ -43,7 +43,7 @@ public static class ScrambleGenerator
                 modifiers.Remove("w");
             }
             
-            string modifier = modifiers[MainMenu.rand.Next(modifiers.Count)];
+            string modifier = modifiers[Random.Shared.Next(modifiers.Count)];
             scramble += move + modifier + " ";
 
             if (sliceMoves)

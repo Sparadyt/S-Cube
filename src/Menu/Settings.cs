@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 public static class Settings
 {
@@ -14,17 +15,13 @@ public static class Settings
         {"Inspection", new Preference("Inspection", "bool", "true", "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")}
     };
 
-    public static Dictionary<string, string> UserData = new Dictionary<string, string>
-    {
-        {"NewUser", "false"}
-    };
-
     public static readonly string[] PreferencesNames = Preferences.Keys.ToArray();
     public static void Home()
     {
         while(true)
         {
             Console.Clear();
+            Saving.UpdatePreference();
             Console.WriteLine("S-Cube \nSETTINGS /n");
 
             Console.WriteLine("0. Exit");
@@ -47,10 +44,12 @@ public static class Settings
                 pickedPreference = BoolPreference(number - 1);
             }
 
-            else if(pickedPreference.Type == "string")
+            else if (pickedPreference.Type == "string")
             {
                 pickedPreference = StringPreference(number - 1);
             }
+
+            Saving.SavePreferences(Preferences);
         }
     }
 
@@ -60,7 +59,7 @@ public static class Settings
             return PreferencesNames[index];
 
         MainMenu.PrintError("Preference Error", "A preference of that index does not exist.", true);
-        Saving.Restart(31);
+        Saving.Restart(3);
         return "Error";
     }
 
@@ -95,16 +94,13 @@ public static class Settings
             {
                 Console.Write("\"");
                 Console.Write(preference.Value);
-                Console.Write("\"");
+                Console.WriteLine("\"");
             }
 
             else
             {
                 Console.WriteLine(preference.Value);
-                Console.WriteLine(preference.Info);
             }
-            
-            Console.WriteLine();
         }
     }
 
@@ -134,6 +130,7 @@ public static class Settings
 
             Console.WriteLine("Enter 'O' to turn this on");
             Console.WriteLine("Enter 'F' to turn this off");
+            Console.WriteLine("(Enter anything else to exit)");
             Console.Write("> ");
 
             ConsoleKeyInfo key = Console.ReadKey(true);
@@ -151,10 +148,7 @@ public static class Settings
             }
 
             else
-            {
-                MainMenu.PrintError("Invalid Input", "Please enter a valid input.");
-                continue;
-            }
+                break;
 
             Thread.Sleep(1000);
             break;
@@ -176,16 +170,19 @@ public static class Settings
             Console.WriteLine();
 
             Console.WriteLine("Enter a new value for this preference");
+            Console.WriteLine("Enter \"Esc\" to exit");
             Console.Write("> ");
 
             string input = Console.ReadLine();
-
             if (string.IsNullOrWhiteSpace(input))
             {
                 MainMenu.PrintError("Invalid Input", "Please enter something.");
                 continue;
             }
 
+            if((input.ToLower()) == "esc")
+                break;
+            
             preference.Value = input;
             Console.WriteLine("Preference updated sucessfully!");
             Thread.Sleep(1000);
@@ -198,11 +195,12 @@ public static class Settings
 
 public class Preference
 {
-    public readonly string Name;
-    public readonly string Type;
-    public string Value;
-    public readonly string Info;
+    public string Name {get; set;}
+    public string Type { get; set; }
+    public string Value {get; set;}
+    public string Info{ get; set; }
 
+    [JsonConstructor]
     public Preference(string name, string type, string value, string info)
     {
         Name = name;

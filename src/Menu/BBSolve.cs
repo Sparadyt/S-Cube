@@ -72,6 +72,9 @@ public static class BBSolves
 
             Console.Clear();
 
+            if (Settings.Preferences["Inspection"].Value == "true")
+                Solves.Inspection();
+                
             DateTime currentDate = DateTime.Now;
             Stopwatch time = new Stopwatch();
             time.Start();
@@ -79,6 +82,8 @@ public static class BBSolves
             Thread lapThread = new Thread(Stop);
             lapThread.Start();
 
+            MainMenu.Stats.TimeSpentSolving.Start();
+            MainMenu.Stats.BBSolvesTimer.Start();
             isRunning = true;
             while (isRunning)
             {
@@ -88,7 +93,10 @@ public static class BBSolves
                 Thread.Sleep(100);
             }
 
-             Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
+             MainMenu.Stats.TimeSpentSolving.Stop();
+            MainMenu.Stats.BBSolvesTimer.Stop();
+
+            Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter any key to continue)");
 
             BBSolveData solve = new BBSolveData(time.Elapsed, currentDate);

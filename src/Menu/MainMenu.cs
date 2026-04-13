@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Diagnostics;
 
 public static class MainMenu
 {
-    public static Random rand = new Random();
+    public static StatsData Stats = new StatsData();
 
     static void Main()
     {
@@ -11,17 +12,20 @@ public static class MainMenu
         {
             ("Exit", () => Environment.Exit(0)),
             ("Solves", Solves.Home),
-            ("Bare-Bones Solves", BBSolves.Home),
             ("Do Solve", Solves.Do),
+            ("Bare-Bones Solves", BBSolves.Home),
             ("Do Bare-Bones Solve", BBSolves.Do),
-            ("Stats", Stats.Home),
+            ("Stats", SeeStats.Home),
             ("Settings", Settings.Home),
             ("About", About.Home)
         };
 
         Saving.CreateFiles();
         Saving.UpdateValues();
+        Saving.UpdateStats();
         CheckForErrors();
+
+        Stats.TimeUsed.Start();
         while (true)
         {
             Console.Clear();

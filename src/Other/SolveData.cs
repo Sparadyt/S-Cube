@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-class SolveData
+public class SolveData
 {
     public static List<SolveData> Solves = new List<SolveData>();
     public int Number { get; private set; }

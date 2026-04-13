@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-public static class Stats
+public static class SeeStats
 {
     public static void Home()
     {
         Console.Clear();
         Console.WriteLine("S-Cube \nSTATS\n");
 
+        ShowTotalTimeUsed();
         ShowTotalSolves();
         ShowAverageTime();
         ShowBestTime();
@@ -15,6 +16,14 @@ public static class Stats
 
         Console.WriteLine("\n(Enter any key to Exit)");
         Console.ReadKey();
+    }
+
+    static void ShowTotalTimeUsed()
+    {
+        Console.WriteLine($"Time Used: {MainMenu.Stats.TimeUsed.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
+        Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.TimeSpentSolving.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
+        Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.AdvanceSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
+        Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.BBSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
     }
 
     static void ShowTotalSolves()
