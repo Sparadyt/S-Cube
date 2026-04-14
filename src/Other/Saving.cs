@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using System.Diagnostics;
 using System.Collections.Generic;
+namespace S_Cube;
 
 public static class Saving
 {
@@ -155,6 +156,10 @@ public static class Saving
     public static void UpdateStats()
     {
         string json = File.ReadAllText(statsPath);
+
+        if (string.IsNullOrWhiteSpace(json))
+            json = "{ }";
+            
         MainMenu.Stats = JsonSerializer.Deserialize<StatsData>(json) ?? new StatsData();
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+namespace S_Cube;
 
 public static class About
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+namespace S_Cube;
 
 //BB stands for 'Bare Bones'
 public class BBSolveData

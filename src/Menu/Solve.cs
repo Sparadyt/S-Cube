@@ -1,7 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Collections.Generic;
+namespace S_Cube;
 
 public static partial class Solves
 {
@@ -173,5 +174,7 @@ public static partial class Solves
             Console.WriteLine(15 - inspection.Elapsed.Seconds);
             Thread.Sleep(1000);
         }
+
+        Console.Beep(500, 100);
     }
 }

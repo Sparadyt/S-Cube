@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+namespace S_Cube;
 
 public static class Settings
 {
@@ -12,7 +13,8 @@ public static class Settings
         {"Default Algorithm", new Preference("Default Algorithm", "string", "", "The default algorithm used when completing an Advance Solve.") },
         {"Enable Wide Moves", new Preference("Enable Wide Moves", "bool", "false", "Enables wide moves (such as 'r'/'rw') to be chosen when generating a scramble.")},
         {"Enable Slice Moves", new Preference("Enable Slice Moves", "bool", "false", "Enables slice moves ('M', 'E', 'S') to be chosen when generating a scramble.") },
-        {"Inspection", new Preference("Inspection", "bool", "true", "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")}
+        {"Inspection", new Preference("Inspection", "bool", "true", "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")},
+        {"Ms Interval", new Preference("Ms Interval", "int", "1000", "Millisecond interval in which your stats get saved. Keeping it too low may cause lag.")}
     };
 
     public static readonly string[] PreferencesNames = Preferences.Keys.ToArray();

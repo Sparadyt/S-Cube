@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Diagnostics;
+namespace S_Cube;
 
 public static class MainMenu
 {
@@ -19,6 +21,9 @@ public static class MainMenu
             ("Settings", Settings.Home),
             ("About", About.Home)
         };
+
+        Thread bgWork = new Thread(BackgroundWork);
+        bgWork.Start();
 
         Saving.CreateFiles();
         Saving.UpdateValues();
@@ -139,8 +144,27 @@ public static class MainMenu
         return input;
     }
 
-    static void CheckForErrors()
+    public static void CheckForErrors()
     {
         //
+    }
+
+    public static void BackgroundWork()
+    {
+        if (!int.TryParse(Settings.Preferences["Ms Interval"].Value, out int msInterval))
+        {
+            PrintError("Invalid Value", "Invalid value for Millisecond Interval", true);
+        }
+        
+        SaveStats(msInterval);
+    }
+
+    public static async Task SaveStats(int msInterval)
+    {
+        while (true)
+        {
+            Saving.SaveStats(Stats);
+            Thread.Sleep(msInterval);
+        }
     }
 }

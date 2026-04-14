@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+namespace S_Cube;
 
 public static partial class Solves
 {

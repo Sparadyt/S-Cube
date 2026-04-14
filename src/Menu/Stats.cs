@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+namespace S_Cube;
 
 public static class SeeStats
 {
@@ -22,8 +23,8 @@ public static class SeeStats
     {
         Console.WriteLine($"Time Used: {MainMenu.Stats.TimeUsed.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
         Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.TimeSpentSolving.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
-        Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.AdvanceSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
-        Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.BBSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
+        Console.WriteLine($"Time Spent Doing Advance Solves: {MainMenu.Stats.AdvanceSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
+        Console.WriteLine($"Time Spent Doing Bare-Bones Solves: {MainMenu.Stats.BBSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
     }
 
     static void ShowTotalSolves()

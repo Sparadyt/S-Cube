@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
+namespace S_Cube;
 
 public static class BBSolves
 {
@@ -56,7 +57,7 @@ public static class BBSolves
     }
 
     public static void Do()
-    {    
+    {
         while (true)
         {
             Console.Clear();
@@ -65,6 +66,7 @@ public static class BBSolves
             Console.WriteLine("Enter 'Esc' or 'E' to Exit");
             Console.WriteLine("Enter any other key to start");
 
+            Thread.Sleep(1000);
             ConsoleKeyInfo key = Console.ReadKey();
 
             if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
@@ -93,7 +95,7 @@ public static class BBSolves
                 Thread.Sleep(100);
             }
 
-             MainMenu.Stats.TimeSpentSolving.Stop();
+            MainMenu.Stats.TimeSpentSolving.Stop();
             MainMenu.Stats.BBSolvesTimer.Stop();
 
             Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+namespace S_Cube;
 
 public static class ScrambleGenerator
 {
@@ -26,11 +27,6 @@ public static class ScrambleGenerator
         string scramble = "";
         for (int i = 0; i <Random.Shared.Next(20, 26); i++)
         {
-            if ((i % 2) == 0)
-            {
-                avilableMoves = moves;
-            }
-
             move = avilableMoves[Random.Shared.Next(avilableMoves.Length)];
 
             //Removing unnecessary moves
@@ -46,10 +42,7 @@ public static class ScrambleGenerator
             string modifier = modifiers[Random.Shared.Next(modifiers.Count)];
             scramble += move + modifier + " ";
 
-            if (sliceMoves)
-            {
-                modifiers.Add("w");
-            }
+            avilableMoves = moves;
         }
 
         return scramble.Trim();
