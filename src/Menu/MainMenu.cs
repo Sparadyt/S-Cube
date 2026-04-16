@@ -22,11 +22,13 @@ public static class MainMenu
             ("Info", Info.Home)
         };
 
-        Saving.UpdateStats();
         Saving.CreateFiles();
+        Saving.UpdateStats();
         Saving.UpdateValues();
         CheckForErrors();
-        BackgroundWork();
+
+        Thread bgThread = new Thread(BackgroundWork);
+        bgThread.Start();
 
         Stats.TimeUsed.Start();
         while (true)

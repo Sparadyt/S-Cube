@@ -138,10 +138,10 @@ public static class Saving
             bbGuids.Add(Path.GetFileNameWithoutExtension(bbSolvesPath));
             BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(File.ReadAllText(BBSolvePath));
 
-            if (solve.Time.Seconds < 30)
+            if (solve.IsUnderChosenSeconds(30))
                 MainMenu.Stats.SolvesUnder30Second++;
 
-            else if (solve.Time.Seconds < 10)
+            else if (solve.IsUnderChosenSeconds(10))
                 MainMenu.Stats.SolvesUnder10Second++;
         }
 
@@ -172,7 +172,7 @@ public static class Saving
         if (string.IsNullOrWhiteSpace(json))
             json = "{ }";
             
-        MainMenu.Stats = JsonSerializer.Deserialize<StatsData>(json);
+        MainMenu.Stats = JsonSerializer.Deserialize<StatsData>(json) ?? new StatsData();
     }
 
 
