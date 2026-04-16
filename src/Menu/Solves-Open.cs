@@ -19,6 +19,7 @@ public static partial class Solves
             Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine($"Description: {openedSolve.Description}");
             Console.WriteLine($"Scramble: {openedSolve.Scramble}");
+            ShowPenalty();
             Console.WriteLine();
 
             Console.WriteLine($"Date: {openedSolve.Date}");
@@ -49,7 +50,7 @@ public static partial class Solves
         }
     }
 
-    static void ShowUsedAlgorithm()
+    public static void ShowUsedAlgorithm()
     {
         if (openedSolve.UsedAlgorithm != null)
         {
@@ -62,7 +63,7 @@ public static partial class Solves
         }
     }
 
-    static void HandleInput()
+    public static void HandleInput()
     {
         string? input = MainMenu.GetString("Enter an input", true);
 
@@ -71,10 +72,10 @@ public static partial class Solves
             ChangeDescription();
         }
 
-        //else if(input == "sol")
-        //{
-        //ChangeSolveFolder();
-        //}
+        else if(input == "sol")
+        {
+            ChangeSolveFolder();
+        }
 
         else if (input == "lap")
         {
@@ -85,7 +86,7 @@ public static partial class Solves
             exit = true;
     }
 
-    static void ChangeDescription()
+    public static void ChangeDescription()
     {
         while (true)
         {
@@ -108,7 +109,7 @@ public static partial class Solves
         }
     }
 
-    static void ChangeSolveFolder()
+    public static void ChangeSolveFolder()
     {
         while (true)
         {
@@ -119,18 +120,18 @@ public static partial class Solves
             if (newFolder.StartsWith("Error"))
                 continue;
 
-            openedSolve.SolvesFolder = Path.Combine(Saving.LocalProjectPath, newFolder);;
+            openedSolve.SolvesFolder = Path.Combine(Saving.LocalProjectPath, newFolder);
             return;
         }
     }
 
-    static void ChangeLapName()
+    public static void ChangeLapName()
     {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("S-Cube \nCHANGE LAP NAME\n");
-                Console.WriteLine("Enter the number of the lap you want the name to change");
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("S-Cube \nCHANGE LAP NAME\n");
+            Console.WriteLine("Enter the number of the lap you want the name to change");
 
                 Console.WriteLine("0. Exit");
                 for (int i = 0; i < laps.Count; i++)
@@ -156,11 +157,34 @@ public static partial class Solves
                 string? newName = MainMenu.GetString("Enter the new name of the lap", false);
     
                 if (newName.StartsWith("Error"))
-                {
-                    continue;
-                }
-    
-                openedSolve.Laps[lapNumber].Name = newName;
+            {
+                continue;
             }
+    
+            openedSolve.Laps[lapNumber].Name = newName;
+        }
+    }
+
+    public static void ShowPenalty()
+    {
+        if (openedSolve.Penalty == Penalty.None)
+        {
+            Console.WriteLine($"Penalty: None");
+        }
+
+        else if(openedSolve.Penalty == Penalty.Plus2)
+        {
+            Console.WriteLine($"Penalty: +2");
+        }
+
+        else if (openedSolve.Penalty == Penalty.DNF)
+        {
+            Console.WriteLine($"Penalty: DNF");
+        }
+
+        else
+        {
+            Console.WriteLine("Penalty: N/A");
+        }
     }
 }

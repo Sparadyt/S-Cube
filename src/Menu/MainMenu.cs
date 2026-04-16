@@ -151,12 +151,8 @@ public static class MainMenu
 
     public static void BackgroundWork()
     {
-        if (!int.TryParse(Settings.Preferences["Ms Interval"].Value, out int msInterval))
-        {
-            PrintError("Invalid Value", "Invalid value for Millisecond Interval", true);
-        }
-        
-        SaveStats(msInterval);
+        IntPr intPreference = (IntPr)Settings.Preferences["Ms Interval"];
+        SaveStats(intPreference.Value);
     }
 
     public static async Task SaveStats(int msInterval)

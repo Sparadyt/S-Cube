@@ -27,12 +27,14 @@ public static class SeeStats
         Console.WriteLine($"Time Spent Doing Bare-Bones Solves: {MainMenu.Stats.BBSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
     }
 
-    static void ShowTotalSolves()
+    public static void ShowTotalSolves()
     {
-        Console.WriteLine($"Total Solves: {SolveData.Amount}");
+        Console.WriteLine($"\nTotal Solves Amount: {SolveData.Amount + BBSolveData.Amount}");
+        Console.WriteLine($"Advance Solves Amount: {SolveData.Amount}");
+        Console.WriteLine($"Bare-Bonses Solves Amount: {BBSolveData.Amount} \n");
     }
 
-    static void ShowAverageTime()
+    public static void ShowAverageTime()
     {
         Console.Write("Average Time: ");
         if (SolveData.Amount == 0)
@@ -44,9 +46,7 @@ public static class SeeStats
         Console.WriteLine(SolveData.AverageTime.ToString(@"mm\:ss\.fff"));
     }
 
-    //To Do: Add AO5 and AO12
-
-    static void ShowBestTime()
+    public static void ShowBestTime()
     {
         Console.Write("Best Time: ");
         if (SolveData.Solves.Count == 0)
@@ -67,7 +67,7 @@ public static class SeeStats
         Console.WriteLine(bestTime.ToString(@"mm\:ss\.fff"));
     }
 
-    static void ShowWorstTime()
+    public static void ShowWorstTime()
     {
         Console.Write("Worst Time: ");
         if (SolveData.Solves.Count == 0)

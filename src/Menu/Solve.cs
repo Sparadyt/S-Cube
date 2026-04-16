@@ -91,7 +91,7 @@ public static partial class Solves
 
             Console.Clear();
 
-            if (Settings.Preferences["Inspection"].Value == "true")
+            if (((BoolPr)Settings.SolvesPreferences["Inspection"]).Value == true)
                 Inspection();
 
             DateTime currentDate = DateTime.Now;
@@ -130,12 +130,37 @@ public static partial class Solves
             }
 
             Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
+            Console.WriteLine("(Enter 'D' to delete this solve)");
+            Console.WriteLine("(Enter '2' to mark thsi solve as +2)");
+            Console.WriteLine("(Enter 'F' to mark this solve as Did Not Finish)");
             Console.WriteLine("(Enter any key to continue)");
 
-            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, laps[lapNum]);
-            
-            Console.ReadKey();
+            Thread.Sleep(1500);
+            char input = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
 
+            bool delete = false;
+            Penalty penalty = Penalty.None;
+            
+            if (input == 'D' && ConfirmDeletion())
+                delete = true;
+
+            else if(input == '2')
+            {
+                penalty = Penalty.Plus2;
+            }
+
+            else if(input == 'F')
+            {
+                penalty = Penalty.DNF;
+            }
+
+            else if(delete)
+            {
+                lapNum++;
+                continue;
+            }
+            
+            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, penalty, laps[lapNum]);
             lapNum++;
         }
     }
@@ -176,5 +201,19 @@ public static partial class Solves
         }
 
         Console.Beep(500, 100);
+    }
+
+    public static bool ConfirmDeletion()
+    {
+        Console.Clear();
+        Console.WriteLine("ARE YOU SURE YOU WANT TO DELETE THIS SOLVE. IT CANNOT BE UNDONE.");  
+        Console.WriteLine("Enter 'Y' to to confirm deletion");
+        Console.WriteLine("Enter anything else to not delete this solve");
+
+        char key = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
+
+        if(key == 'Y')
+            return true;
+        return false;
     }
 }

@@ -166,8 +166,13 @@ public static class Saving
 
     public static void UpdatePreference()
     {
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
         string json = File.ReadAllText(settingsPath);
-        Settings.Preferences = JsonSerializer.Deserialize<Dictionary<string, Preference>>(json) ?? new Dictionary<string, Preference>();
+        Settings.Preferences = JsonSerializer.Deserialize<Dictionary<string, Preference>>(json, options) ?? new Dictionary<string, Preference>();
     }
 
     public static void SaveStats(StatsData stats)
@@ -182,7 +187,7 @@ public static class Saving
         if (!Path.Exists(statsPath))
         {
             CreateFiles();
-            MainMenu.PrintError("Stats' Path Does Not Exist", "The Stats' path does not exist. Stats saved. (Dis you delete it?)");
+            MainMenu.PrintError("Stats' Path Does Not Exist", "The Stats' path does not exist. Stats saved. (Did you delete it?)");
         }
         
         File.WriteAllText(statsPath, json);

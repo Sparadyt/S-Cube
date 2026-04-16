@@ -10,11 +10,13 @@ public static class Settings
     public static Dictionary<string, Preference> Preferences = new Dictionary<string, Preference>
     {
         //{"", new Preference("", "", "", "")}
-        {"Default Algorithm", new Preference("Default Algorithm", "string", "", "The default algorithm used when completing an Advance Solve.") },
-        {"Enable Wide Moves", new Preference("Enable Wide Moves", "bool", "false", "Enables wide moves (such as 'r'/'rw') to be chosen when generating a scramble.")},
-        {"Enable Slice Moves", new Preference("Enable Slice Moves", "bool", "false", "Enables slice moves ('M', 'E', 'S') to be chosen when generating a scramble.") },
-        {"Inspection", new Preference("Inspection", "bool", "true", "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")},
-        {"Ms Interval", new Preference("Ms Interval", "int", "1000", "Millisecond interval in which your stats get saved. Keeping it too low may cause lag.")}
+
+        {"Ms Interval", new IntPr("Ms Interval", 1, 1000, null, "Millisecond interval in which your stats get saved. Keeping it too low may cause lag.")},
+
+        {"Default Algorithm", new StringPr("Default Algorithm", "Not Set", "The default algorithm used when completing an Advance Solve.") },
+        {"Enable Wide Moves", new BoolPr("Enable Wide Moves", false, "Enables wide moves (such as 'r'/'rw') to be chosen when generating a scramble.")},
+        {"Enable Slice Moves", new BoolPr("Enable Slice Moves", false, "Enables slice moves ('M', 'E', 'S') to be chosen when generating a scramble.") },
+        {"Inspection", new BoolPr("Inspection", true, "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")},
     };
 
     public static readonly string[] PreferencesNames = Preferences.Keys.ToArray();
@@ -23,7 +25,7 @@ public static class Settings
         while(true)
         {
             Console.Clear();
-            Saving.UpdatePreference();
+            //Saving.UpdatePreference();
             Console.WriteLine("S-Cube \nSETTINGS /n");
 
             Console.WriteLine("0. Exit");
@@ -51,6 +53,11 @@ public static class Settings
                 pickedPreference = StringPreference(number - 1);
             }
 
+            else if(pickedPreference.Type == "int")
+            {
+                pickedPreference = IntPreference(number - 1);
+            }
+
             Saving.SavePreferences(Preferences);
         }
     }
@@ -70,20 +77,22 @@ public static class Settings
         for (int i = 0; i < Preferences.Count; i++)
         {
             Preference preference = Preferences[GetPreference(i)];
-
+            
             Console.Write($"{i + 1}. {preference.Name}: ");
 
             //Bool
             if (preference.Type == "bool")
             {
-                if (preference.Value == "true")
+                BoolPr boolPreference = (BoolPr)preference;
+
+                if (boolPreference.Value == true)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("ON");
                     Console.ResetColor();
                 }
 
-                if (preference.Value == "false")
+                if (boolPreference.Value == false)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("OFF");
@@ -94,31 +103,37 @@ public static class Settings
             //String
             else if (preference.Type == "string")
             {
-                Console.Write("\"");
-                Console.Write(preference.Value);
-                Console.WriteLine("\"");
+                StringPr stringPreference = (StringPr)preference;
+                Console.WriteLine($"\"{stringPreference.Value}\"");
+            }
+
+            //Numbers
+            else if (preference.Type == "int")
+            {
+                IntPr intPreference = (IntPr)preference;
+                Console.WriteLine(intPreference.Value);
             }
 
             else
             {
-                Console.WriteLine(preference.Value);
+                MainMenu.PrintError("Invalid Type", "Invalid type for a preference.", true);
             }
         }
     }
 
     static Preference BoolPreference(int index)
     {
-        Preference preference = Preferences[GetPreference(index)];
+        BoolPr preference = (BoolPr)Preferences[GetPreference(index)];
 
         while (true)
         {
             Console.Clear();
 
             Console.Write($"{preference.Name}: ");
-            if (preference.Value == "true")
+            if (preference.Value == true)
                 Console.WriteLine("On");
 
-            else if (preference.Value == "false")
+            else if (preference.Value == false)
                 Console.WriteLine("Off");
 
             else
@@ -139,13 +154,13 @@ public static class Settings
 
             if (Char.ToUpperInvariant(key.KeyChar) == 'O')
             {
-                preference.Value = "true";
+                preference.Value = true;
                 Console.WriteLine("Preference turned ON sucessfully!");
             }
 
             else if (Char.ToUpperInvariant(key.KeyChar) == 'F')
             {
-                preference.Value = "false";
+                preference.Value = false;
                 Console.WriteLine("Preference turned OFF sucessfully!");
             }
 
@@ -161,7 +176,7 @@ public static class Settings
 
     static Preference StringPreference(int index)
     {
-        Preference preference = Preferences[GetPreference(index)];
+        StringPr preference = (StringPr)Preferences[GetPreference(index)];
 
         while (true)
         {
@@ -182,9 +197,9 @@ public static class Settings
                 continue;
             }
 
-            if((input.ToLower()) == "esc")
+            if ((input.ToLower()) == "esc")
                 break;
-            
+
             preference.Value = input;
             Console.WriteLine("Preference updated sucessfully!");
             Thread.Sleep(1000);
@@ -193,21 +208,38 @@ public static class Settings
 
         return preference;
     }
-}
 
-public class Preference
-{
-    public string Name {get; set;}
-    public string Type { get; set; }
-    public string Value {get; set;}
-    public string Info{ get; set; }
-
-    [JsonConstructor]
-    public Preference(string name, string type, string value, string info)
+    public static Preference IntPreference(int index)
     {
-        Name = name;
-        Type = type;
-        Value = value;
-        Info = info;
+        IntPr preference = (IntPr)Preferences[GetPreference(index)];
+
+        while (true)
+        {
+            Console.Clear();
+            Console.Write($"{preference.Name}: {preference.MinValue} - {preference.Value} - {preference.MaxValue}");
+            Console.WriteLine(preference.Info);
+
+            Console.WriteLine("\nThe first number is the minimum value");
+            Console.WriteLine("The second number is the value");
+            Console.WriteLine("The third number is the maximum value");
+
+            string input = MainMenu.GetNumber(false, preference.MaxValue);
+
+            if(input.StartsWith("Error"))
+                continue;
+            
+            int number = int.Parse(input);
+
+            if (number < preference.MinValue)
+            {
+                MainMenu.PrintError("Invalid Input", $"Please enter a number less than equal to {preference.MinValue}");
+                continue;
+            }
+
+            preference.Value = number;
+            break;
+        }
+        
+        return preference;
     }
 }

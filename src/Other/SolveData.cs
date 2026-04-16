@@ -13,7 +13,8 @@ public class SolveData
     public DateTime? Date;
     public string? Scramble;
     public string? SolvesFolder;
-    public string? UsedAlgorithm = Settings.Preferences["Default Algorithm"].Value;
+    public Penalty? Penalty;
+    public string? UsedAlgorithm = ((StringPr)Settings.Preferences["Default Algorithm"]).Value;
     public class LapData
     {
         public readonly TimeSpan? Time;
@@ -28,19 +29,27 @@ public class SolveData
 
     public List<LapData> Laps = new List<LapData>();
 
-    public SolveData(TimeSpan time, string? scramble, string? description, DateTime date, string solvesFolder, List<LapData>? laps)
+    public SolveData(TimeSpan time, string? scramble, string? description, DateTime date, string solvesFolder, Penalty penalty, List<LapData>? laps)
     {
         Amount++;
         this.Number = Amount;
-        this.Time = time;
-        this.Scramble = scramble;
-        this.Description = description;
-        this.Date = date;
-        this.SolvesFolder = solvesFolder;
-        this.Laps = laps;
+        Time = time;
+        Scramble = scramble;
+        Description = description;
+        Date = date;
+        SolvesFolder = solvesFolder;
+        Penalty = penalty;
+        Laps = laps;
 
         Solves.Add(this);
         AverageTime =
             TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
     }
+}
+
+public enum Penalty
+{
+    None,
+    Plus2,
+    DNF
 }

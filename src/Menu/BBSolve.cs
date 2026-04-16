@@ -74,7 +74,7 @@ public static class BBSolves
 
             Console.Clear();
 
-            if (Settings.Preferences["Inspection"].Value == "true")
+            if (((BoolPr)Settings.SolvesPreferences["Inspection"]).Value == true)
                 Solves.Inspection();
                 
             DateTime currentDate = DateTime.Now;
