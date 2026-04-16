@@ -45,6 +45,13 @@ public class SolveData
         AverageTime =
             TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
     }
+
+    public bool IsUnderChosenSeconds(int time)
+    {
+        if(this.Time.Seconds < time)
+            return true;
+        return false;
+    }
 }
 
 public enum Penalty

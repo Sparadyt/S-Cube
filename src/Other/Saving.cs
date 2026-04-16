@@ -137,6 +137,12 @@ public static class Saving
             Console.WriteLine(BBSolvePath);
             bbGuids.Add(Path.GetFileNameWithoutExtension(bbSolvesPath));
             BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(File.ReadAllText(BBSolvePath));
+
+            if (solve.Time.Seconds < 30)
+                MainMenu.Stats.SolvesUnder30Second++;
+
+            else if (solve.Time.Seconds < 10)
+                MainMenu.Stats.SolvesUnder10Second++;
         }
 
         string[] solves = Directory.GetFiles(solvesPath, "*.json");
@@ -150,6 +156,12 @@ public static class Saving
         {
             guids.Add(Path.GetFileNameWithoutExtension(solvesPath));
             SolveData? solve = JsonSerializer.Deserialize<SolveData>(File.ReadAllText(solvePath));
+
+            if (solve.IsUnderChosenSeconds(30))
+                MainMenu.Stats.SolvesUnder30Second++;
+
+            else if (solve.IsUnderChosenSeconds(10))
+                MainMenu.Stats.SolvesUnder10Second++;
         }
     }
 
@@ -160,7 +172,7 @@ public static class Saving
         if (string.IsNullOrWhiteSpace(json))
             json = "{ }";
             
-        MainMenu.Stats = JsonSerializer.Deserialize<StatsData>(json) ?? new StatsData();
+        MainMenu.Stats = JsonSerializer.Deserialize<StatsData>(json);
     }
 
 

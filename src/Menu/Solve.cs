@@ -91,7 +91,7 @@ public static partial class Solves
 
             Console.Clear();
 
-            if (((BoolPr)Settings.SolvesPreferences["Inspection"]).Value == true)
+            if (((BoolPr)Settings.Preferences["Inspection"]).Value == true)
                 Inspection();
 
             DateTime currentDate = DateTime.Now;
@@ -156,7 +156,6 @@ public static partial class Solves
 
             else if(delete)
             {
-                lapNum++;
                 continue;
             }
             

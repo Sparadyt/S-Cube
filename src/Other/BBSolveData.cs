@@ -10,11 +10,11 @@ public class BBSolveData
     public static long Amount { get; private set; } = 0;
     public long Number { get; private set; }
     public TimeSpan Time { get; set; } = new TimeSpan();
+    public static TimeSpan AverageTime { get; set; } = new TimeSpan();
     public DateTime Date { get; set; } = new DateTime();
 
     public BBSolveData()
     {
-        Console.WriteLine("Empty One");
         Amount++;
         Number = Amount;
 
@@ -28,5 +28,15 @@ public class BBSolveData
         Solves.Add(this);
         Amount++;
         Number = Amount;
+
+         AverageTime =
+            TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
+    }
+
+    public bool IsUnderChosenSeconds(int time)
+    {
+        if(this.Time.Seconds < time)
+            return true;
+        return false;
     }
 }

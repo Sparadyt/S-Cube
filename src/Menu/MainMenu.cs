@@ -19,16 +19,14 @@ public static class MainMenu
             ("Do Bare-Bones Solve", BBSolves.Do),
             ("Stats", SeeStats.Home),
             ("Settings", Settings.Home),
-            ("About", About.Home)
+            ("Info", Info.Home)
         };
 
-        Thread bgWork = new Thread(BackgroundWork);
-        bgWork.Start();
-
+        Saving.UpdateStats();
         Saving.CreateFiles();
         Saving.UpdateValues();
-        Saving.UpdateStats();
         CheckForErrors();
+        BackgroundWork();
 
         Stats.TimeUsed.Start();
         while (true)

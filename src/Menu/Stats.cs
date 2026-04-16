@@ -14,6 +14,7 @@ public static class SeeStats
         ShowAverageTime();
         ShowBestTime();
         ShowWorstTime();
+        ShowSolvesUnder30And10Seconds();
 
         Console.WriteLine("\n(Enter any key to Exit)");
         Console.ReadKey();
@@ -84,7 +85,13 @@ public static class SeeStats
                 worstTime = solve.Time;
             }
         }
-        
+
         Console.WriteLine(worstTime.ToString(@"mm\:ss\.fff"));
+    }
+
+    public static void ShowSolvesUnder30And10Seconds()
+    {
+        Console.WriteLine($"\nSolves Done Under 30 Seconds: {MainMenu.Stats.SolvesUnder30Second}");
+        Console.WriteLine($"Solves Done Under 10 Seconds: {MainMenu.Stats.SolvesUnder10Second} \n");
     }
 }
