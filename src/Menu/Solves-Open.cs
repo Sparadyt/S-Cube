@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+namespace S_Cube;
 
 public static partial class Solves
 {
@@ -18,6 +19,7 @@ public static partial class Solves
             Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine($"Description: {openedSolve.Description}");
             Console.WriteLine($"Scramble: {openedSolve.Scramble}");
+            ShowPenalty();
             Console.WriteLine();
 
             Console.WriteLine($"Date: {openedSolve.Date}");
@@ -38,6 +40,7 @@ public static partial class Solves
             Console.WriteLine("Enter 'Des' to change the Description");
             //Console.WriteLine("Enter 'Sol' to change the Solves Folder");
             Console.WriteLine("Enter 'Lap' to change the laps' name");
+            Console.WriteLine("Enter 'Rem' to delete this solve");
             Console.WriteLine("Enter anyting else to Exit");
             Console.WriteLine();
 
@@ -48,7 +51,7 @@ public static partial class Solves
         }
     }
 
-    static void ShowUsedAlgorithm()
+    public static void ShowUsedAlgorithm()
     {
         if (openedSolve.UsedAlgorithm != null)
         {
@@ -57,11 +60,11 @@ public static partial class Solves
 
         else
         {
-            Console.WriteLine("Used Algorithm: No Used Algorithm Provided");
+            Console.WriteLine("Used Algorithm: N/A");
         }
     }
 
-    static void HandleInput()
+    public static void HandleInput()
     {
         string? input = MainMenu.GetString("Enter an input", true);
 
@@ -70,21 +73,26 @@ public static partial class Solves
             ChangeDescription();
         }
 
-        //else if(input == "sol")
-        //{
-        //ChangeSolveFolder();
-        //}
+        else if (input == "sol")
+        {
+            ChangeSolveFolder();
+        }
 
         else if (input == "lap")
         {
             ChangeLapName();
         }
 
+        else if (input == "rem")
+        {
+            Delete();
+        }
+
         else
             exit = true;
     }
 
-    static void ChangeDescription()
+    public static void ChangeDescription()
     {
         while (true)
         {
@@ -107,36 +115,34 @@ public static partial class Solves
         }
     }
 
-    static void ChangeSolveFolder()
+    public static void ChangeSolveFolder()
     {
         while (true)
         {
             Console.Clear();
             Console.WriteLine("S-Cube \nCHANGE SOLVE FOLDER\n");
-            string? newFolder = MainMenu.GetString("Enter the new folder's name", true);
 
-            if (string.IsNullOrWhiteSpace(newFolder))
-            {
-                newFolder = "S-Cube/All Solves/Default";
-            }
+            string currentFolder = openedSolve.SolvesFolder;
+            string? newFolder = MainMenu.GetString("Enter the new folder's name", false);
 
             if (newFolder.StartsWith("Error"))
-            {
-                return;
-            }
+                continue;
 
-            openedSolve.SolvesFolder = $"S-Cube/All Solves/{newFolder}";
+            openedSolve.SolvesFolder = Path.Combine(Saving.SolvesPath, newFolder);
+            Saving.CreateFolder(Path.Combine(Saving.SolvesPath, newFolder));
+            //To Do: Move the file
+            
             return;
         }
     }
 
-    static void ChangeLapName()
+    public static void ChangeLapName()
     {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("S-Cube \nCHANGE LAP NAME\n");
-                Console.WriteLine("Enter the number of the lap you want the name to change");
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("S-Cube \nCHANGE LAP NAME\n");
+            Console.WriteLine("Enter the number of the lap you want the name to change");
 
                 Console.WriteLine("0. Exit");
                 for (int i = 0; i < laps.Count; i++)
@@ -162,11 +168,40 @@ public static partial class Solves
                 string? newName = MainMenu.GetString("Enter the new name of the lap", false);
     
                 if (newName.StartsWith("Error"))
-                {
-                    continue;
-                }
-    
-                openedSolve.Laps[lapNumber].Name = newName;
+            {
+                continue;
             }
+    
+            openedSolve.Laps[lapNumber].Name = newName;
+        }
+    }
+
+    public static void ShowPenalty()
+    {
+        if (openedSolve.Penalty == Penalty.None)
+        {
+            Console.WriteLine($"Penalty: None");
+        }
+
+        else if(openedSolve.Penalty == Penalty.Plus2)
+        {
+            Console.WriteLine($"Penalty: +2");
+        }
+
+        else if (openedSolve.Penalty == Penalty.DNF)
+        {
+            Console.WriteLine($"Penalty: DNF");
+        }
+
+        else
+        {
+            Console.WriteLine("Penalty: N/A");
+        }
+    }
+
+    public static void Delete()
+    {
+        if (ConfirmDeletion())
+            SolveData.Solves.Remove(openedSolve);
     }
 }

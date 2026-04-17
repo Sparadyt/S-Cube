@@ -1,43 +1,58 @@
 using System;
 using System.Collections.Generic;
+namespace S_Cube;
 
-public static class Stats
+public static class SeeStats
 {
     public static void Home()
     {
         Console.Clear();
         Console.WriteLine("S-Cube \nSTATS\n");
 
+        ShowTotalTimeUsed();
         ShowTotalSolves();
         ShowAverageTime();
         ShowBestTime();
         ShowWorstTime();
+        ShowSolvesUnder30And10Seconds();
 
         Console.WriteLine("\n(Enter any key to Exit)");
         Console.ReadKey();
     }
 
-    static void ShowTotalSolves()
+    static void ShowTotalTimeUsed()
     {
-        Console.WriteLine($"Total Solves: {SolveData.Amount}");
+        Console.WriteLine($"Time Used: {MainMenu.Stats.TimeUsed.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
+        Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.TimeSpentSolving.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
+        Console.WriteLine($"Time Spent Doing Advance Solves: {MainMenu.Stats.AdvanceSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
+        Console.WriteLine($"Time Spent Doing Bare-Bones Solves: {MainMenu.Stats.BBSolvesTimer.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
     }
 
-    static void ShowAverageTime()
+    public static void ShowTotalSolves()
     {
+        Console.WriteLine($"\nTotal Solves Amount: {SolveData.Amount + BBSolveData.Amount}");
+        Console.WriteLine($"Advance Solves Amount: {SolveData.Amount}");
+        Console.WriteLine($"Bare-Bonses Solves Amount: {BBSolveData.Amount} \n");
+    }
+
+    public static void ShowAverageTime()
+    {
+        Console.Write("Average Time: ");
         if (SolveData.Amount == 0)
         {
-            Console.WriteLine("Average Time: N/A");
+            Console.WriteLine("N/A");
             return;
         }
-        
-        Console.WriteLine($"Average Time: {SolveData.AverageTime.ToString(@"mm\:ss\.fff")}");
+
+        Console.WriteLine(SolveData.AverageTime.ToString(@"mm\:ss\.fff"));
     }
 
-    static void ShowBestTime()
+    public static void ShowBestTime()
     {
+        Console.Write("Best Time: ");
         if (SolveData.Solves.Count == 0)
         {
-            Console.WriteLine("Best Time: N/A");
+            Console.WriteLine("N/A");
             return;
         }
 
@@ -50,14 +65,15 @@ public static class Stats
             }
         }
 
-        Console.WriteLine($"Best Time: {bestTime.ToString(@"mm\:ss\.fff")}");
+        Console.WriteLine(bestTime.ToString(@"mm\:ss\.fff"));
     }
 
-    static void ShowWorstTime()
+    public static void ShowWorstTime()
     {
+        Console.Write("Worst Time: ");
         if (SolveData.Solves.Count == 0)
         {
-            Console.WriteLine("Worst Time: N/A");
+            Console.WriteLine("N/A");
             return;
         }
 
@@ -69,7 +85,13 @@ public static class Stats
                 worstTime = solve.Time;
             }
         }
-        
-        Console.WriteLine($"Worst Time: {worstTime.ToString(@"mm\:ss\.fff")}");
+
+        Console.WriteLine(worstTime.ToString(@"mm\:ss\.fff"));
+    }
+
+    public static void ShowSolvesUnder30And10Seconds()
+    {
+        Console.WriteLine($"\nSolves Done Under 30 Seconds: {MainMenu.Stats.SolvesUnder30Second}");
+        Console.WriteLine($"Solves Done Under 10 Seconds: {MainMenu.Stats.SolvesUnder10Second} \n");
     }
 }

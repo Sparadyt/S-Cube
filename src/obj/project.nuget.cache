@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "rG8Ozr/I6WE=",
+  "dgSpecHash": "yceRKLWZTbg=",
   "success": true,
-  "projectFilePath": "c:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.15\\microsoft.netcore.app.ref.9.0.15.nupkg.sha512",
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.15\\microsoft.windowsdesktop.app.ref.9.0.15.nupkg.sha512",
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.15\\microsoft.aspnetcore.app.ref.9.0.15.nupkg.sha512",
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\9.0.15\\microsoft.netcore.app.host.win-x64.9.0.15.nupkg.sha512"
+  ],
   "logs": []
 }

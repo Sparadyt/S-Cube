@@ -1,25 +1,26 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Collections.Generic;
+namespace S_Cube;
 
 public static partial class Solves
 {
-    private static Stopwatch time;
-    private static List<List<SolveData.LapData>> laps = new List<List<SolveData.LapData>>();
+    static Stopwatch time;
+    static List<List<SolveData.LapData>> laps = new List<List<SolveData.LapData>>();
     static int lapNum = 0;
-    private static string solvesFolder;
-    private static bool isRunning;
-    private static SolveData openedSolve;
-
-    private static (string option, Action action)[] options =
-    {
-        ("Exit", Exit),
-        ("Do Solve", Do)
-    };
+    static string solvesFolder;
+    static bool isRunning;
+    static SolveData? openedSolve;
 
     public static void Home()
     {
+    (string option, Action action)[] options =
+    {
+        ("Exit", null),
+        ("Do Solve", Do)
+    };
+
         while (true)
         {
             Console.Clear();
@@ -43,8 +44,11 @@ public static partial class Solves
             if (inputStr.StartsWith("Error"))
                 continue;
 
-            int input = Convert.ToInt32(inputStr);
+            int input = int.Parse(inputStr);
 
+            if (input == 0)
+                return;
+                
             if (input < options.Length)
             {
                 options[input].action();
@@ -52,14 +56,13 @@ public static partial class Solves
             }
 
             openedSolve = SolveData.Solves[input - options.Length];
-
             Open();
         }
     }
 
     public static void Do()
     {
-        string solvesFolder = @"S-Cube/All Solves/Default";
+        string solvesFolder = "";
 
         while (true)
         {
@@ -68,7 +71,7 @@ public static partial class Solves
 
             string? scramble = "No Scramble Provided";
 
-            Console.WriteLine("S-Cube \nDO SOLVE\n");
+            Console.WriteLine("S-Cube \nDO SOLVE \n");
             Console.WriteLine("Enter 'S' to generate a random scramble");
             Console.WriteLine("Enter 'Esc' or 'E' or Exit");
             Console.WriteLine("Enter any other key to start");
@@ -77,53 +80,59 @@ public static partial class Solves
 
             if (key.Key == ConsoleKey.S)
             {
-                scramble = GenerateScramble();
+                scramble = ScrambleGenerator.GenerateScramble();
                 Console.WriteLine($"\nScramble: {scramble}");
                 Console.WriteLine("(Enter any key to continue)");
                 Console.ReadKey();
             }
 
-            else if (key.Key == ConsoleKey.Escape || (key.KeyChar.ToString().ToLower()) == "e")
-            {
+            else if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
                 return;
-            }
 
             Console.Clear();
-            isRunning = true;
+
+            if (((BoolPr)Settings.Preferences["Inspection"]).Value == true)
+                Inspection();
+
             DateTime currentDate = DateTime.Now;
-
             time = Stopwatch.StartNew();
-            TimeSpan previousTime = new TimeSpan();
-            int millisecondToWait = 500;
 
-            Thread lapThread = new Thread(Laps);
-            lapThread.Start();
-
+            MainMenu.Stats.TimeSpentSolving.Start();
+            MainMenu.Stats.AdvanceSolvesTimer.Start();
+            isRunning = true;
             while (isRunning)
             {
                 Console.Clear();
 
-                Console.WriteLine("Enter 'Space' to make a new lap");
+                while (Console.KeyAvailable)
+                {
+                    key = Console.ReadKey(true);
+
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        laps[lapNum].Add(new SolveData.LapData(time.Elapsed, $"Lap {laps[lapNum].Count + 1}"));
+                    }
+
+                    else
+                    {
+                        isRunning = false;
+                    }
+                }
+        
+                Console.WriteLine("Enter 'Enter' to make a new lap");
                 for (int i = 0; i < laps[lapNum].Count; i++)
                 {
                     Console.WriteLine($"{laps[lapNum][i].Name}: {laps[lapNum][i].Time?.ToString(@"mm\:ss\:ff")}");
                 }
                 Console.WriteLine();
 
-                if (time.Elapsed.Milliseconds >= millisecondToWait)
-                {
-                    Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
-                    previousTime = time.Elapsed;
-                }
-
-                else
-                {
-                    Console.WriteLine("Time: " + previousTime.ToString(@"mm\:ss\.ff"));
-                }
-
-                Thread.Sleep(50);
+                Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
+                Thread.Sleep(100);
             }
 
+            FlushInput();
+            MainMenu.Stats.TimeSpentSolving.Stop();
+            MainMenu.Stats.AdvanceSolvesTimer.Stop();
             time.Stop();
 
             Console.Clear();
@@ -134,55 +143,61 @@ public static partial class Solves
             }
 
             Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
+            Console.WriteLine("(Enter 'D' to delete this solve)");
+            Console.WriteLine("(Enter '2' to mark thsi solve as +2)");
+            Console.WriteLine("(Enter 'F' to mark this solve as Did Not Finish)");
             Console.WriteLine("(Enter any key to continue)");
 
-            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, laps[lapNum]);
-            
-            Console.ReadKey();
-            Console.Clear();
+            Thread.Sleep(1500);
+            char input = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
 
+            bool delete = false;
+            Penalty penalty = Penalty.None;
+            
+            if (input == 'D' && ConfirmDeletion())
+                delete = true;
+
+            else if(input == '2')
+            {
+                penalty = Penalty.Plus2;
+            }
+
+            else if(input == 'F')
+            {
+                penalty = Penalty.DNF;
+            }
+
+            else if(delete)
+            {
+                continue;
+            }
+            
+            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, penalty, laps[lapNum]);
             lapNum++;
         }
     }
 
-    static string GenerateScramble()
+    public static void Inspection()
     {
-        Console.Clear();
-        char previousMove = '0';
-        char move = 'A';
-        char[] moves = { 'R', 'L', 'U', 'D', 'F', 'B' };
-        string[] modifiers = { "", "'", "2", "w" };
+        Stopwatch inspection = new Stopwatch();
+        inspection.Start();
 
-        string scramble = "";
-
-        for (int i = 0; i < MainMenu.rand.Next(20, 26); i++)
+        while (inspection.Elapsed.Seconds < 15)
         {
-            while (true)
-            {
-                move = moves[MainMenu.rand.Next(moves.Length)];
+            Console.Clear();
 
-                if (move == previousMove)
-                    continue;
+            Console.WriteLine("INSPECTION");
+            Console.WriteLine("(You can turn this off in the settings)");
 
-                else
-                    break;
-            }
-
-            previousMove = move;
-            string modifier = modifiers[MainMenu.rand.Next(modifiers.Length)];
-            scramble += move + modifier + " ";
+            Console.WriteLine(15 - inspection.Elapsed.Seconds);
+            Thread.Sleep(1000);
         }
 
-        return scramble.Trim();
-    }
-
-    static void Laps()
-    {
-        while (true)
+        while (Console.KeyAvailable)
         {
             ConsoleKeyInfo key = Console.ReadKey();
 
-            if (key.Key == ConsoleKey.Spacebar)
+            if (key.Key == ConsoleKey.Enter)
             {
                 laps[lapNum].Add(new SolveData.LapData(time.Elapsed, $"Lap {laps[lapNum].Count + 1}"));
             }
@@ -190,13 +205,29 @@ public static partial class Solves
             else
             {
                 isRunning = false;
-                return;
             }
         }
+        
+        Console.Beep(500, 100);
     }
 
-    static void Exit()
+    public static bool ConfirmDeletion()
     {
-        return;
+        Console.Clear();
+        Console.WriteLine("ARE YOU SURE YOU WANT TO DELETE THIS SOLVE. IT CANNOT BE UNDONE.");  
+        Console.WriteLine("Enter 'Y' to to confirm deletion");
+        Console.WriteLine("Enter anything else to not delete this solve");
+
+        char key = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
+
+        if(key == 'Y')
+            return true;
+        return false;
+    }
+
+    public static void FlushInput()
+    {
+        while(Console.KeyAvailable)
+            Console.ReadKey(true);
     }
 }

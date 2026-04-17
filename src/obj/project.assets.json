@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj",
+      "projectUniqueName": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
       "projectName": "S-Cube",
-      "projectPath": "C:\\projects\\Useful+\\S-Cube\\S-Cube\\S-Cube.csproj",
+      "projectPath": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
       "packagesPath": "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\",
-      "outputPath": "C:\\projects\\Useful+\\S-Cube\\S-Cube\\obj\\",
+      "outputPath": "C:\\Projects\\Useful+\\S-Cube\\src\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HELLO-WORLD\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -44,7 +44,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -60,12 +60,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.15, 9.0.15]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[9.0.15, 9.0.15]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[9.0.15, 9.0.15]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[9.0.15, 9.0.15]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.106/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
