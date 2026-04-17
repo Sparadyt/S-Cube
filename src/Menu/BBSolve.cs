@@ -20,7 +20,7 @@ public static class BBSolves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nSOLVES\n");
+            Console.WriteLine("S-Cube \nBare-Bones SOLVES \n");
 
             Console.WriteLine($"Average Time: {SolveData.AverageTime.ToString(@"mm\:ss\.fff")}\n");
             for (int i = 0; i < options.Length; i++)
@@ -90,15 +90,17 @@ public static class BBSolves
             while (isRunning)
             {
                 Console.Clear();
+                Solves.FlushInput();
 
                 Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
                 Thread.Sleep(100);
             }
 
+            Console.Clear();
             MainMenu.Stats.TimeSpentSolving.Stop();
             MainMenu.Stats.BBSolvesTimer.Stop();
 
-            Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
+            Console.WriteLine($"Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter any key to continue)");
 
             BBSolveData solve = new BBSolveData(time.Elapsed, currentDate);
@@ -119,7 +121,11 @@ public static class BBSolves
         Console.WriteLine($"BB Solve Number: {openedSolve.Number}");
         Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
         Console.WriteLine($"Date: {openedSolve.Date}");
-        Console.WriteLine("(Enter any key to continue)");
-        Console.ReadKey();
+        Console.WriteLine("(Enter 'D' to delete this solve)");
+        Console.WriteLine("(Enter any other key to continue)");
+        char key = char.ToUpperInvariant(Console.ReadKey().KeyChar);
+
+        if (key == 'D' && Solves.ConfirmDeletion())
+            BBSolveData.Solves.Remove(openedSolve);
     }
 }

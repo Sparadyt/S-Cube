@@ -11,11 +11,11 @@ public static class Saving
     static List<string> guids = new List<string>();
     public static string? LocalProjectPath { get; private set; } = "";
     public static string? RoamingProjectPath { get; private set; } = "";
-    static string appName = "S-Cube";
-    static string? bbSolvesPath = "";
-    static string? solvesPath = "";
-    static string? settingsPath = "";
-    static string? statsPath = "";
+    public static string appName = "S-Cube";
+    public static string? bbSolvesPath = "";
+    public static string? SolvesPath = "";
+    public static string? settingsPath = "";
+    public static string? statsPath = "";
 
     public static void CreateFiles()
     {
@@ -31,8 +31,8 @@ public static class Saving
         bbSolvesPath = Path.Combine(allSolvesPath, "BareBoneSolves");
         CreateFolder(bbSolvesPath);
 
-        solvesPath = Path.Combine(allSolvesPath, "AdvanceSolves");
-        CreateFolder(solvesPath);
+        SolvesPath = Path.Combine(allSolvesPath, "AdvanceSolves");
+        CreateFolder(SolvesPath);
 
         CreateFolder(Path.Combine(roamingPath, appName));
         RoamingProjectPath = Path.Combine(roamingPath, appName);
@@ -44,7 +44,7 @@ public static class Saving
         CreateFile(statsPath);
     }
 
-    static void CreateFolder(string path)
+    public static void CreateFolder(string path)
     {
         if (!Path.Exists(path))
         {
@@ -53,7 +53,7 @@ public static class Saving
         }
     }
 
-    static void CreateFile(string path)
+    public static void CreateFile(string path)
     {
         if(!File.Exists(path))
             File.Create(path).Close();
@@ -106,7 +106,7 @@ public static class Saving
             MainMenu.PrintError("Project Path Doesn't Exist", "The Local Project's path does not exist. Solve saved.(Did you delete it?).");
     }
 
-        if (!Path.Exists(solvesPath))
+        if (!Path.Exists(SolvesPath))
         {
             CreateFiles();
             MainMenu.PrintError("Solves Path Doesn' Exist", "The Solve's path does not exist. Solve saved. (Did you delete it?).");
@@ -120,7 +120,7 @@ public static class Saving
         } while (guids.Contains(name));
         guids.Add(name);
        
-        File.WriteAllText(Path.Combine(solvesPath, Path.Combine(name, ".json")), json);
+        File.WriteAllText(Path.Combine(SolvesPath, Path.Combine(name, ".json")), json);
     }
 
     public static void UpdateValues()
@@ -145,7 +145,7 @@ public static class Saving
                 MainMenu.Stats.SolvesUnder10Second++;
         }
 
-        string[] solves = Directory.GetFiles(solvesPath, "*.json");
+        string[] solves = Directory.GetFiles(SolvesPath, "*.json");
         if (solves.Length == 0)
         {
             MainMenu.Stats.NewUser = true;
@@ -154,7 +154,7 @@ public static class Saving
 
         foreach (string solvePath in solves)
         {
-            guids.Add(Path.GetFileNameWithoutExtension(solvesPath));
+            guids.Add(Path.GetFileNameWithoutExtension(SolvesPath));
             SolveData? solve = JsonSerializer.Deserialize<SolveData>(File.ReadAllText(solvePath));
 
             if (solve.IsUnderChosenSeconds(30))

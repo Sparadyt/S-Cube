@@ -153,6 +153,7 @@ public static class MainMenu
     {
         IntPr intPreference = (IntPr)Settings.Preferences["Ms Interval"];
         SaveStats(intPreference.Value);
+        Hotkey.CheckForHotkeys();
     }
 
     public static async Task SaveStats(int msInterval)

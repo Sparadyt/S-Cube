@@ -106,6 +106,7 @@ public static partial class Solves
             while (isRunning)
             {
                 Console.Clear();
+                FlushInput();
 
                 Console.WriteLine("Enter 'Enter' to make a new lap");
                 for (int i = 0; i < laps[lapNum].Count; i++)
@@ -214,5 +215,11 @@ public static partial class Solves
         if(key == 'Y')
             return true;
         return false;
+    }
+
+    public static void FlushInput()
+    {
+        while(Console.KeyAvilable)
+            Console.ReadKey(true);
     }
 }

@@ -40,6 +40,7 @@ public static partial class Solves
             Console.WriteLine("Enter 'Des' to change the Description");
             //Console.WriteLine("Enter 'Sol' to change the Solves Folder");
             Console.WriteLine("Enter 'Lap' to change the laps' name");
+            Console.WriteLine("Enter 'Rem' to delete this solve");
             Console.WriteLine("Enter anyting else to Exit");
             Console.WriteLine();
 
@@ -72,7 +73,7 @@ public static partial class Solves
             ChangeDescription();
         }
 
-        else if(input == "sol")
+        else if (input == "sol")
         {
             ChangeSolveFolder();
         }
@@ -80,6 +81,11 @@ public static partial class Solves
         else if (input == "lap")
         {
             ChangeLapName();
+        }
+
+        else if (input == "rem")
+        {
+            Delete();
         }
 
         else
@@ -115,12 +121,17 @@ public static partial class Solves
         {
             Console.Clear();
             Console.WriteLine("S-Cube \nCHANGE SOLVE FOLDER\n");
+
+            string currentFolder = openedSolve.SolvesFolder;
             string? newFolder = MainMenu.GetString("Enter the new folder's name", false);
 
             if (newFolder.StartsWith("Error"))
                 continue;
 
-            openedSolve.SolvesFolder = Path.Combine(Saving.LocalProjectPath, newFolder);
+            openedSolve.SolvesFolder = Path.Combine(Saving.SolvesPath, newFolder);
+            Saving.CreateFolder(Path.Combine(Saving.SolvesPath, newFolder));
+            //To Do: Move the file
+            
             return;
         }
     }
@@ -186,5 +197,11 @@ public static partial class Solves
         {
             Console.WriteLine("Penalty: N/A");
         }
+    }
+
+    public static void Delete()
+    {
+        if (ConfirmDeletion())
+            SolveData.Solves.Remove(openedSolve);
     }
 }
