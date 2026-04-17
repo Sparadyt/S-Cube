@@ -7,7 +7,7 @@ public static class SeeStats
     public static void Home()
     {
         Console.Clear();
-        Console.WriteLine("S-Cube \nSTATS\n");
+        Console.WriteLine($"{Saving.AppName} \nSTATS\n");
 
         ShowTotalTimeUsed();
         ShowTotalSolves();

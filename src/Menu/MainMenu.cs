@@ -39,7 +39,7 @@ public static class MainMenu
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nHOME\n");
+            Console.WriteLine($"{Saving.AppName} \nHOME\n");
 
             for (int i = 0; i < options.Count; i++)
             {

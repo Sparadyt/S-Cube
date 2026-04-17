@@ -26,7 +26,7 @@ public static class Settings
         {
             Console.Clear();
             //Saving.UpdatePreference();
-            Console.WriteLine("S-Cube \nSETTINGS /n");
+            Console.WriteLine($"{Saving.AppName} \nSETTINGS /n");
 
             Console.WriteLine("0. Exit");
             PrintPreferences();

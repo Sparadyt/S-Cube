@@ -19,7 +19,7 @@ public static class BBSolves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nBare-Bones SOLVES \n");
+            Console.WriteLine($"{Saving.AppName} \nBare-Bones SOLVES \n");
 
             Console.WriteLine($"Average Time: {SolveData.AverageTime.ToString(@"mm\:ss\.fff")}\n");
             for (int i = 0; i < options.Length; i++)
@@ -60,7 +60,7 @@ public static class BBSolves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nDO BARE-BONES SOLVE \n");
+            Console.WriteLine($"{Saving.AppName} \nDO BARE-BONES SOLVE \n");
             Console.WriteLine($"Scramble: {ScrambleGenerator.GenerateScramble()}");
             Console.WriteLine("Enter 'Esc' or 'E' to Exit");
             Console.WriteLine("Enter any other key to start");

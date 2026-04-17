@@ -24,7 +24,7 @@ public static partial class Solves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nSOLVES\n");
+            Console.WriteLine($"{Saving.AppName} \nSOLVES\n");
 
             Console.WriteLine($"Average Time: {SolveData.AverageTime.ToString(@"mm\:ss\.fff")}\n");
             for (int i = 0; i < options.Length; i++)
@@ -71,7 +71,7 @@ public static partial class Solves
 
             string? scramble = "No Scramble Provided";
 
-            Console.WriteLine("S-Cube \nDO SOLVE \n");
+            Console.WriteLine($"{Saving.AppName} \nDO SOLVE \n");
             Console.WriteLine("Enter 'S' to generate a random scramble");
             Console.WriteLine("Enter 'Esc' or 'E' or Exit");
             Console.WriteLine("Enter any other key to start");

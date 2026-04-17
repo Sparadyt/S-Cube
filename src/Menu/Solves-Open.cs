@@ -12,7 +12,7 @@ public static partial class Solves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nOPEN SOLVE\n");
+            Console.WriteLine($"{Saving.AppName} \nOPEN SOLVE\n");
 
             //Printing Info abot the solve
             Console.WriteLine($"Solve Number: {openedSolve.Number}");
@@ -97,7 +97,7 @@ public static partial class Solves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nCHANGE DESCRIPTION\n");
+            Console.WriteLine($"{Saving.AppName} \nCHANGE DESCRIPTION\n");
             string? newDescription = MainMenu.GetString("Enter the new description", true);
 
             if (string.IsNullOrWhiteSpace(newDescription))
@@ -120,7 +120,7 @@ public static partial class Solves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nCHANGE SOLVE FOLDER\n");
+            Console.WriteLine($"{Saving.AppName} \nCHANGE SOLVE FOLDER\n");
 
             string currentFolder = openedSolve.SolvesFolder;
             string? newFolder = MainMenu.GetString("Enter the new folder's name", false);
@@ -141,7 +141,7 @@ public static partial class Solves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nCHANGE LAP NAME\n");
+            Console.WriteLine($"{Saving.AppName} \nCHANGE LAP NAME\n");
             Console.WriteLine("Enter the number of the lap you want the name to change");
 
                 Console.WriteLine("0. Exit");
