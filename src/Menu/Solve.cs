@@ -97,17 +97,28 @@ public static partial class Solves
             DateTime currentDate = DateTime.Now;
             time = Stopwatch.StartNew();
 
-            Thread lapThread = new Thread(Laps);
-            lapThread.Start();
-
             MainMenu.Stats.TimeSpentSolving.Start();
             MainMenu.Stats.AdvanceSolvesTimer.Start();
             isRunning = true;
             while (isRunning)
             {
                 Console.Clear();
-                FlushInput();
 
+                while (Console.KeyAvailable)
+                {
+                    key = Console.ReadKey(true);
+
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        laps[lapNum].Add(new SolveData.LapData(time.Elapsed, $"Lap {laps[lapNum].Count + 1}"));
+                    }
+
+                    else
+                    {
+                        isRunning = false;
+                    }
+                }
+        
                 Console.WriteLine("Enter 'Enter' to make a new lap");
                 for (int i = 0; i < laps[lapNum].Count; i++)
                 {
@@ -119,6 +130,7 @@ public static partial class Solves
                 Thread.Sleep(100);
             }
 
+            FlushInput();
             MainMenu.Stats.TimeSpentSolving.Stop();
             MainMenu.Stats.AdvanceSolvesTimer.Stop();
             time.Stop();
@@ -165,9 +177,23 @@ public static partial class Solves
         }
     }
 
-    static void Laps()
+    public static void Inspection()
     {
-        while (true)
+        Stopwatch inspection = new Stopwatch();
+        inspection.Start();
+
+        while (inspection.Elapsed.Seconds < 15)
+        {
+            Console.Clear();
+
+            Console.WriteLine("INSPECTION");
+            Console.WriteLine("(You can turn this off in the settings)");
+
+            Console.WriteLine(15 - inspection.Elapsed.Seconds);
+            Thread.Sleep(1000);
+        }
+
+        while (Console.KeyAvailable)
         {
             ConsoleKeyInfo key = Console.ReadKey();
 
@@ -179,27 +205,9 @@ public static partial class Solves
             else
             {
                 isRunning = false;
-                return;
             }
         }
-    }
-
-    public static void Inspection()
-    {
-        Stopwatch inspection = new Stopwatch();
-        inspection.Start();
-
-        while(inspection.Elapsed.Seconds < 15)
-        {
-            Console.Clear();
-
-            Console.WriteLine("INSPECTION");
-            Console.WriteLine("(You can turn this off in the settings)");
         
-            Console.WriteLine(15 - inspection.Elapsed.Seconds);
-            Thread.Sleep(1000);
-        }
-
         Console.Beep(500, 100);
     }
 
@@ -219,7 +227,7 @@ public static partial class Solves
 
     public static void FlushInput()
     {
-        while(Console.KeyAvilable)
+        while(Console.KeyAvailable)
             Console.ReadKey(true);
     }
 }

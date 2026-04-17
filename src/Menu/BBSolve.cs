@@ -7,7 +7,6 @@ namespace S_Cube;
 public static class BBSolves
 {
     static BBSolveData openedSolve;
-    static bool isRunning = true;
 
     public static void Home()
     {
@@ -81,19 +80,18 @@ public static class BBSolves
             Stopwatch time = new Stopwatch();
             time.Start();
 
-            Thread lapThread = new Thread(Stop);
-            lapThread.Start();
-
             MainMenu.Stats.TimeSpentSolving.Start();
             MainMenu.Stats.BBSolvesTimer.Start();
-            isRunning = true;
+            bool isRunning = true;
             while (isRunning)
             {
                 Console.Clear();
-                Solves.FlushInput();
 
                 Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
                 Thread.Sleep(100);
+
+                 if (Console.KeyAvailable)
+                    isRunning = false;
             }
 
             Console.Clear();
@@ -107,12 +105,6 @@ public static class BBSolves
             Saving.SaveBBSolve(solve);
             Console.ReadKey();
         }
-    }
-
-    static void Stop()
-    {
-        Console.ReadKey(true);
-        isRunning = false;
     }
 
     static void Open()
