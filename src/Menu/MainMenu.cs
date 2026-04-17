@@ -8,9 +8,7 @@ public static class MainMenu
 {
     public static StatsData Stats = new StatsData();
 
-    static void Main()
-    {
-        (string option, Action action)[] options =
+    public static List<(string option, Action action)> options = new List<(string option, Action action)>
         {
             ("Exit", () => Environment.Exit(0)),
             ("Solves", Solves.Home),
@@ -22,6 +20,8 @@ public static class MainMenu
             ("Info", Info.Home)
         };
 
+    static void Main()
+    {
         Saving.CreateFiles();
         Saving.UpdateStats();
         Saving.UpdateValues();
@@ -31,17 +31,22 @@ public static class MainMenu
         bgThread.Start();
 
         Stats.TimeUsed.Start();
+
+        bool inputIsKey = true;
+        if(options.Count > 10)
+            inputIsKey = false;
+
         while (true)
         {
             Console.Clear();
             Console.WriteLine("S-Cube \nHOME\n");
 
-            for (int i = 0; i < options.Length; i++)
+            for (int i = 0; i < options.Count; i++)
             {
                 Console.WriteLine($"{i}. {options[i].option}");
             }
 
-            string inputStr = GetNumber(false, options.Length - 1, true);
+            string inputStr = GetNumber(false, options.Count - 1, inputIsKey);
 
             //Handling Input
             if (inputStr.StartsWith("Error"))

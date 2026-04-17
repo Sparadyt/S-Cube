@@ -21,7 +21,7 @@ public static class Info
 
     public static void Home()
     {
-        //
+        ShowLinks();
     }
 
     public static void ShowLinks()

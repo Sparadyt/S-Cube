@@ -4,6 +4,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="../Magnet/Magnet.csproj" />
   <Project Path="src/S-Cube.csproj" />
 </Solution>
