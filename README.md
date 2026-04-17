@@ -1,5 +1,14 @@
 A simple cubing tool.
 
+# How to Run:
+* Install [.NET Version 9](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-9.0.312-windows-x64-installer)
+* Download the code as .zip
+* Unzip the code
+* Open the program and double click the file called "S-Cube"
+<img width="615" height="188" alt="HowToRunS-Cube" src="https://github.com/user-attachments/assets/f90c1a13-c965-4e01-b12e-feaffa1372db" />
+
+
+
 # Types of Solves:
 
 ## -Bare Bones
