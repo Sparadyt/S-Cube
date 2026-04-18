@@ -9,16 +9,16 @@ public static class MainMenu
     public static StatsData Stats = new StatsData();
 
     public static List<(string option, Action action)> options = new List<(string option, Action action)>
-        {
-            ("Exit", () => Environment.Exit(0)),
-            ("Solves", Solves.Home),
-            ("Do Solve", Solves.Do),
-            ("Bare-Bones Solves", BBSolves.Home),
-            ("Do Bare-Bones Solve", BBSolves.Do),
-            ("Stats", SeeStats.Home),
-            ("Settings", Settings.Home),
-            ("Info", Info.Home)
-        };
+    {
+        ("Exit", () => Environment.Exit(0)),
+        ("Solves", Solves.Home),
+        ("Do Solve", Solves.Do),
+        ("Bare-Bones Solves", BBSolves.Home),
+        ("Do Bare-Bones Solve", BBSolves.Do),
+        ("Stats", SeeStats.Home),
+        ("Settings", Settings.Home),
+        ("Info", Info.Home)
+    };
 
     static void Main()
     {

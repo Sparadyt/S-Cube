@@ -243,6 +243,7 @@ public static class Saving
             UseShellExecute = true
         });
 
-        Environment.Exit(0);
+        //Exit Code 4 means restart
+        Environment.Exit(4);
     }
 }
