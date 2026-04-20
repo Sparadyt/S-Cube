@@ -12,7 +12,7 @@ public static class Saving
     public static string? LocalProjectPath { get; private set; } = "";
     public static string? RoamingProjectPath { get; private set; } = "";
     public static string ModsPath = "";
-    public static string AppName = "S";
+    public static string AppName = "S-Cube";
     public static string? BBSolvesPath = "";
     public static string? SolvesPath = "";
     public static string? SettingsPath = "";

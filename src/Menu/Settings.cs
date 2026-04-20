@@ -26,7 +26,7 @@ public static class Settings
         {
             Console.Clear();
             //Saving.UpdatePreference();
-            Console.WriteLine($"{Saving.AppName} \nSETTINGS /n");
+            Console.WriteLine($"{Saving.AppName} \nSETTINGS \n");
 
             Console.WriteLine("0. Exit");
             PrintPreferences();
@@ -232,7 +232,7 @@ public static class Settings
 
             if (number < preference.MinValue)
             {
-                MainMenu.PrintError("Invalid Input", $"Please enter a number less than equal to {preference.MinValue}");
+                MainMenu.PrintError("Invalid Input", $"Please enter a number more than equal to {preference.MinValue}");
                 continue;
             }
 

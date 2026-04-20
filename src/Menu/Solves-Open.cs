@@ -26,20 +26,8 @@ public static partial class Solves
             ShowUsedAlgorithm();
             Console.WriteLine($"Solves Folder: {openedSolve.SolvesFolder}");
 
-            if (openedSolve.Laps.Count != 0)
-            {
-                Console.WriteLine("\nLaps:");
-            }
-            
-            for (int i = 0; i < openedSolve.Laps.Count; i++)
-            {
-                Console.WriteLine($"{openedSolve.Laps[i].Name}: {openedSolve.Laps[i].Time?.ToString(@"mm\:ss\.fff")}");
-            }
-            Console.WriteLine();
-
             Console.WriteLine("Enter 'Des' to change the Description");
             //Console.WriteLine("Enter 'Sol' to change the Solves Folder");
-            Console.WriteLine("Enter 'Lap' to change the laps' name");
             Console.WriteLine("Enter 'Rem' to delete this solve");
             Console.WriteLine("Enter anyting else to Exit");
             Console.WriteLine();
@@ -76,11 +64,6 @@ public static partial class Solves
         else if (input == "sol")
         {
             ChangeSolveFolder();
-        }
-
-        else if (input == "lap")
-        {
-            ChangeLapName();
         }
 
         else if (input == "rem")
@@ -133,46 +116,6 @@ public static partial class Solves
             //To Do: Move the file
             
             return;
-        }
-    }
-
-    public static void ChangeLapName()
-    {
-        while (true)
-        {
-            Console.Clear();
-            Console.WriteLine($"{Saving.AppName} \nCHANGE LAP NAME\n");
-            Console.WriteLine("Enter the number of the lap you want the name to change");
-
-                Console.WriteLine("0. Exit");
-                for (int i = 0; i < laps.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {laps[openedSolve.Number - 1][i].Name}: {laps[openedSolve.Number - 1][i].Time?.ToString(@"mm\:ss\:ff")}");
-                }
-                
-                string? input = MainMenu.GetNumber(false, openedSolve.Laps.Count);
-    
-                if (input.StartsWith("Error"))
-                {
-                    continue;
-                }
-
-                if(input == "0")
-                {
-                return;
-                }
-    
-                int lapNumber = Convert.ToInt32(input);
-    
-                Console.WriteLine("Enter the new name of the lap");
-                string? newName = MainMenu.GetString("Enter the new name of the lap", false);
-    
-                if (newName.StartsWith("Error"))
-            {
-                continue;
-            }
-    
-            openedSolve.Laps[lapNumber].Name = newName;
         }
     }
 

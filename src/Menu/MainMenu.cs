@@ -24,8 +24,9 @@ public static class MainMenu
     {
         Saving.CreateFiles();
         Saving.UpdateStats();
+        Saving.SaveStats(Stats);
         Saving.UpdateValues();
-        CheckForErrors();
+        Saving.SavePreferences(Settings.Preferences);
 
         Thread bgThread = new Thread(BackgroundWork);
         bgThread.Start();
@@ -67,13 +68,14 @@ public static class MainMenu
 
         Console.WriteLine(message);
 
-        if(devError)
+        if (devError)
         {
             Console.WriteLine("(Dex Error is the fault of the developer. If you want to, you can help the developer of making a issue in the Github page)");
         }
+
         Console.WriteLine("(Enter any key to continue)");
-        Console.ReadKey();
         Console.ResetColor();
+        Console.ReadKey();
         Console.Clear();
     }
 
@@ -147,11 +149,6 @@ public static class MainMenu
         }
 
         return input;
-    }
-
-    public static void CheckForErrors()
-    {
-        //
     }
 
     public static void BackgroundWork()

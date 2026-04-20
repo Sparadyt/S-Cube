@@ -7,20 +7,17 @@ namespace S_Cube;
 public static partial class Solves
 {
     static Stopwatch time;
-    static List<List<SolveData.LapData>> laps = new List<List<SolveData.LapData>>();
-    static int lapNum = 0;
     static string solvesFolder;
-    static bool isRunning;
     static SolveData? openedSolve;
 
-    public static void Home()
-    {
-    (string option, Action action)[] options =
+    public static (string option, Action action)[] options =
     {
         ("Exit", null),
         ("Do Solve", Do)
     };
 
+    public static void Home()
+    {
         while (true)
         {
             Console.Clear();
@@ -67,7 +64,6 @@ public static partial class Solves
         while (true)
         {
             Console.Clear();
-            laps.Add(new List<SolveData.LapData>());
 
             string? scramble = "No Scramble Provided";
 
@@ -99,33 +95,14 @@ public static partial class Solves
 
             MainMenu.Stats.TimeSpentSolving.Start();
             MainMenu.Stats.AdvanceSolvesTimer.Start();
-            isRunning = true;
-            while (isRunning)
+            
+            while (true)
             {
                 Console.Clear();
 
-                while (Console.KeyAvailable)
-                {
-                    key = Console.ReadKey(true);
-
-                    if (key.Key == ConsoleKey.Enter)
-                    {
-                        laps[lapNum].Add(new SolveData.LapData(time.Elapsed, $"Lap {laps[lapNum].Count + 1}"));
-                    }
-
-                    else
-                    {
-                        isRunning = false;
-                    }
-                }
+                if (Console.KeyAvailable)
+                    break;
         
-                Console.WriteLine("Enter 'Enter' to make a new lap");
-                for (int i = 0; i < laps[lapNum].Count; i++)
-                {
-                    Console.WriteLine($"{laps[lapNum][i].Name}: {laps[lapNum][i].Time?.ToString(@"mm\:ss\:ff")}");
-                }
-                Console.WriteLine();
-
                 Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
                 Thread.Sleep(100);
             }
@@ -136,11 +113,6 @@ public static partial class Solves
             time.Stop();
 
             Console.Clear();
-
-            for (int i = 0; i < laps[lapNum].Count; i++)
-            {
-                Console.WriteLine($"{laps[lapNum][i].Name}: {laps[lapNum][i].Time?.ToString(@"mm\:ss\.fff")}");
-            }
 
             Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter 'D' to delete this solve)");
@@ -171,9 +143,9 @@ public static partial class Solves
             {
                 continue;
             }
-            
-            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, penalty, laps[lapNum]);
-            lapNum++;
+
+            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, penalty);
+            Saving.SaveSolve(solve);
         }
     }
 
@@ -193,21 +165,6 @@ public static partial class Solves
             Thread.Sleep(1000);
         }
 
-        while (Console.KeyAvailable)
-        {
-            ConsoleKeyInfo key = Console.ReadKey();
-
-            if (key.Key == ConsoleKey.Enter)
-            {
-                laps[lapNum].Add(new SolveData.LapData(time.Elapsed, $"Lap {laps[lapNum].Count + 1}"));
-            }
-
-            else
-            {
-                isRunning = false;
-            }
-        }
-        
         Console.Beep(500, 100);
     }
 
