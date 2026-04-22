@@ -9,6 +9,7 @@ public static partial class Solves
     static Stopwatch time;
     static string solvesFolder;
     static SolveData? openedSolve;
+    public static bool WriteSolve = true;
 
     public static (string option, Action action)[] options =
     {
@@ -72,6 +73,8 @@ public static partial class Solves
             Console.WriteLine("Enter 'Esc' or 'E' or Exit");
             Console.WriteLine("Enter any other key to start");
             Console.WriteLine("After you started, enter space to add a lap");
+
+            FlushInput();
             ConsoleKeyInfo key = Console.ReadKey();
 
             if (key.Key == ConsoleKey.S)
@@ -145,7 +148,9 @@ public static partial class Solves
             }
 
             SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, penalty);
-            Saving.SaveSolve(solve);
+
+            if(WriteSolve)
+                Saving.WriteSolve(solve);
         }
     }
 
@@ -165,7 +170,8 @@ public static partial class Solves
             Thread.Sleep(1000);
         }
 
-        Console.Beep(500, 100);
+        FlushInput();
+        Console.Beep(500, 500);
     }
 
     public static bool ConfirmDeletion()

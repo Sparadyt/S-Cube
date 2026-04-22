@@ -65,7 +65,7 @@ public static class BBSolves
             Console.WriteLine("Enter 'Esc' or 'E' to Exit");
             Console.WriteLine("Enter any other key to start");
 
-            Thread.Sleep(1000);
+            Solves.FlushInput();
             ConsoleKeyInfo key = Console.ReadKey();
 
             if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
@@ -90,10 +90,11 @@ public static class BBSolves
                 Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
                 Thread.Sleep(100);
 
-                 if (Console.KeyAvailable)
+                if (Console.KeyAvailable)
                     isRunning = false;
             }
 
+            Solves.FlushInput();
             Console.Clear();
             MainMenu.Stats.TimeSpentSolving.Stop();
             MainMenu.Stats.BBSolvesTimer.Stop();
@@ -102,7 +103,10 @@ public static class BBSolves
             Console.WriteLine("(Enter any key to continue)");
 
             BBSolveData solve = new BBSolveData(time.Elapsed, currentDate);
-            Saving.SaveBBSolve(solve);
+
+            if (Solves.WriteSolve)
+                Saving.WriteBBSolve(solve);
+                
             Console.ReadKey();
         }
     }

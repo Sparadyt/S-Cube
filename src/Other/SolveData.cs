@@ -5,7 +5,7 @@ namespace S_Cube;
 public class SolveData
 {
     public static List<SolveData> Solves = new List<SolveData>();
-    public int Number { get; private set; }
+    public int Number { get; set; }
     public static int Amount { get; private set; }
     public TimeSpan Time { get; set; }
     public static TimeSpan AverageTime { get; private set; }
@@ -14,8 +14,17 @@ public class SolveData
     public string? Scramble {get; set;}
     public string? SolvesFolder {get; set;}
     public Penalty? Penalty {get; set;}
-    public string? UsedAlgorithm  {get; set;} = ((StringPr)Settings.Preferences["Default Algorithm"]).Value;
+    public string? UsedAlgorithm { get; set; } = ((StringPr)Settings.Preferences["Default Algorithm"]).Value;
 
+    public SolveData()
+    {
+        Amount++;
+        Number = Amount;
+
+        Solves.Add(this);
+        AverageTime =
+            TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
+    }
     public SolveData(TimeSpan time, string? scramble, string? description, DateTime date, string solvesFolder, Penalty penalty)
     {
         Amount++;

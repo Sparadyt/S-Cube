@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C#: S-Cube Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "console": "internalTerminal",
+            "projectPath": "${workspaceFolder}/src/S-Cube.csproj"
+        },
+    ]
+}

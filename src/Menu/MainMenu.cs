@@ -22,6 +22,8 @@ public static class MainMenu
 
     static void Main()
     {
+        Console.Clear();
+
         Saving.CreateFiles();
         Saving.UpdateStats();
         Saving.SaveStats(Stats);
@@ -70,7 +72,7 @@ public static class MainMenu
 
         if (devError)
         {
-            Console.WriteLine("(Dex Error is the fault of the developer. If you want to, you can help the developer of making a issue in the Github page)");
+            Console.WriteLine("(Dex Error might be the fault of the developer. If you want to, you can help the developer of making a issue in the Github page)");
         }
 
         Console.WriteLine("(Enter any key to continue)");
@@ -155,7 +157,6 @@ public static class MainMenu
     {
         IntPr intPreference = (IntPr)Settings.Preferences["Ms Interval"];
         SaveStats(intPreference.Value);
-        Hotkey.CheckForHotkeys();
     }
 
     public static async Task SaveStats(int msInterval)
@@ -163,7 +164,7 @@ public static class MainMenu
         while (true)
         {
             Saving.SaveStats(Stats);
-            Thread.Sleep(msInterval);
+            await Task.Delay(msInterval);
         }
     }
 }

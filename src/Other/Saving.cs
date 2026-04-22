@@ -63,7 +63,7 @@ public static class Saving
             File.Create(path).Close();
     }
 
-    public static void SaveBBSolve(BBSolveData solve)
+    public static void WriteBBSolve(BBSolveData solve)
     {
         var options = new JsonSerializerOptions
         {
@@ -95,7 +95,7 @@ public static class Saving
         File.WriteAllText(Path.Combine(BBSolvesPath, name + ".json"), json);
     }
 
-    public static void SaveSolve(SolveData solve)
+    public static void WriteSolve(SolveData solve)
     {
         var options = new JsonSerializerOptions
         {
@@ -124,7 +124,7 @@ public static class Saving
         } while (Guids.Contains(name));
         Guids.Add(name);
        
-        File.WriteAllText(Path.Combine(SolvesPath, Path.Combine(name, ".json")), json);
+        File.WriteAllText(Path.Combine(SolvesPath, name +  ".json"), json);
     }
 
     public static void UpdateValues()
@@ -138,15 +138,14 @@ public static class Saving
 
         foreach (string BBSolvePath in BBSolves)
         {
-            Console.WriteLine(BBSolvePath);
             bbGuids.Add(Path.GetFileNameWithoutExtension(BBSolvesPath));
             BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(File.ReadAllText(BBSolvePath));
 
+            if (solve.IsUnderChosenSeconds(10))
+                MainMenu.Stats.SolvesUnder10Second++;
+
             if (solve.IsUnderChosenSeconds(30))
                 MainMenu.Stats.SolvesUnder30Second++;
-
-            else if (solve.IsUnderChosenSeconds(10))
-                MainMenu.Stats.SolvesUnder10Second++;
         }
 
         string[] solves = Directory.GetFiles(SolvesPath, "*.json");
@@ -159,13 +158,14 @@ public static class Saving
         foreach (string solvePath in solves)
         {
             Guids.Add(Path.GetFileNameWithoutExtension(SolvesPath));
+
             SolveData? solve = JsonSerializer.Deserialize<SolveData>(File.ReadAllText(solvePath));
 
-            if (solve.IsUnderChosenSeconds(30))
-                MainMenu.Stats.SolvesUnder30Second++;
-
-            else if (solve.IsUnderChosenSeconds(10))
+            if (solve.IsUnderChosenSeconds(10))
                 MainMenu.Stats.SolvesUnder10Second++;
+
+            else if (solve.IsUnderChosenSeconds(30))
+                MainMenu.Stats.SolvesUnder30Second++;
         }
     }
 
@@ -173,8 +173,11 @@ public static class Saving
     {
         string json = File.ReadAllText(StatsPath);
 
-        if (string.IsNullOrWhiteSpace(json))
-            json = "{ }";
+        if (!IsValidJson(json, StatsPath, true))
+        {
+            SaveStats(MainMenu.Stats);
+            return;
+        }
             
         MainMenu.Stats = JsonSerializer.Deserialize<StatsData>(json) ?? new StatsData();
     }
@@ -188,6 +191,13 @@ public static class Saving
         };
 
         string json = File.ReadAllText(SettingsPath);
+
+        if (!IsValidJson(json, SettingsPath, true))
+        {
+            SavePreferences(Settings.Preferences);
+            return;
+        }
+        
         Settings.Preferences = JsonSerializer.Deserialize<Dictionary<string, Preference>>(json, options) ?? new Dictionary<string, Preference>();
     }
 
@@ -245,5 +255,25 @@ public static class Saving
 
         //Exit Code 4 means restart
         Environment.Exit(4);
+    }
+
+    public static bool IsValidJson(string json, string fileName, bool giveError)
+    {
+        if(string.IsNullOrWhiteSpace(json))
+            return false;
+
+        try
+        {
+            using (JsonDocument.Parse(json))
+                return true;
+        }
+
+        catch(JsonException)
+        {
+            if(giveError)
+                MainMenu.PrintError("Invalid JSON", $"The {fileName} file was invalid. You could have changed it.", true);
+        }
+
+        return false;
     }
 }
