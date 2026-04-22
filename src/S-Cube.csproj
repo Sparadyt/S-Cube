@@ -6,7 +6,10 @@
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>S_Cube</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.2.0</Version>
     <Nullable>enable</Nullable>
+    <Authors>Sparad</Authors>
+    <Description>A console cubing program</Description>
   </PropertyGroup>
 
 </Project>
