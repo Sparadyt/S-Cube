@@ -11,7 +11,7 @@ public static class SeeStats
 
         ShowTotalTimeUsed();
         ShowTotalSolves();
-        ShowAverageTime();
+        ShowMeanTime();
         ShowBestTime();
         ShowWorstTime();
         ShowSolvesUnder30And10Seconds();
@@ -35,16 +35,16 @@ public static class SeeStats
         Console.WriteLine($"Bare-Bonses Solves Amount: {BBSolveData.Amount} \n");
     }
 
-    public static void ShowAverageTime()
+    public static void ShowMeanTime()
     {
-        Console.Write("Average Time: ");
+        Console.Write("Mean: ");
         if (SolveData.Amount == 0)
         {
             Console.WriteLine("N/A");
             return;
         }
 
-        Console.WriteLine(SolveData.AverageTime.ToString(@"mm\:ss\.fff"));
+        Console.WriteLine((SolveData.Mean + BBSolveData.Mean).ToString(@"mm\:ss\.fff"));
     }
 
     public static void ShowBestTime()

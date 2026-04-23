@@ -8,7 +8,7 @@ public static class MainMenu
 {
     public static StatsData Stats = new StatsData();
 
-    public static List<(string option, Action action)> options = new List<(string option, Action action)>
+    public static List<(string name, Action action)> Options = new List<(string option, Action action)>
     {
         ("Exit", () => Environment.Exit(0)),
         ("Solves", Solves.Home),
@@ -36,7 +36,7 @@ public static class MainMenu
         Stats.TimeUsed.Start();
 
         bool inputIsKey = true;
-        if(options.Count > 10)
+        if(Options.Count > 10)
             inputIsKey = false;
 
         while (true)
@@ -44,18 +44,18 @@ public static class MainMenu
             Console.Clear();
             Console.WriteLine($"{Saving.AppName} \nHOME\n");
 
-            for (int i = 0; i < options.Count; i++)
+            for (int i = 0; i < Options.Count; i++)
             {
-                Console.WriteLine($"{i}. {options[i].option}");
+                Console.WriteLine($"{i}. {Options[i].name}");
             }
 
-            string inputStr = GetNumber(false, options.Count - 1, inputIsKey);
+            string inputStr = GetNumber(false, Options.Count - 1, inputIsKey);
 
             //Handling Input
             if (inputStr.StartsWith("Error"))
                 continue;
 
-            options[int.Parse(inputStr)].action();
+            Options[int.Parse(inputStr)].action();
         }
     }
 
