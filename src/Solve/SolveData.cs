@@ -7,7 +7,8 @@ public class SolveData
     public static List<SolveData> Solves = new List<SolveData>();
     public int Number { get; set; }
     public static int Amount { get; private set; }
-    public string Cube { get; set; } = Saving.Preferences["Default Cube"].Value;
+    public string Cube { get; set; } = ((StringPr)Settings.Preferences["Default Cube"]).Value;
+    public static List<string> Cubes = new List<string>();
     public TimeSpan Time { get; set; }
     public static TimeSpan Mean { get; private set; }
     public string? UsedAlgorithm { get; set; } = ((StringPr)Settings.Preferences["Default Algorithm"]).Value;

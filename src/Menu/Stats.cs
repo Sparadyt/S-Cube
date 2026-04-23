@@ -9,18 +9,13 @@ public static class SeeStats
         Console.Clear();
         Console.WriteLine($"{Saving.AppName} \nSTATS\n");
 
-        ShowTotalTimeUsed();
-        ShowTotalSolves();
-        ShowMeanTime();
-        ShowBestTime();
-        ShowWorstTime();
-        ShowSolvesUnder30And10Seconds();
-
-        Console.WriteLine("\n(Enter any key to Exit)");
-        Console.ReadKey();
+        if(SolveData.Cubes.Count == 1)
+        {
+            //
+        }
     }
 
-    static void ShowTotalTimeUsed()
+    public static void ShowTotalTimeUsed()
     {
         Console.WriteLine($"Time Used: {MainMenu.Stats.TimeUsed.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
         Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.TimeSpentSolving.Elapsed.ToString(@"d\:hh\:mm\:ss")}");

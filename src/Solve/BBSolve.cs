@@ -21,7 +21,7 @@ public static class BBSolves
             Console.Clear();
             Console.WriteLine($"{Saving.AppName} \nBare-Bones SOLVES \n");
 
-            Console.WriteLine($"Average Time: {SolveData.AverageTime.ToString(@"mm\:ss\.fff")}\n");
+            Console.WriteLine($"Average Time: {BBSolveData.Mean.ToString(@"mm\:ss\.fff")}\n");
             for (int i = 0; i < options.Length; i++)
             {
                 Console.WriteLine($"{i}. {options[i].option}");

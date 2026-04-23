@@ -38,7 +38,6 @@ public static partial class Solves
             Console.WriteLine($"\n(Enter {options.Length} to view Solve number 1)");
             string inputStr = MainMenu.GetNumber(false, (int)SolveData.Amount + options.Length - 1);
 
-
             if (inputStr.StartsWith("Error"))
                 continue;
 
