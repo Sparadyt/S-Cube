@@ -7,7 +7,7 @@ public class SolveData
     public static List<SolveData> Solves = new List<SolveData>();
     public int Number { get; set; }
     public static int Amount { get; private set; }
-    public string Cube { get; set; }
+    public string Cube { get; set; } = Saving.Preferences["Default Cube"].Value;
     public TimeSpan Time { get; set; }
     public static TimeSpan Mean { get; private set; }
     public string? UsedAlgorithm { get; set; } = ((StringPr)Settings.Preferences["Default Algorithm"]).Value;
@@ -26,9 +26,10 @@ public class SolveData
         Mean =
             TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
     }
-    public SolveData(strig cube, TimeSpan time, string? scramble, string? description, DateTime date, string solvesFolder, Penalty penalty)
+    public SolveData(TimeSpan time, string? scramble, string? description, DateTime date, string solvesFolder, Penalty penalty)
     {
         Amount++;
+
         this.Number = Amount;
         Time = time;
         Scramble = scramble;

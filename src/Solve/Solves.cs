@@ -24,7 +24,7 @@ public static partial class Solves
             Console.Clear();
             Console.WriteLine($"{Saving.AppName} \nSOLVES\n");
 
-            Console.WriteLine($"Average Time: {SolveData.AverageTime.ToString(@"mm\:ss\.fff")}\n");
+            Console.WriteLine($"Average Time: {SolveData.Mean.ToString(@"mm\:ss\.fff")}\n");
             for (int i = 0; i < options.Length; i++)
             {
                 Console.WriteLine($"{i}. {options[i].option}");

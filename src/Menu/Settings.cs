@@ -14,6 +14,7 @@ public static class Settings
         {"Ms Interval", new IntPr("Ms Interval", 1, 1000, null, "Millisecond interval in which your stats get saved. Keeping it too low may cause lag.")},
 
         {"Default Algorithm", new StringPr("Default Algorithm", "Not Set", "The default algorithm used when completing an Advance Solve.") },
+        {"Default Cube", new StringPr("Default Cube", "3x3", "The default cube used when completing a solve")},
         {"Enable Wide Moves", new BoolPr("Enable Wide Moves", false, "Enables wide moves (such as 'r'/'rw') to be chosen when generating a scramble.")},
         {"Enable Slice Moves", new BoolPr("Enable Slice Moves", false, "Enables slice moves ('M', 'E', 'S') to be chosen when generating a scramble.") },
         {"Inspection", new BoolPr("Inspection", true, "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")},
