@@ -18,6 +18,7 @@ public static class Settings
         {"Enable Wide Moves", new BoolPr("Enable Wide Moves", false, "Enables wide moves (such as 'r'/'rw') to be chosen when generating a scramble.")},
         {"Enable Slice Moves", new BoolPr("Enable Slice Moves", false, "Enables slice moves ('M', 'E', 'S') to be chosen when generating a scramble.") },
         {"Inspection", new BoolPr("Inspection", true, "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")},
+        {"Write Solve", new BoolPr("Write Solve", true, "Writes your solve to AppData. Warning: if you turn this off, your solves won't be saved after you restart.")}
     };
 
     public static readonly string[] PreferencesNames = Preferences.Keys.ToArray();

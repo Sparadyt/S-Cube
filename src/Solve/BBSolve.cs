@@ -65,15 +65,15 @@ public static class BBSolves
             Console.WriteLine("Enter 'Esc' or 'E' to Exit");
             Console.WriteLine("Enter any other key to start");
 
-            Solves.FlushInput();
-            ConsoleKeyInfo key = Console.ReadKey();
+            Solves.Wait(1500);
+            ConsoleKeyInfo key = Console.ReadKey(true);
 
             if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
                 return;
 
             Console.Clear();
 
-            if (((BoolPr)Settings.Preferences["Inspection"]).Value == true)
+            if (((BoolPr)Settings.Preferences["Inspection"]).Value)
                 Solves.Inspection();
                 
             DateTime currentDate = DateTime.Now;
@@ -102,9 +102,11 @@ public static class BBSolves
             Console.WriteLine($"Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter any key to continue)");
 
-            BBSolveData solve = new BBSolveData(time.Elapsed, currentDate);
+            Solves.Wait(1500);
 
-            if (Solves.WriteSolve)
+            BBSolveData solve = new BBSolveData(time.Elapsed, currentDate, null);
+
+            if(((BoolPr)Settings.Preferences["Write Solve"]).Value)
                 Saving.WriteBBSolve(solve);
                 
             Console.ReadKey();

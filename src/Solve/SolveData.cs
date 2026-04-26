@@ -7,7 +7,6 @@ public class SolveData
     public static List<SolveData> Solves = new List<SolveData>();
     public int Number { get; set; }
     public static int Amount { get; private set; }
-    public string Cube { get; set; } = ((StringPr)Settings.Preferences["Default Cube"]).Value;
     public static List<string> Cubes = new List<string>();
     public TimeSpan Time { get; set; }
     public static TimeSpan Mean { get; private set; }
@@ -15,8 +14,9 @@ public class SolveData
     public string? Description { get; set; }
     public DateTime? Date {get; set;}
     public string? Scramble {get; set;}
-    public string? SolvesFolder {get; set;}
-    public Penalty? Penalty {get; set;}
+    public LabelData? Labels { get; set; }
+    public Penalty? Penalty { get; set; }
+    public string Path { get; set; }
 
     public SolveData()
     {
@@ -27,26 +27,24 @@ public class SolveData
         Mean =
             TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
     }
-    public SolveData(TimeSpan time, string? scramble, string? description, DateTime date, string solvesFolder, Penalty penalty)
+    public SolveData(TimeSpan time, string? scramble, string? description, DateTime date, LabelData labels, Penalty penalty)
     {
         Amount++;
-
         this.Number = Amount;
+
         Time = time;
         Scramble = scramble;
         Description = description;
         Date = date;
-        SolvesFolder = solvesFolder;
+        Labels = labels;
         Penalty = penalty;
 
         Solves.Add(this);
-        Mean =
-            TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
     }
 
     public bool IsUnderChosenSeconds(int time)
     {
-        if(this.Time.Seconds < time)
+        if(Time.Seconds < time)
             return true;
         return false;
     }
@@ -54,7 +52,14 @@ public class SolveData
 
 public enum Penalty
 {
-    None,
-    Plus2,
-    DNF
+    None = 0,
+    DNF = 1,
+    Plus2 = 2,
+    Plus4 = 4,
+    Plus6 = 6,
+    Plus8 = 8,
+    Plus10 = 10,
+    Plus12 = 12,
+    Plus14 = 14,
+    Plus16 = 16
 }

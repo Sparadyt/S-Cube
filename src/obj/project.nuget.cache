@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "0fcdu8bl2cA=",
+  "dgSpecHash": "2Uo2Rm2kANY=",
   "success": true,
   "projectFilePath": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\naudio\\2.3.0\\naudio.2.3.0.nupkg.sha512",
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\naudio.asio\\2.3.0\\naudio.asio.2.3.0.nupkg.sha512",
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\naudio.core\\2.3.0\\naudio.core.2.3.0.nupkg.sha512",
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\naudio.midi\\2.3.0\\naudio.midi.2.3.0.nupkg.sha512",
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\naudio.wasapi\\2.3.0\\naudio.wasapi.2.3.0.nupkg.sha512",
+    "C:\\Users\\HELLO-WORLD\\.nuget\\packages\\naudio.winmm\\2.3.0\\naudio.winmm.2.3.0.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -59,8 +59,6 @@ public static partial class Solves
 
     public static void Do()
     {
-        string solvesFolder = "";
-
         while (true)
         {
             Console.Clear();
@@ -73,15 +71,13 @@ public static partial class Solves
             Console.WriteLine("Enter any other key to start");
             Console.WriteLine("After you started, enter space to add a lap");
 
-            FlushInput();
+            Wait(1500);
             ConsoleKeyInfo key = Console.ReadKey();
 
             if (key.Key == ConsoleKey.S)
             {
                 scramble = ScrambleGenerator.GenerateScramble();
-                Console.WriteLine($"\nScramble: {scramble}");
-                Console.WriteLine("(Enter any key to continue)");
-                Console.ReadKey();
+                ScrambleGenerator.ShowScramble(scramble);
             }
 
             else if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
@@ -89,7 +85,7 @@ public static partial class Solves
 
             Console.Clear();
 
-            if (((BoolPr)Settings.Preferences["Inspection"]).Value == true)
+            if (((BoolPr)Settings.Preferences["Inspection"]).Value)
                 Inspection();
 
             DateTime currentDate = DateTime.Now;
@@ -122,16 +118,12 @@ public static partial class Solves
             Console.WriteLine("(Enter 'F' to mark this solve as Did Not Finish)");
             Console.WriteLine("(Enter any key to continue)");
 
-            Thread.Sleep(1500);
+            Wait(1500);
             char input = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
 
-            bool delete = false;
             Penalty penalty = Penalty.None;
             
-            if (input == 'D' && ConfirmDeletion())
-                delete = true;
-
-            else if(input == '2')
+            if(input == '2')
             {
                 penalty = Penalty.Plus2;
             }
@@ -141,14 +133,14 @@ public static partial class Solves
                 penalty = Penalty.DNF;
             }
 
-            else if(delete)
+            else if(input == 'D' && ConfirmDeletion())
             {
                 continue;
             }
 
-            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, solvesFolder, penalty);
+            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, null, penalty);
 
-            if(WriteSolve)
+            if(((BoolPr)Settings.Preferences["Write Solve"]).Value)
                 Saving.WriteSolve(solve);
         }
     }
@@ -191,5 +183,20 @@ public static partial class Solves
     {
         while(Console.KeyAvailable)
             Console.ReadKey(true);
+    }
+
+    public static void Wait(int msTime)
+    {
+        Thread.Sleep(msTime);
+        FlushInput();
+    }
+
+    public static TimeSpan CalculateMean(List<SolveData> solves, List<string> allowedLabels, List<string> requiredLabels, List<string> excludesLabels)
+    {
+        List<SolveData> filteredSolves = solves.Where(solve =>
+            (allowedLabels.Count == 0 || solve.Labels.Any(label => allowedLabels.Contains(label))) &&
+            (requiredLabels.Count == 0 || requiredLabels.All(label => solve.Labels.Contains(label))) &&
+            (excludesLabels.Count == 0 || !solve.Labels.Any(label => excludesLabels.Contains(label)))
+        ).ToList();
     }
 }

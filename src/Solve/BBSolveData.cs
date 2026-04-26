@@ -12,6 +12,7 @@ public class BBSolveData
     public TimeSpan Time { get; set; } = new TimeSpan();
     public static TimeSpan Mean { get; set; } = new TimeSpan();
     public DateTime Date { get; set; } = new DateTime();
+    public List<string> Labels { get; set; } = new List<string>();
 
     public BBSolveData()
     {
@@ -23,10 +24,11 @@ public class BBSolveData
         Mean =
             TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
     }
-    public BBSolveData(TimeSpan time, DateTime date)
+    public BBSolveData(TimeSpan time, DateTime date, List<string> labels)
     {
         Time = time;
         Date = date;
+        Labels = labels;
         Amount++;
         Number = Amount;
 

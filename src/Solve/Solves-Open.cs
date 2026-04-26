@@ -15,7 +15,7 @@ public static partial class Solves
             Console.WriteLine($"{Saving.AppName} \nOPEN SOLVE\n");
 
             //Printing Info abot the solve
-            Console.WriteLine($"Cube: {openedSolve.Cube}");
+            Console.WriteLine($"Cube: {openedSolve.}");
             Console.WriteLine($"Solve Number: {openedSolve.Number}");
             Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine($"Description: {openedSolve.Description}");
@@ -25,10 +25,9 @@ public static partial class Solves
 
             Console.WriteLine($"Date: {openedSolve.Date}");
             ShowUsedAlgorithm();
-            Console.WriteLine($"Solves Folder: {openedSolve.SolvesFolder}");
 
             Console.WriteLine("Enter 'Des' to change the Description");
-            //Console.WriteLine("Enter 'Sol' to change the Solves Folder");
+            //Console.WriteLine("Enter 'Lab' to change the Labels");
             Console.WriteLine("Enter 'Rem' to delete this solve");
             Console.WriteLine("Enter anyting else to Exit");
             Console.WriteLine();
@@ -62,11 +61,6 @@ public static partial class Solves
             ChangeDescription();
         }
 
-        else if (input == "sol")
-        {
-            ChangeSolveFolder();
-        }
-
         else if (input == "rem")
         {
             Delete();
@@ -95,27 +89,6 @@ public static partial class Solves
             }
 
             openedSolve.Description = newDescription;
-            return;
-        }
-    }
-
-    public static void ChangeSolveFolder()
-    {
-        while (true)
-        {
-            Console.Clear();
-            Console.WriteLine($"{Saving.AppName} \nCHANGE SOLVE FOLDER\n");
-
-            string currentFolder = openedSolve.SolvesFolder;
-            string? newFolder = MainMenu.GetString("Enter the new folder's name", false);
-
-            if (newFolder.StartsWith("Error"))
-                continue;
-
-            openedSolve.SolvesFolder = Path.Combine(Saving.SolvesPath, newFolder);
-            Saving.CreateFolder(Path.Combine(Saving.SolvesPath, newFolder));
-            //To Do: Move the file
-            
             return;
         }
     }
