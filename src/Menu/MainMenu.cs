@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NetCoreAudio;
 using System.Threading;
 using System.Diagnostics;
 namespace S_Cube;
@@ -166,5 +167,12 @@ public static class MainMenu
             Saving.SaveStats(Stats);
             await Task.Delay(msInterval);
         }
+    }
+
+    public static async Task PlaySFX(string fileName)
+    {
+        var player = new Player();
+        await player.SetVolume(Byte.Parse(((IntPr)Settings.Preferences["SFX Volume"]).Value.ToString()));
+        await player.Play(Path.Combine(Saving.AudioPath, fileName));
     }
 }

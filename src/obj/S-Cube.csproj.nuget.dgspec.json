@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj": {
-      "version": "1.2.1",
+      "version": "1.1.0",
       "restore": {
         "projectUniqueName": "C:\\Projects\\Useful+\\S-Cube\\src\\S-Cube.csproj",
         "projectName": "S-Cube",
@@ -44,9 +44,9 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
-            "NAudio": {
+            "NetCoreAudio": {
               "target": "Package",
-              "version": "[2.3.0, )"
+              "version": "[2.0.1, )"
             }
           },
           "imports": [

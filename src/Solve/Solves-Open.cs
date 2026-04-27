@@ -15,7 +15,7 @@ public static partial class Solves
             Console.WriteLine($"{Saving.AppName} \nOPEN SOLVE\n");
 
             //Printing Info abot the solve
-            Console.WriteLine($"Cube: {openedSolve.}");
+            Console.WriteLine($"Cube: {openedSolve.Labels.Cube}");
             Console.WriteLine($"Solve Number: {openedSolve.Number}");
             Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine($"Description: {openedSolve.Description}");

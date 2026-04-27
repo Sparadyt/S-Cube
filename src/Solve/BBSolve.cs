@@ -65,7 +65,7 @@ public static class BBSolves
             Console.WriteLine("Enter 'Esc' or 'E' to Exit");
             Console.WriteLine("Enter any other key to start");
 
-            Solves.Wait(1500);
+            Solves.Wait(1000);
             ConsoleKeyInfo key = Console.ReadKey(true);
 
             if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
@@ -102,7 +102,7 @@ public static class BBSolves
             Console.WriteLine($"Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter any key to continue)");
 
-            Solves.Wait(1500);
+            Solves.Wait(1000);
 
             BBSolveData solve = new BBSolveData(time.Elapsed, currentDate, null);
 

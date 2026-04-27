@@ -12,6 +12,7 @@ public static class Settings
         //{"", new Preference("", "", "", "")}
 
         {"Ms Interval", new IntPr("Ms Interval", 1, 1000, null, "Millisecond interval in which your stats get saved. Keeping it too low may cause lag.")},
+        {"SFX Volume", new IntPr("SFX Volume", 0, 100, 100, "The volume of sound effects.")},
 
         {"Default Algorithm", new StringPr("Default Algorithm", "Not Set", "The default algorithm used when completing an Advance Solve.") },
         {"Default Cube", new StringPr("Default Cube", "3x3", "The default cube used when completing a solve")},

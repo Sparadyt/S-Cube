@@ -9,6 +9,9 @@ public static class Saving
 {
     static List<string> bbGuids = new List<string>();
     public static List<string> Guids = new List<string>();
+    public static string ProjectDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\"));
+
+    public static string AudioPath = Path.Combine(ProjectDir, Path.Combine("Assets", "Audio"));
     public static string? LocalProjectPath { get; private set; } = "";
     public static string? RoamingProjectPath { get; private set; } = "";
     public static string ModsPath = "";
@@ -245,11 +248,9 @@ public static class Saving
 
     public static void Recompile()
     {
-        string projectDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\"));
-
         Process.Start(new ProcessStartInfo("dotnet", "run")
         {
-            WorkingDirectory = projectDir,
+            WorkingDirectory = Path.Combine(ProjectDir, @"..\"),
             UseShellExecute = true
         });
 

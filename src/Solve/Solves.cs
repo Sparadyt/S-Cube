@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using NetCoreAudio;
 using System.Diagnostics;
 using System.Collections.Generic;
 namespace S_Cube;
@@ -71,7 +72,7 @@ public static partial class Solves
             Console.WriteLine("Enter any other key to start");
             Console.WriteLine("After you started, enter space to add a lap");
 
-            Wait(1500);
+            Wait(1000);
             ConsoleKeyInfo key = Console.ReadKey();
 
             if (key.Key == ConsoleKey.S)
@@ -118,7 +119,7 @@ public static partial class Solves
             Console.WriteLine("(Enter 'F' to mark this solve as Did Not Finish)");
             Console.WriteLine("(Enter any key to continue)");
 
-            Wait(1500);
+            Wait(1000);
             char input = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
 
             Penalty penalty = Penalty.None;
@@ -162,7 +163,8 @@ public static partial class Solves
         }
 
         FlushInput();
-        Console.Beep(500, 500);
+
+        MainMenu.PlaySFX(Path.Combine(Saving.AudioPath, "InspectionStart.mp3"));
     }
 
     public static bool ConfirmDeletion()
@@ -193,10 +195,7 @@ public static partial class Solves
 
     public static TimeSpan CalculateMean(List<SolveData> solves, List<string> allowedLabels, List<string> requiredLabels, List<string> excludesLabels)
     {
-        List<SolveData> filteredSolves = solves.Where(solve =>
-            (allowedLabels.Count == 0 || solve.Labels.Any(label => allowedLabels.Contains(label))) &&
-            (requiredLabels.Count == 0 || requiredLabels.All(label => solve.Labels.Contains(label))) &&
-            (excludesLabels.Count == 0 || !solve.Labels.Any(label => excludesLabels.Contains(label)))
-        ).ToList();
+        //List<SolveData> filteredSolves = solves.Where(solve=> ).ToList();
+        return new TimeSpan();
     }
 }
