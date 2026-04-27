@@ -8,40 +8,47 @@ namespace S_Cube;
 public static class Saving
 {
     static List<string> bbGuids = new List<string>();
-    static List<string> guids = new List<string>();
+    public static List<string> Guids = new List<string>();
+    public static string ProjectDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\"));
+
+    public static string AudioPath = Path.Combine(ProjectDir, Path.Combine("Assets", "Audio"));
     public static string? LocalProjectPath { get; private set; } = "";
     public static string? RoamingProjectPath { get; private set; } = "";
-    public static string appName = "S-Cube";
-    public static string? bbSolvesPath = "";
+    public static string ModsPath = "";
+    public static string AppName = "S-Cube";
+    public static string? BBSolvesPath = "";
     public static string? SolvesPath = "";
-    public static string? settingsPath = "";
-    public static string? statsPath = "";
+    public static string? SettingsPath = "";
+    public static string? StatsPath = "";
 
     public static void CreateFiles()
     {
         string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         string roamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-        CreateFolder(Path.Combine(localPath, appName));
-        LocalProjectPath = Path.Combine(localPath, appName);
+        CreateFolder(Path.Combine(localPath, AppName));
+        LocalProjectPath = Path.Combine(localPath, AppName);
 
         string allSolvesPath = Path.Combine(LocalProjectPath, "AllSolves");
         CreateFolder(allSolvesPath);
 
-        bbSolvesPath = Path.Combine(allSolvesPath, "BareBoneSolves");
-        CreateFolder(bbSolvesPath);
+        BBSolvesPath = Path.Combine(allSolvesPath, "BareBoneSolves");
+        CreateFolder(BBSolvesPath);
 
         SolvesPath = Path.Combine(allSolvesPath, "AdvanceSolves");
         CreateFolder(SolvesPath);
 
-        CreateFolder(Path.Combine(roamingPath, appName));
-        RoamingProjectPath = Path.Combine(roamingPath, appName);
+        CreateFolder(Path.Combine(roamingPath, AppName));
+        RoamingProjectPath = Path.Combine(roamingPath, AppName);
 
-        settingsPath = Path.Combine(LocalProjectPath, "Settings.json");
-        CreateFile(settingsPath);
+        ModsPath = Path.Combine(LocalProjectPath, "Mods");
+        CreateFolder(ModsPath);
 
-        statsPath = Path.Combine(LocalProjectPath, "Stats.json");
-        CreateFile(statsPath);
+        SettingsPath = Path.Combine(LocalProjectPath, "Settings.json");
+        CreateFile(SettingsPath);
+
+        StatsPath = Path.Combine(LocalProjectPath, "Stats.json");
+        CreateFile(StatsPath);
     }
 
     public static void CreateFolder(string path)
@@ -59,7 +66,7 @@ public static class Saving
             File.Create(path).Close();
     }
 
-    public static void SaveBBSolve(BBSolveData solve)
+    public static void WriteBBSolve(BBSolveData solve)
     {
         var options = new JsonSerializerOptions
         {
@@ -74,7 +81,7 @@ public static class Saving
             MainMenu.PrintError("Project Path Doesn't Exist", "The Local Project's path does not exist. Solve saved. (Did you delete it?).");
         }
 
-        if (!Path.Exists(bbSolvesPath))
+        if (!Path.Exists(BBSolvesPath))
         {
             CreateFiles();
             MainMenu.PrintError("BB Solves Path Doesn' Exist", "The BB Solve's path does not exist. Solve saved. (Did you delete it?).");
@@ -88,10 +95,10 @@ public static class Saving
         } while (bbGuids.Contains(name));
         bbGuids.Add(name);
        
-        File.WriteAllText(Path.Combine(bbSolvesPath, name + ".json"), json);
+        File.WriteAllText(Path.Combine(BBSolvesPath, name + ".json"), json);
     }
 
-    public static void SaveSolve(SolveData solve)
+    public static void WriteSolve(SolveData solve)
     {
         var options = new JsonSerializerOptions
         {
@@ -117,16 +124,16 @@ public static class Saving
         do
         {
             name = Guid.NewGuid().ToString("N");
-        } while (guids.Contains(name));
-        guids.Add(name);
+        } while (Guids.Contains(name));
+        Guids.Add(name);
        
-        File.WriteAllText(Path.Combine(SolvesPath, Path.Combine(name, ".json")), json);
+        File.WriteAllText(Path.Combine(SolvesPath, name +  ".json"), json);
     }
 
     public static void UpdateValues()
     {
         //Adding saved solves
-        string[] BBSolves = Directory.GetFiles(bbSolvesPath, "*.json");
+        string[] BBSolves = Directory.GetFiles(BBSolvesPath, "*.json");
         if (BBSolves.Length == 0)
         {
             MainMenu.Stats.NewUser = true;
@@ -134,15 +141,14 @@ public static class Saving
 
         foreach (string BBSolvePath in BBSolves)
         {
-            Console.WriteLine(BBSolvePath);
-            bbGuids.Add(Path.GetFileNameWithoutExtension(bbSolvesPath));
+            bbGuids.Add(Path.GetFileNameWithoutExtension(BBSolvesPath));
             BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(File.ReadAllText(BBSolvePath));
+
+            if (solve.IsUnderChosenSeconds(10))
+                MainMenu.Stats.SolvesUnder10Second++;
 
             if (solve.IsUnderChosenSeconds(30))
                 MainMenu.Stats.SolvesUnder30Second++;
-
-            else if (solve.IsUnderChosenSeconds(10))
-                MainMenu.Stats.SolvesUnder10Second++;
         }
 
         string[] solves = Directory.GetFiles(SolvesPath, "*.json");
@@ -154,23 +160,27 @@ public static class Saving
 
         foreach (string solvePath in solves)
         {
-            guids.Add(Path.GetFileNameWithoutExtension(SolvesPath));
+            Guids.Add(Path.GetFileNameWithoutExtension(SolvesPath));
+
             SolveData? solve = JsonSerializer.Deserialize<SolveData>(File.ReadAllText(solvePath));
 
-            if (solve.IsUnderChosenSeconds(30))
-                MainMenu.Stats.SolvesUnder30Second++;
-
-            else if (solve.IsUnderChosenSeconds(10))
+            if (solve.IsUnderChosenSeconds(10))
                 MainMenu.Stats.SolvesUnder10Second++;
+
+            else if (solve.IsUnderChosenSeconds(30))
+                MainMenu.Stats.SolvesUnder30Second++;
         }
     }
 
     public static void UpdateStats()
     {
-        string json = File.ReadAllText(statsPath);
+        string json = File.ReadAllText(StatsPath);
 
-        if (string.IsNullOrWhiteSpace(json))
-            json = "{ }";
+        if (!IsValidJson(json, StatsPath, true))
+        {
+            SaveStats(MainMenu.Stats);
+            return;
+        }
             
         MainMenu.Stats = JsonSerializer.Deserialize<StatsData>(json) ?? new StatsData();
     }
@@ -183,7 +193,14 @@ public static class Saving
             PropertyNameCaseInsensitive = true
         };
 
-        string json = File.ReadAllText(settingsPath);
+        string json = File.ReadAllText(SettingsPath);
+
+        if (!IsValidJson(json, SettingsPath, true))
+        {
+            SavePreferences(Settings.Preferences);
+            return;
+        }
+        
         Settings.Preferences = JsonSerializer.Deserialize<Dictionary<string, Preference>>(json, options) ?? new Dictionary<string, Preference>();
     }
 
@@ -196,13 +213,13 @@ public static class Saving
 
         string json = JsonSerializer.Serialize(stats, options);
 
-        if (!Path.Exists(statsPath))
+        if (!Path.Exists(StatsPath))
         {
             CreateFiles();
             MainMenu.PrintError("Stats' Path Does Not Exist", "The Stats' path does not exist. Stats saved. (Did you delete it?)");
         }
         
-        File.WriteAllText(statsPath, json);
+        File.WriteAllText(StatsPath, json);
     }
 
     public static void SavePreferences(Dictionary<string, Preference> preferences)
@@ -214,18 +231,50 @@ public static class Saving
 
         string json = JsonSerializer.Serialize(preferences, options);
 
-        if (!Path.Exists(settingsPath))
+        if (!Path.Exists(SettingsPath))
         {
             CreateFiles();
             MainMenu.PrintError("Settings' Path Does Not Exist", "The Settings' path does not exist. Preferencees saved. (Did you delete it?)");
         }
         
-        File.WriteAllText(settingsPath, json);
+        File.WriteAllText(SettingsPath, json);
     }
 
     public static void Restart(int errorCode)
     {
         Process.Start(Environment.ProcessPath);
         Environment.Exit(errorCode);
+    }
+
+    public static void Recompile()
+    {
+        Process.Start(new ProcessStartInfo("dotnet", "run")
+        {
+            WorkingDirectory = Path.Combine(ProjectDir, @"..\"),
+            UseShellExecute = true
+        });
+
+        //Exit Code 4 means restart
+        Environment.Exit(4);
+    }
+
+    public static bool IsValidJson(string json, string fileName, bool giveError)
+    {
+        if(string.IsNullOrWhiteSpace(json))
+            return false;
+
+        try
+        {
+            using (JsonDocument.Parse(json))
+                return true;
+        }
+
+        catch(JsonException)
+        {
+            if(giveError)
+                MainMenu.PrintError("Invalid JSON", $"The {fileName} file was invalid. You could have changed it.", true);
+        }
+
+        return false;
     }
 }

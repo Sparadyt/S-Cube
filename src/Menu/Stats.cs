@@ -7,20 +7,15 @@ public static class SeeStats
     public static void Home()
     {
         Console.Clear();
-        Console.WriteLine("S-Cube \nSTATS\n");
+        Console.WriteLine($"{Saving.AppName} \nSTATS\n");
 
-        ShowTotalTimeUsed();
-        ShowTotalSolves();
-        ShowAverageTime();
-        ShowBestTime();
-        ShowWorstTime();
-        ShowSolvesUnder30And10Seconds();
-
-        Console.WriteLine("\n(Enter any key to Exit)");
-        Console.ReadKey();
+        if(SolveData.Cubes.Count == 1)
+        {
+            //
+        }
     }
 
-    static void ShowTotalTimeUsed()
+    public static void ShowTotalTimeUsed()
     {
         Console.WriteLine($"Time Used: {MainMenu.Stats.TimeUsed.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
         Console.WriteLine($"Time Spent Solving: {MainMenu.Stats.TimeSpentSolving.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
@@ -35,16 +30,16 @@ public static class SeeStats
         Console.WriteLine($"Bare-Bonses Solves Amount: {BBSolveData.Amount} \n");
     }
 
-    public static void ShowAverageTime()
+    public static void ShowMeanTime()
     {
-        Console.Write("Average Time: ");
+        Console.Write("Mean: ");
         if (SolveData.Amount == 0)
         {
             Console.WriteLine("N/A");
             return;
         }
 
-        Console.WriteLine(SolveData.AverageTime.ToString(@"mm\:ss\.fff"));
+        Console.WriteLine((SolveData.Mean + BBSolveData.Mean).ToString(@"mm\:ss\.fff"));
     }
 
     public static void ShowBestTime()

@@ -10,8 +10,9 @@ public class BBSolveData
     public static long Amount { get; private set; } = 0;
     public long Number { get; private set; }
     public TimeSpan Time { get; set; } = new TimeSpan();
-    public static TimeSpan AverageTime { get; set; } = new TimeSpan();
+    public static TimeSpan Mean { get; set; } = new TimeSpan();
     public DateTime Date { get; set; } = new DateTime();
+    public List<string> Labels { get; set; } = new List<string>();
 
     public BBSolveData()
     {
@@ -19,17 +20,21 @@ public class BBSolveData
         Number = Amount;
 
         Solves.Add(this);
+
+        Mean =
+            TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
     }
-    public BBSolveData(TimeSpan time, DateTime date)
+    public BBSolveData(TimeSpan time, DateTime date, List<string> labels)
     {
         Time = time;
         Date = date;
-
-        Solves.Add(this);
+        Labels = labels;
         Amount++;
         Number = Amount;
 
-         AverageTime =
+        Solves.Add(this);
+
+        Mean =
             TimeSpan.FromMilliseconds(Solves.Average(s => s.Time.TotalMilliseconds));
     }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Collections.Generic;
 namespace S_Cube;
 
@@ -17,11 +18,8 @@ public record HotkeyData
 
 public static class Hotkey
 {
+    public static bool HotkeysAllowed = true;
     public static async Task CheckForHotkeys()
     {
-        while(true)
-        {
-            //
-        }
     }
 }

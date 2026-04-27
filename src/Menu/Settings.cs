@@ -12,11 +12,14 @@ public static class Settings
         //{"", new Preference("", "", "", "")}
 
         {"Ms Interval", new IntPr("Ms Interval", 1, 1000, null, "Millisecond interval in which your stats get saved. Keeping it too low may cause lag.")},
+        {"SFX Volume", new IntPr("SFX Volume", 0, 100, 100, "The volume of sound effects.")},
 
         {"Default Algorithm", new StringPr("Default Algorithm", "Not Set", "The default algorithm used when completing an Advance Solve.") },
+        {"Default Cube", new StringPr("Default Cube", "3x3", "The default cube used when completing a solve")},
         {"Enable Wide Moves", new BoolPr("Enable Wide Moves", false, "Enables wide moves (such as 'r'/'rw') to be chosen when generating a scramble.")},
         {"Enable Slice Moves", new BoolPr("Enable Slice Moves", false, "Enables slice moves ('M', 'E', 'S') to be chosen when generating a scramble.") },
         {"Inspection", new BoolPr("Inspection", true, "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")},
+        {"Write Solve", new BoolPr("Write Solve", true, "Writes your solve to AppData. Warning: if you turn this off, your solves won't be saved after you restart.")}
     };
 
     public static readonly string[] PreferencesNames = Preferences.Keys.ToArray();
@@ -26,7 +29,7 @@ public static class Settings
         {
             Console.Clear();
             //Saving.UpdatePreference();
-            Console.WriteLine("S-Cube \nSETTINGS /n");
+            Console.WriteLine($"{Saving.AppName} \nSETTINGS \n");
 
             Console.WriteLine("0. Exit");
             PrintPreferences();
@@ -232,7 +235,7 @@ public static class Settings
 
             if (number < preference.MinValue)
             {
-                MainMenu.PrintError("Invalid Input", $"Please enter a number less than equal to {preference.MinValue}");
+                MainMenu.PrintError("Invalid Input", $"Please enter a number more than equal to {preference.MinValue}");
                 continue;
             }
 

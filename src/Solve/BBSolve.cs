@@ -19,9 +19,9 @@ public static class BBSolves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nBare-Bones SOLVES \n");
+            Console.WriteLine($"{Saving.AppName} \nBare-Bones SOLVES \n");
 
-            Console.WriteLine($"Average Time: {SolveData.AverageTime.ToString(@"mm\:ss\.fff")}\n");
+            Console.WriteLine($"Average Time: {BBSolveData.Mean.ToString(@"mm\:ss\.fff")}\n");
             for (int i = 0; i < options.Length; i++)
             {
                 Console.WriteLine($"{i}. {options[i].option}");
@@ -60,20 +60,20 @@ public static class BBSolves
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nDO BARE-BONES SOLVE \n");
+            Console.WriteLine($"{Saving.AppName} \nDO BARE-BONES SOLVE \n");
             Console.WriteLine($"Scramble: {ScrambleGenerator.GenerateScramble()}");
             Console.WriteLine("Enter 'Esc' or 'E' to Exit");
             Console.WriteLine("Enter any other key to start");
 
-            Thread.Sleep(1000);
-            ConsoleKeyInfo key = Console.ReadKey();
+            Solves.Wait(1000);
+            ConsoleKeyInfo key = Console.ReadKey(true);
 
             if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
                 return;
 
             Console.Clear();
 
-            if (((BoolPr)Settings.Preferences["Inspection"]).Value == true)
+            if (((BoolPr)Settings.Preferences["Inspection"]).Value)
                 Solves.Inspection();
                 
             DateTime currentDate = DateTime.Now;
@@ -90,10 +90,11 @@ public static class BBSolves
                 Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
                 Thread.Sleep(100);
 
-                 if (Console.KeyAvailable)
+                if (Console.KeyAvailable)
                     isRunning = false;
             }
 
+            Solves.FlushInput();
             Console.Clear();
             MainMenu.Stats.TimeSpentSolving.Stop();
             MainMenu.Stats.BBSolvesTimer.Stop();
@@ -101,8 +102,13 @@ public static class BBSolves
             Console.WriteLine($"Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter any key to continue)");
 
-            BBSolveData solve = new BBSolveData(time.Elapsed, currentDate);
-            Saving.SaveBBSolve(solve);
+            Solves.Wait(1000);
+
+            BBSolveData solve = new BBSolveData(time.Elapsed, currentDate, null);
+
+            if(((BoolPr)Settings.Preferences["Write Solve"]).Value)
+                Saving.WriteBBSolve(solve);
+                
             Console.ReadKey();
         }
     }

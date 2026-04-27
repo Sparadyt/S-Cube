@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NetCoreAudio;
 using System.Threading;
 using System.Diagnostics;
 namespace S_Cube;
@@ -8,46 +9,54 @@ public static class MainMenu
 {
     public static StatsData Stats = new StatsData();
 
+    public static List<(string name, Action action)> Options = new List<(string option, Action action)>
+    {
+        ("Exit", () => Environment.Exit(0)),
+        ("Solves", Solves.Home),
+        ("Do Solve", Solves.Do),
+        ("Bare-Bones Solves", BBSolves.Home),
+        ("Do Bare-Bones Solve", BBSolves.Do),
+        ("Stats", SeeStats.Home),
+        ("Settings", Settings.Home),
+        ("Info", Info.Home)
+    };
+
     static void Main()
     {
-        (string option, Action action)[] options =
-        {
-            ("Exit", () => Environment.Exit(0)),
-            ("Solves", Solves.Home),
-            ("Do Solve", Solves.Do),
-            ("Bare-Bones Solves", BBSolves.Home),
-            ("Do Bare-Bones Solve", BBSolves.Do),
-            ("Stats", SeeStats.Home),
-            ("Settings", Settings.Home),
-            ("Info", Info.Home)
-        };
+        Console.Clear();
 
         Saving.CreateFiles();
         Saving.UpdateStats();
+        Saving.SaveStats(Stats);
         Saving.UpdateValues();
-        CheckForErrors();
+        Saving.SavePreferences(Settings.Preferences);
 
         Thread bgThread = new Thread(BackgroundWork);
         bgThread.Start();
 
         Stats.TimeUsed.Start();
+
+        bool inputIsKey = true;
+        if(Options.Count > 10)
+            inputIsKey = false;
+
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("S-Cube \nHOME\n");
+            Console.WriteLine($"{Saving.AppName} \nHOME\n");
 
-            for (int i = 0; i < options.Length; i++)
+            for (int i = 0; i < Options.Count; i++)
             {
-                Console.WriteLine($"{i}. {options[i].option}");
+                Console.WriteLine($"{i}. {Options[i].name}");
             }
 
-            string inputStr = GetNumber(false, options.Length - 1, true);
+            string inputStr = GetNumber(false, Options.Count - 1, inputIsKey);
 
             //Handling Input
             if (inputStr.StartsWith("Error"))
                 continue;
 
-            options[int.Parse(inputStr)].action();
+            Options[int.Parse(inputStr)].action();
         }
     }
 
@@ -62,13 +71,14 @@ public static class MainMenu
 
         Console.WriteLine(message);
 
-        if(devError)
+        if (devError)
         {
-            Console.WriteLine("(Dex Error is the fault of the developer. If you want to, you can help the developer of making a issue in the Github page)");
+            Console.WriteLine("(Dex Error might be the fault of the developer. If you want to, you can help the developer of making a issue in the Github page)");
         }
+
         Console.WriteLine("(Enter any key to continue)");
-        Console.ReadKey();
         Console.ResetColor();
+        Console.ReadKey();
         Console.Clear();
     }
 
@@ -144,16 +154,10 @@ public static class MainMenu
         return input;
     }
 
-    public static void CheckForErrors()
-    {
-        //
-    }
-
     public static void BackgroundWork()
     {
         IntPr intPreference = (IntPr)Settings.Preferences["Ms Interval"];
         SaveStats(intPreference.Value);
-        Hotkey.CheckForHotkeys();
     }
 
     public static async Task SaveStats(int msInterval)
@@ -161,7 +165,14 @@ public static class MainMenu
         while (true)
         {
             Saving.SaveStats(Stats);
-            Thread.Sleep(msInterval);
+            await Task.Delay(msInterval);
         }
+    }
+
+    public static async Task PlaySFX(string fileName)
+    {
+        var player = new Player();
+        await player.SetVolume(Byte.Parse(((IntPr)Settings.Preferences["SFX Volume"]).Value.ToString()));
+        await player.Play(Path.Combine(Saving.AudioPath, fileName));
     }
 }

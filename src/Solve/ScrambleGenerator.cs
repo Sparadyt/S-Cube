@@ -16,7 +16,10 @@ public static class ScrambleGenerator
         modifiers = new List<string> { "", "", "", "'", "'", "2", "2" };
 
         if (((BoolPr)Settings.Preferences["Enable Wide Moves"]).Value == true)
+        {
             modifiers.Add("w");
+            modifiers.Add("w'");
+        }
 
         if (((BoolPr)Settings.Preferences["Enable Slice Moves"]).Value == true)
         {
@@ -35,6 +38,7 @@ public static class ScrambleGenerator
             {
                 sliceMoves = true;
                 modifiers.Remove("w");
+                modifiers.Remove("w'");
             }
 
             string modifier = modifiers[Random.Shared.Next(modifiers.Count)];
@@ -44,5 +48,13 @@ public static class ScrambleGenerator
         }
         
         return scramble.Trim();
+    }
+
+    public static void ShowScramble(string scramble)
+    {
+        Console.WriteLine("Face the green side with the while side on top");
+        Console.WriteLine($"\nScramble: {scramble}");
+        Console.WriteLine("(Enter any key to continue)");
+        Console.ReadKey();
     }
 }

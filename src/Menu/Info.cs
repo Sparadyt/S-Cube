@@ -21,13 +21,13 @@ public static class Info
 
     public static void Home()
     {
-        //
+        ShowLinks();
     }
 
     public static void ShowLinks()
     {
         Console.Clear();
-        Console.WriteLine("S-Cube \nInfo \n");
+        Console.WriteLine($"{Saving.AppName} \nInfo \n");
         string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYX";
 
         for (int i = 0; i < keys.Length; i++)
