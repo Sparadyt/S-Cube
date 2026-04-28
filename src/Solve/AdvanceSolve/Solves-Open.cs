@@ -118,7 +118,7 @@ public static partial class Solves
 
     public static void Delete()
     {
-        if (ConfirmDeletion())
+        if (CrossSolves.ConfirmDeletion())
             SolveData.Solves.Remove(openedSolve);
     }
 }

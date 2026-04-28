@@ -65,7 +65,7 @@ public static class BBSolves
             Console.WriteLine("Enter 'Esc' or 'E' to Exit");
             Console.WriteLine("Enter any other key to start");
 
-            Solves.Wait(1000);
+            CrossSolves.Wait(1000);
             ConsoleKeyInfo key = Console.ReadKey(true);
 
             if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
@@ -73,8 +73,8 @@ public static class BBSolves
 
             Console.Clear();
 
-            if (((BoolPr)Settings.Preferences["Inspection"]).Value)
-                Solves.Inspection();
+            if (((BoolPr)Settings.Preferences["CrossSolvess.Inspection"]).Value)
+                CrossSolves.Inspection();
                 
             DateTime currentDate = DateTime.Now;
             Stopwatch time = new Stopwatch();
@@ -94,7 +94,7 @@ public static class BBSolves
                     isRunning = false;
             }
 
-            Solves.FlushInput();
+            CrossSolves.FlushInput();
             Console.Clear();
             MainMenu.Stats.TimeSpentSolving.Stop();
             MainMenu.Stats.BBSolvesTimer.Stop();
@@ -102,7 +102,7 @@ public static class BBSolves
             Console.WriteLine($"Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine("(Enter any key to continue)");
 
-            Solves.Wait(1000);
+            CrossSolves.Wait(1000);
 
             BBSolveData solve = new BBSolveData(time.Elapsed, currentDate, null);
 
@@ -123,7 +123,7 @@ public static class BBSolves
         Console.WriteLine("(Enter any other key to continue)");
         char key = char.ToUpperInvariant(Console.ReadKey().KeyChar);
 
-        if (key == 'D' && Solves.ConfirmDeletion())
+        if (key == 'D' && CrossSolves.ConfirmDeletion())
             BBSolveData.Solves.Remove(openedSolve);
     }
 }

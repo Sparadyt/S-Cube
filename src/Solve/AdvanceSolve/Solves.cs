@@ -72,7 +72,7 @@ public static partial class Solves
             Console.WriteLine("Enter any other key to start");
             Console.WriteLine("After you started, enter space to add a lap");
 
-            Wait(1000);
+            CrossSolves.Wait(1000);
             ConsoleKeyInfo key = Console.ReadKey();
 
             if (key.Key == ConsoleKey.S)
@@ -86,8 +86,8 @@ public static partial class Solves
 
             Console.Clear();
 
-            if (((BoolPr)Settings.Preferences["Inspection"]).Value)
-                Inspection();
+            if (((BoolPr)Settings.Preferences["CrossSolvess.Inspection"]).Value)
+                CrossSolves.Inspection();
 
             DateTime currentDate = DateTime.Now;
             time = Stopwatch.StartNew();
@@ -106,7 +106,7 @@ public static partial class Solves
                 Thread.Sleep(100);
             }
 
-            FlushInput();
+            CrossSolves.FlushInput();
             MainMenu.Stats.TimeSpentSolving.Stop();
             MainMenu.Stats.AdvanceSolvesTimer.Stop();
             time.Stop();
@@ -119,7 +119,7 @@ public static partial class Solves
             Console.WriteLine("(Enter 'F' to mark this solve as Did Not Finish)");
             Console.WriteLine("(Enter any key to continue)");
 
-            Wait(1000);
+            CrossSolves.Wait(1000);
             char input = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
 
             Penalty penalty = Penalty.None;
@@ -134,7 +134,7 @@ public static partial class Solves
                 penalty = Penalty.DNF;
             }
 
-            else if(input == 'D' && ConfirmDeletion())
+            else if(input == 'D' && CrossSolves.ConfirmDeletion())
             {
                 continue;
             }
@@ -144,53 +144,6 @@ public static partial class Solves
             if(((BoolPr)Settings.Preferences["Write Solve"]).Value)
                 Saving.WriteSolve(solve);
         }
-    }
-
-    public static void Inspection()
-    {
-        Stopwatch inspection = new Stopwatch();
-        inspection.Start();
-
-        while (inspection.Elapsed.Seconds < 15)
-        {
-            Console.Clear();
-
-            Console.WriteLine("INSPECTION");
-            Console.WriteLine("(You can turn this off in the settings)");
-
-            Console.WriteLine(15 - inspection.Elapsed.Seconds);
-            Thread.Sleep(1000);
-        }
-
-        FlushInput();
-
-        MainMenu.PlaySFX(Path.Combine(Saving.AudioPath, "InspectionStart.mp3"));
-    }
-
-    public static bool ConfirmDeletion()
-    {
-        Console.Clear();
-        Console.WriteLine("ARE YOU SURE YOU WANT TO DELETE THIS SOLVE. IT CANNOT BE UNDONE.");  
-        Console.WriteLine("Enter 'Y' to to confirm deletion");
-        Console.WriteLine("Enter anything else to not delete this solve");
-
-        char key = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
-
-        if(key == 'Y')
-            return true;
-        return false;
-    }
-
-    public static void FlushInput()
-    {
-        while(Console.KeyAvailable)
-            Console.ReadKey(true);
-    }
-
-    public static void Wait(int msTime)
-    {
-        Thread.Sleep(msTime);
-        FlushInput();
     }
 
     public static TimeSpan CalculateMean(List<SolveData> solves, List<string> allowedLabels, List<string> requiredLabels, List<string> excludesLabels)
