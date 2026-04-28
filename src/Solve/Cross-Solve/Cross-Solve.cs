@@ -33,11 +33,10 @@ public static class CrossSolves
         Console.WriteLine("Enter 'Y' to to confirm deletion");
         Console.WriteLine("Enter anything else to not delete this solve");
 
+        Wait(1000);
         char key = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
 
-        if(key == 'Y')
-            return true;
-        return false;
+        return key == 'Y';
     }
 
     public static void FlushInput()
