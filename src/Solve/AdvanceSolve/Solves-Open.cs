@@ -27,7 +27,7 @@ public static partial class Solves
             ShowUsedAlgorithm();
 
             Console.WriteLine("Enter 'Des' to change the Description");
-            //Console.WriteLine("Enter 'Lab' to change the Labels");
+            Console.WriteLine("Enter 'Lab' to change the Labels");
             Console.WriteLine("Enter 'Rem' to delete this solve");
             Console.WriteLine("Enter anyting else to Exit");
             Console.WriteLine();
@@ -100,9 +100,6 @@ public static partial class Solves
 
     public static void ShowPenalty()
     {
-        Console.Clear();
-        Console.WriteLine($"{Saving.AppName} \nSHOW PENALTY \n");
-
         for (int i = 0; i < Enum.GetValues<Penalty>().Length; i++)
         {
             if (openedSolve.Penalty == (Penalty)i)
@@ -111,17 +108,14 @@ public static partial class Solves
                 break;
             }
         }
-
-        Console.WriteLine("(Enter any key to continue)");
-        CrossSolves.Wait(1000);
-        Console.ReadKey(true);
     }
 
     public static void Labels()
     {
         while(true)
         {
-            
+            Console.Clear();
+            Console.WriteLine($"{Saving.AppName} \nLabels \n");
         }
     }
 
