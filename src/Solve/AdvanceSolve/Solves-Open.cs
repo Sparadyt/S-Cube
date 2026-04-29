@@ -15,16 +15,15 @@ public static partial class Solves
             Console.WriteLine($"{Saving.AppName} \nOPEN SOLVE\n");
 
             //Printing Info abot the solve
-            Console.WriteLine($"Cube: {openedSolve.Labels.Cube}");
             Console.WriteLine($"Solve Number: {openedSolve.Number}");
             Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine($"Description: {openedSolve.Description}");
             Console.WriteLine($"Scramble: {openedSolve.Scramble}");
-            ShowPenalty();
-            Console.WriteLine();
+            ShowPenalty(openedSolve);
+            ShowLabels(openedSolve);
 
             Console.WriteLine($"Date: {openedSolve.Date}");
-            ShowUsedAlgorithm();
+            ShowUsedAlgorithm(openedSolve);
 
             Console.WriteLine("Enter 'Des' to change the Description");
             Console.WriteLine("Enter 'Lab' to change the Labels");
@@ -39,11 +38,11 @@ public static partial class Solves
         }
     }
 
-    public static void ShowUsedAlgorithm()
+    public static void ShowUsedAlgorithm(SolveData _openedSolve)
     {
-        if (openedSolve.UsedAlgorithm != null)
+        if (_openedSolve.UsedAlgorithm != null)
         {
-            Console.WriteLine($"Used Algorithm: {openedSolve.UsedAlgorithm}");
+            Console.WriteLine($"Used Algorithm: {_openedSolve.UsedAlgorithm}");
         }
 
         else
@@ -64,11 +63,6 @@ public static partial class Solves
         else if (input == "rem")
         {
             Delete();
-        }
-
-        else if (input == "lab")
-        {
-            Labels();
         }
 
         else
@@ -98,11 +92,11 @@ public static partial class Solves
         }
     }
 
-    public static void ShowPenalty()
+    public static void ShowPenalty(SolveData _openedSolve)
     {
         for (int i = 0; i < Enum.GetValues<Penalty>().Length; i++)
         {
-            if (openedSolve.Penalty == (Penalty)i)
+            if (_openedSolve.Penalty == (Penalty)i)
             {
                 Console.WriteLine($"Penalty: {(Penalty)i}");
                 break;
@@ -110,13 +104,16 @@ public static partial class Solves
         }
     }
 
-    public static void Labels()
+    public static void ShowLabels(SolveData _openedSolve)
     {
-        while(true)
-        {
-            Console.Clear();
-            Console.WriteLine($"{Saving.AppName} \nLabels \n");
-        }
+        Console.WriteLine($"Practice: {_openedSolve.Labels.Practice}");
+        Console.WriteLine($"Cube: {_openedSolve.Labels.Cube}");
+
+        Console.WriteLine("Other labels: ");
+        foreach (string label in _openedSolve.Labels.OtherLabels)
+            Console.WriteLine(label);
+            
+        Console.WriteLine();
     }
 
     public static void Delete()
