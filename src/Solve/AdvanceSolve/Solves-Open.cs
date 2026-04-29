@@ -66,6 +66,11 @@ public static partial class Solves
             Delete();
         }
 
+        else if (input == "lab")
+        {
+            Labels();
+        }
+
         else
             exit = true;
     }
@@ -95,24 +100,21 @@ public static partial class Solves
 
     public static void ShowPenalty()
     {
-        if (openedSolve.Penalty == Penalty.None)
+        for (int i = 0; i < Enum.GetValues<Penalty>().Length; i++)
         {
-            Console.WriteLine($"Penalty: None");
+            if (openedSolve.Penalty == (Penalty)i)
+            {
+                Console.WriteLine($"Penalty: {(Penalty)i}");
+                break;
+            }
         }
+    }
 
-        else if(openedSolve.Penalty == Penalty.Plus2)
+    public static void Labels()
+    {
+        while(true)
         {
-            Console.WriteLine($"Penalty: +2");
-        }
-
-        else if (openedSolve.Penalty == Penalty.DNF)
-        {
-            Console.WriteLine($"Penalty: DNF");
-        }
-
-        else
-        {
-            Console.WriteLine("Penalty: N/A");
+            
         }
     }
 

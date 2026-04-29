@@ -6,6 +6,8 @@ namespace S_Cube;
 
 public static class CrossSolves
 {
+    public static bool WriteSolve = ((BoolPr)Settings.Preferences["Write Solve"]).Value;
+    
     public static void Inspection()
     {
         Stopwatch inspection = new Stopwatch();

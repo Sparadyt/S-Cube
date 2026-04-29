@@ -156,16 +156,15 @@ public static class MainMenu
 
     public static void BackgroundWork()
     {
-        IntPr intPreference = (IntPr)Settings.Preferences["Ms Interval"];
-        SaveStats(intPreference.Value);
+        SaveStats();
     }
 
-    public static async Task SaveStats(int msInterval)
+    public static async Task SaveStats()
     {
         while (true)
         {
             Saving.SaveStats(Stats);
-            await Task.Delay(msInterval);
+            await Task.Delay(((IntPr)Settings.Preferences["Ms Interval"]).Value);
         }
     }
 

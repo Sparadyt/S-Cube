@@ -10,7 +10,6 @@ public static partial class Solves
     static Stopwatch time;
     static string solvesFolder;
     static SolveData? openedSolve;
-    public static bool WriteSolve = true;
 
     public static (string option, Action action)[] options =
     {
@@ -141,7 +140,7 @@ public static partial class Solves
 
             SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, null, penalty);
 
-            if(((BoolPr)Settings.Preferences["Write Solve"]).Value)
+            if(CrossSolves.WriteSolve)
                 Saving.WriteSolve(solve);
         }
     }

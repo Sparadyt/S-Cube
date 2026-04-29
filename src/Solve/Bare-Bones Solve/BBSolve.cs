@@ -106,10 +106,10 @@ public static class BBSolves
 
             BBSolveData solve = new BBSolveData(time.Elapsed, currentDate, null);
 
-            if(((BoolPr)Settings.Preferences["Write Solve"]).Value)
+            if(CrossSolves.WriteSolve)
                 Saving.WriteBBSolve(solve);
                 
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
     }
 
