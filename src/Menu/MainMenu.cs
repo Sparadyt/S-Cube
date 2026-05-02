@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using NetCoreAudio;
 using System.Threading;
@@ -16,6 +17,7 @@ public static class MainMenu
         ("Do Solve", Solves.Do),
         ("Bare-Bones Solves", BBSolves.Home),
         ("Do Bare-Bones Solve", BBSolves.Do),
+        ("Learn Cubing", OpenLearnCubing),
         ("Stats", SeeStats.Home),
         ("Settings", Settings.Home),
         ("Info", Info.Home)
@@ -39,6 +41,8 @@ public static class MainMenu
         bool inputIsKey = true;
         if(Options.Count > 10)
             inputIsKey = false;
+
+        CrossSolves.Algorithms.Add("No Algorithm");
 
         while (true)
         {
@@ -73,7 +77,7 @@ public static class MainMenu
 
         if (devError)
         {
-            Console.WriteLine("(Dex Error might be the fault of the developer. If you want to, you can help the developer of making a issue in the Github page)");
+            Console.WriteLine("(Dev Error might be the fault of the developer. If you want to, you can help the developer of making a issue in the Github page)");
         }
 
         Console.WriteLine("(Enter any key to continue)");
@@ -156,16 +160,15 @@ public static class MainMenu
 
     public static void BackgroundWork()
     {
-        IntPr intPreference = (IntPr)Settings.Preferences["Ms Interval"];
-        SaveStats(intPreference.Value);
+        SaveStats();
     }
 
-    public static async Task SaveStats(int msInterval)
+    public static async Task SaveStats()
     {
         while (true)
         {
             Saving.SaveStats(Stats);
-            await Task.Delay(msInterval);
+            await Task.Delay(((IntPr)Settings.Preferences["Ms Interval"]).Value);
         }
     }
 
@@ -174,5 +177,54 @@ public static class MainMenu
         var player = new Player();
         await player.SetVolume(Byte.Parse(((IntPr)Settings.Preferences["SFX Volume"]).Value.ToString()));
         await player.Play(Path.Combine(Saving.AudioPath, fileName));
+    }
+
+    public static void OpenLearnCubing()
+    {
+        //string filePath = Path.Combine("Docs", "Learn Cubing", "Beginner", "Start.html");
+        string filePath = Path.Combine(Saving.ProjectDir, "Docs", "Learn Cubing", "Beginner", "Start.html");
+
+        if (!File.Exists(filePath))
+        {
+            PrintError("File Not Found", "The file for Learn Cubing could not be found. Please make sure the file exists and try again.", true);
+            return;
+        }
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = filePath,
+            UseShellExecute = true
+        });
+
+        Console.Clear();
+        string dots = ".";
+
+        while(true)
+        {
+            Console.Clear();
+            if (Console.KeyAvailable)
+            {
+                Console.ReadKey(true);
+                break;
+            }
+
+            Console.WriteLine("Opening" + dots);
+            Console.WriteLine("(Enter any key oncce it's open)");
+
+            switch (dots)
+            {
+                case ".":
+                    dots = "..";
+                    break;
+                case "..":
+                    dots = "...";
+                    break;
+                case "...":
+                    dots = ".";
+                    break;
+            }
+            
+            Thread.Sleep(500);
+        }
     }
 }

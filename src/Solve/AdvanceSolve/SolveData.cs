@@ -6,8 +6,6 @@ public class SolveData
 {
     public static List<SolveData> Solves = new List<SolveData>();
     public int Number { get; set; }
-    public static int Amount { get; private set; }
-    public static List<string> Cubes = new List<string>();
     public TimeSpan Time { get; set; }
     public static TimeSpan Mean { get; private set; }
     public string? UsedAlgorithm { get; set; } = ((StringPr)Settings.Preferences["Default Algorithm"]).Value;
@@ -20,8 +18,7 @@ public class SolveData
 
     public SolveData()
     {
-        Amount++;
-        Number = Amount;
+        Number = Solves.Count;
 
         Solves.Add(this);
         Mean =
@@ -29,8 +26,7 @@ public class SolveData
     }
     public SolveData(TimeSpan time, string? scramble, string? description, DateTime date, LabelData labels, Penalty penalty)
     {
-        Amount++;
-        this.Number = Amount;
+        Number = Solves.Count;
 
         Time = time;
         Scramble = scramble;
@@ -48,18 +44,4 @@ public class SolveData
             return true;
         return false;
     }
-}
-
-public enum Penalty
-{
-    None = 0,
-    DNF = 1,
-    Plus2 = 2,
-    Plus4 = 4,
-    Plus6 = 6,
-    Plus8 = 8,
-    Plus10 = 10,
-    Plus12 = 12,
-    Plus14 = 14,
-    Plus16 = 16
 }

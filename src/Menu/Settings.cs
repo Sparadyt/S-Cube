@@ -15,10 +15,15 @@ public static class Settings
         {"SFX Volume", new IntPr("SFX Volume", 0, 100, 100, "The volume of sound effects.")},
 
         {"Default Algorithm", new StringPr("Default Algorithm", "Not Set", "The default algorithm used when completing an Advance Solve.") },
-        {"Default Cube", new StringPr("Default Cube", "3x3", "The default cube used when completing a solve")},
+        {"Default Cube", new StringPr("Default Cube", "3x3", "The default cube used when completing a solve.")},
+        {"Default Event", new StringPr("Default Event", "Not Set", "The default event used when completing a solve.")},
+        {"Practice Mode", new BoolPr("Practice Mode", false, "When on, solves don't count towards your average.")},
+        {"Show Time", new BoolPr("Show Time", true, "Shows the passed time when solving. If turned off, instead of showing th etime, it shows \"Solve\".")},
         {"Enable Wide Moves", new BoolPr("Enable Wide Moves", false, "Enables wide moves (such as 'r'/'rw') to be chosen when generating a scramble.")},
         {"Enable Slice Moves", new BoolPr("Enable Slice Moves", false, "Enables slice moves ('M', 'E', 'S') to be chosen when generating a scramble.") },
-        {"Inspection", new BoolPr("Inspection", true, "Enables a 15sec inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")},
+        {"Inspection", new BoolPr("Inspection", true, "Enables a 15sec Inspection time before starting the timer. When inspecting, you aren't allowed to make move. You try to think of moves you would play during the solve.")},
+        {"Inspection Duration", new IntPr("Inspection Duration", 0, 15, null, "The duration which inspection lasts. If Inspection is turned off, this preference serves no purpose.") },
+        {"Show Inspection Duration", new BoolPr("Show Inspection Duration", true, "Shows the remaining inspection time. If turned off, when inspecting instead of showing the remaining inspection duration, It says \"Inspection Time\".")},
         {"Write Solve", new BoolPr("Write Solve", true, "Writes your solve to AppData. Warning: if you turn this off, your solves won't be saved after you restart.")}
     };
 
@@ -219,7 +224,7 @@ public static class Settings
         while (true)
         {
             Console.Clear();
-            Console.Write($"{preference.Name}: {preference.MinValue} - {preference.Value} - {preference.MaxValue}");
+            Console.WriteLine($"{preference.Name}: {preference.MinValue} - {preference.Value} - {preference.MaxValue}");
             Console.WriteLine(preference.Info);
 
             Console.WriteLine("\nThe first number is the minimum value");

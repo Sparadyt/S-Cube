@@ -15,19 +15,20 @@ public static partial class Solves
             Console.WriteLine($"{Saving.AppName} \nOPEN SOLVE\n");
 
             //Printing Info abot the solve
-            Console.WriteLine($"Cube: {openedSolve.Labels.Cube}");
             Console.WriteLine($"Solve Number: {openedSolve.Number}");
             Console.WriteLine($"Time: {openedSolve.Time.ToString(@"mm\:ss\.fff")}");
             Console.WriteLine($"Description: {openedSolve.Description}");
             Console.WriteLine($"Scramble: {openedSolve.Scramble}");
-            ShowPenalty();
-            Console.WriteLine();
+            ShowPenalty(openedSolve);
+            ShowLabels(openedSolve);
 
             Console.WriteLine($"Date: {openedSolve.Date}");
-            ShowUsedAlgorithm();
+            Console.WriteLine($"Path: {openedSolve.Path ?? "N/A"}");
+            ShowUsedAlgorithm(openedSolve);
 
+            Console.WriteLine();
             Console.WriteLine("Enter 'Des' to change the Description");
-            //Console.WriteLine("Enter 'Lab' to change the Labels");
+            Console.WriteLine("Enter 'Lab' to change the Labels");
             Console.WriteLine("Enter 'Rem' to delete this solve");
             Console.WriteLine("Enter anyting else to Exit");
             Console.WriteLine();
@@ -39,11 +40,11 @@ public static partial class Solves
         }
     }
 
-    public static void ShowUsedAlgorithm()
+    public static void ShowUsedAlgorithm(SolveData _openedSolve)
     {
-        if (openedSolve.UsedAlgorithm != null)
+        if (_openedSolve.UsedAlgorithm != null)
         {
-            Console.WriteLine($"Used Algorithm: {openedSolve.UsedAlgorithm}");
+            Console.WriteLine($"Used Algorithm: {_openedSolve.UsedAlgorithm}");
         }
 
         else
@@ -93,32 +94,41 @@ public static partial class Solves
         }
     }
 
-    public static void ShowPenalty()
+    public static void ShowPenalty(SolveData _openedSolve)
     {
-        if (openedSolve.Penalty == Penalty.None)
+        for (int i = 0; i < Enum.GetValues<Penalty>().Length; i++)
         {
-            Console.WriteLine($"Penalty: None");
+            if (_openedSolve.Penalty == (Penalty)i)
+            {
+                Console.WriteLine($"Penalty: {(Penalty)i}");
+                break;
+            }
         }
+    }
 
-        else if(openedSolve.Penalty == Penalty.Plus2)
+    public static void ShowLabels(SolveData _openedSolve)
+    {
+        if (_openedSolve.Labels == null)
         {
-            Console.WriteLine($"Penalty: +2");
+            Console.WriteLine("Labels: N/A");
+            return;
         }
+        
+        Console.WriteLine($"Practice: {_openedSolve.Labels.Practice}");
+        Console.WriteLine($"Cube: {_openedSolve.Labels.Cube}");
 
-        else if (openedSolve.Penalty == Penalty.DNF)
-        {
-            Console.WriteLine($"Penalty: DNF");
-        }
-
-        else
-        {
-            Console.WriteLine("Penalty: N/A");
-        }
+        Console.WriteLine("Other labels: ");
+        foreach (string label in _openedSolve.Labels.OtherLabels)
+            Console.WriteLine(label);
+            
+        Console.WriteLine();
     }
 
     public static void Delete()
     {
-        if (ConfirmDeletion())
-            SolveData.Solves.Remove(openedSolve);
+        if (CrossSolves.ConfirmDeletion())
+            Solves.DeleteSolve(openedSolve);
+
+        exit = true;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -65,51 +66,14 @@ public static class BBSolves
             Console.WriteLine("Enter 'Esc' or 'E' to Exit");
             Console.WriteLine("Enter any other key to start");
 
-            Solves.Wait(1000);
+            CrossSolves.Wait(1000);
             ConsoleKeyInfo key = Console.ReadKey(true);
 
             if (key.Key == ConsoleKey.Escape || char.ToUpperInvariant(key.KeyChar) == 'E')
                 return;
 
             Console.Clear();
-
-            if (((BoolPr)Settings.Preferences["Inspection"]).Value)
-                Solves.Inspection();
-                
-            DateTime currentDate = DateTime.Now;
-            Stopwatch time = new Stopwatch();
-            time.Start();
-
-            MainMenu.Stats.TimeSpentSolving.Start();
-            MainMenu.Stats.BBSolvesTimer.Start();
-            bool isRunning = true;
-            while (isRunning)
-            {
-                Console.Clear();
-
-                Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
-                Thread.Sleep(100);
-
-                if (Console.KeyAvailable)
-                    isRunning = false;
-            }
-
-            Solves.FlushInput();
-            Console.Clear();
-            MainMenu.Stats.TimeSpentSolving.Stop();
-            MainMenu.Stats.BBSolvesTimer.Stop();
-
-            Console.WriteLine($"Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
-            Console.WriteLine("(Enter any key to continue)");
-
-            Solves.Wait(1000);
-
-            BBSolveData solve = new BBSolveData(time.Elapsed, currentDate, null);
-
-            if(((BoolPr)Settings.Preferences["Write Solve"]).Value)
-                Saving.WriteBBSolve(solve);
-                
-            Console.ReadKey();
+            CrossSolves.DoSolve(false);
         }
     }
 
@@ -123,7 +87,17 @@ public static class BBSolves
         Console.WriteLine("(Enter any other key to continue)");
         char key = char.ToUpperInvariant(Console.ReadKey().KeyChar);
 
-        if (key == 'D' && Solves.ConfirmDeletion())
-            BBSolveData.Solves.Remove(openedSolve);
+        if (key == 'D' && CrossSolves.ConfirmDeletion())
+            DeleteSolve(openedSolve);
+    }
+
+    public static void DeleteSolve(BBSolveData solve)
+    {
+        BBSolveData.Solves.Clear();
+
+        if (Path.Exists(solve.Path))
+            File.Delete(solve.Path);
+            
+        Saving.UpdateValues();
     }
 }

@@ -94,7 +94,8 @@ public static class Saving
             name = Guid.NewGuid().ToString("N");
         } while (bbGuids.Contains(name));
         bbGuids.Add(name);
-       
+        
+        solve.Path = name + ".json";
         File.WriteAllText(Path.Combine(BBSolvesPath, name + ".json"), json);
     }
 
@@ -126,8 +127,9 @@ public static class Saving
             name = Guid.NewGuid().ToString("N");
         } while (Guids.Contains(name));
         Guids.Add(name);
-       
-        File.WriteAllText(Path.Combine(SolvesPath, name +  ".json"), json);
+
+        solve.Path = name + ".json";
+        File.WriteAllText(Path.Combine(SolvesPath, name + ".json"), json);
     }
 
     public static void UpdateValues()
@@ -139,16 +141,29 @@ public static class Saving
             MainMenu.Stats.NewUser = true;
         }
 
-        foreach (string BBSolvePath in BBSolves)
+        foreach (string bbSolvePath in BBSolves)
         {
-            bbGuids.Add(Path.GetFileNameWithoutExtension(BBSolvesPath));
-            BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(File.ReadAllText(BBSolvePath));
+            bbGuids.Add(Path.GetFileNameWithoutExtension(bbSolvePath));
+            BBSolveData? solve = JsonSerializer.Deserialize<BBSolveData>(File.ReadAllText(bbSolvePath));
 
             if (solve.IsUnderChosenSeconds(10))
                 MainMenu.Stats.SolvesUnder10Second++;
 
             if (solve.IsUnderChosenSeconds(30))
                 MainMenu.Stats.SolvesUnder30Second++;
+
+            solve.Path = bbSolvePath;
+
+            bool practice = (solve.Labels ?? new LabelData()).Practice ?? false;
+
+            if(!(bool)solve.Labels.Practice)
+             {
+                if(!CrossSolves.Cubes.Contains(solve.Labels.Cube))
+                    CrossSolves.Cubes.Add(solve.Labels.Cube);
+                
+                else if (!CrossSolves.Cubes.Contains(solve.UsedAlgorithm))
+                    CrossSolves.Algorithms.Add(solve.UsedAlgorithm);
+             }
         }
 
         string[] solves = Directory.GetFiles(SolvesPath, "*.json");
@@ -169,6 +184,17 @@ public static class Saving
 
             else if (solve.IsUnderChosenSeconds(30))
                 MainMenu.Stats.SolvesUnder30Second++;
+
+            solve.Path = solvePath;
+
+             if(!(bool)solve.Labels.Practice)
+             {
+                if(!CrossSolves.Cubes.Contains(solve.Labels.Cube))
+                    CrossSolves.Cubes.Add(solve.Labels.Cube);
+                
+                else if (!CrossSolves.Cubes.Contains(solve.UsedAlgorithm))
+                    CrossSolves.Algorithms.Add(solve.UsedAlgorithm);
+             }
         }
     }
 
