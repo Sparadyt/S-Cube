@@ -42,6 +42,8 @@ public static class MainMenu
         if(Options.Count > 10)
             inputIsKey = false;
 
+        CrossSolves.Algorithms.Add("No Algorithm");
+
         while (true)
         {
             Console.Clear();

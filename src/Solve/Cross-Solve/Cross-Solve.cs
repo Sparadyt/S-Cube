@@ -8,6 +8,7 @@ public static class CrossSolves
 {
     public static bool WriteSolve = ((BoolPr)Settings.Preferences["Write Solve"]).Value;
     public static List<string> Cubes = new List<string>();
+    public static List<string> Algorithms = new List<string>();
     
     public static void Inspection()
     {
@@ -147,7 +148,7 @@ public static class CrossSolves
 
         if ((input == 'D'  && !advanceSolve) && ConfirmDeletion())
         {
-            BBSolveData solve = new BBSolveData(time.Elapsed, currentDate, new LabelData(), penalty);
+            BBSolveData solve = new BBSolveData(time.Elapsed, currentDate, ((StringPr)Settings.Preferences["Default Algorithm"]).Value, new LabelData(), penalty);
 
             if(WriteSolve)
                 Saving.WriteBBSolve(solve);

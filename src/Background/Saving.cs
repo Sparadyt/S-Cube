@@ -156,8 +156,14 @@ public static class Saving
 
             bool practice = (solve.Labels ?? new LabelData()).Practice ?? false;
 
-            if(!practice)
-                CrossSolves.Cubes.Add(solve.Labels.Cube);
+            if(!(bool)solve.Labels.Practice)
+             {
+                if(!CrossSolves.Cubes.Contains(solve.Labels.Cube))
+                    CrossSolves.Cubes.Add(solve.Labels.Cube);
+                
+                else if (!CrossSolves.Cubes.Contains(solve.UsedAlgorithm))
+                    CrossSolves.Algorithms.Add(solve.UsedAlgorithm);
+             }
         }
 
         string[] solves = Directory.GetFiles(SolvesPath, "*.json");
@@ -182,7 +188,13 @@ public static class Saving
             solve.Path = solvePath;
 
              if(!(bool)solve.Labels.Practice)
-                CrossSolves.Cubes.Add(solve.Labels.Cube);
+             {
+                if(!CrossSolves.Cubes.Contains(solve.Labels.Cube))
+                    CrossSolves.Cubes.Add(solve.Labels.Cube);
+                
+                else if (!CrossSolves.Cubes.Contains(solve.UsedAlgorithm))
+                    CrossSolves.Algorithms.Add(solve.UsedAlgorithm);
+             }
         }
     }
 

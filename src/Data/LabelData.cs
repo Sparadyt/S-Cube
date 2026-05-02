@@ -14,6 +14,9 @@ public class LabelData
         Cube = ((StringPr)Settings.Preferences["Default Cube"]).Value;
         Practice = ((BoolPr)Settings.Preferences["Practice Mode"]).Value;
         Event = ((StringPr)Settings.Preferences["Default Event"]).Value;
+
+        if (!CrossSolves.Cubes.Contains(Cube))
+            CrossSolves.Cubes.Contains(Cube);
     }
 
     public LabelData(string cube, bool practice, string cubingEvent, List<string> otherLabels)
@@ -22,5 +25,8 @@ public class LabelData
         Practice = practice;
         Event = cubingEvent;
         OtherLabels = otherLabels;
+
+        if(!CrossSolves.Cubes.Contains(Cube))
+            CrossSolves.Cubes.Contains(Cube);
     }
 }

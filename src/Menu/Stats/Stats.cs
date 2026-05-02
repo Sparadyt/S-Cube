@@ -12,7 +12,7 @@ public static partial class SeeStats
 
         if(CrossSolves.Cubes.Count == 1)
         {
-            Algorithm();
+            Algorithm(CrossSolves.Cubes[0]);
         }
 
         else
@@ -30,11 +30,13 @@ public static partial class SeeStats
                     break;
 
                 int number = int.Parse(input);
+
+                Algorithm(CrossSolves.Cubes[number - 1]);
             }
         }
     }
 
-    public static void Algorithm()
+    public static void Algorithm(string cube)
     {
         //
     }

@@ -12,6 +12,7 @@ public class BBSolveData
     public int Number { get; private set; }
     public TimeSpan Time { get; set; } = new TimeSpan();
     public static TimeSpan Mean { get; set; } = new TimeSpan();
+    public string UsedAlgorithm { get; set; } = ((StringPr)Settings.Preferences["Default Algorithm"]).Value;
     public DateTime Date { get; set; } = new DateTime();
     public LabelData? Labels;
     public string Path { get; set; }
@@ -24,12 +25,13 @@ public class BBSolveData
         Mean = CalculateMean(Solves);
     }
     
-    public BBSolveData(TimeSpan time, DateTime date, LabelData? labels, Penalty penalty)
+    public BBSolveData(TimeSpan time, DateTime date, string usedAlgorithm, LabelData? labels, Penalty penalty)
     {
         Number = Solves.Count;
 
         Time = time;
         Date = date;
+        UsedAlgorithm = usedAlgorithm;
         Labels = labels;
 
         Solves.Add(this);
