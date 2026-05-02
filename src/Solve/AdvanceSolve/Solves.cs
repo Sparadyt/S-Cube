@@ -1,6 +1,6 @@
 using System;
+using System.IO;
 using System.Linq;
-using NetCoreAudio;
 using System.Diagnostics;
 using System.Collections.Generic;
 namespace S_Cube;
@@ -36,7 +36,7 @@ public static partial class Solves
             }
 
             Console.WriteLine($"\n(Enter {options.Length} to view Solve number 1)");
-            string inputStr = MainMenu.GetNumber(false, (int)SolveData.Amount + options.Length - 1);
+            string inputStr = MainMenu.GetNumber(false, SolveData.Solves.Count + options.Length - 1);
 
             if (inputStr.StartsWith("Error"))
                 continue;
@@ -69,7 +69,6 @@ public static partial class Solves
             Console.WriteLine("Enter 'S' to generate a random scramble");
             Console.WriteLine("Enter 'Esc' or 'E' or Exit");
             Console.WriteLine("Enter any other key to start");
-            Console.WriteLine("After you started, enter space to add a lap");
 
             CrossSolves.Wait(1000);
             ConsoleKeyInfo key = Console.ReadKey();
@@ -85,63 +84,9 @@ public static partial class Solves
 
             Console.Clear();
 
-            if (((BoolPr)Settings.Preferences["CrossSolvess.Inspection"]).Value)
-                CrossSolves.Inspection();
+            CrossSolves.DoSolve(true, scramble);
 
-            DateTime currentDate = DateTime.Now;
-            time = Stopwatch.StartNew();
-
-            MainMenu.Stats.TimeSpentSolving.Start();
-            MainMenu.Stats.AdvanceSolvesTimer.Start();
             
-            while (true)
-            {
-                Console.Clear();
-
-                if (Console.KeyAvailable)
-                    break;
-        
-                Console.WriteLine("Time: " + time.Elapsed.ToString(@"mm\:ss\.ff"));
-                Thread.Sleep(100);
-            }
-
-            CrossSolves.FlushInput();
-            MainMenu.Stats.TimeSpentSolving.Stop();
-            MainMenu.Stats.AdvanceSolvesTimer.Stop();
-            time.Stop();
-
-            Console.Clear();
-
-            Console.WriteLine($"Total Time: {time.Elapsed.ToString(@"mm\:ss\.fff")}");
-            Console.WriteLine("(Enter 'D' to delete this solve)");
-            Console.WriteLine("(Enter '2' to mark thsi solve as +2)");
-            Console.WriteLine("(Enter 'F' to mark this solve as Did Not Finish)");
-            Console.WriteLine("(Enter any key to continue)");
-
-            CrossSolves.Wait(1000);
-            char input = char.ToUpperInvariant(Console.ReadKey(true).KeyChar);
-
-            Penalty penalty = Penalty.None;
-            
-            if(input == '2')
-            {
-                penalty = Penalty.Plus2;
-            }
-
-            else if(input == 'F')
-            {
-                penalty = Penalty.DNF;
-            }
-
-            else if(input == 'D' && CrossSolves.ConfirmDeletion())
-            {
-                continue;
-            }
-
-            SolveData solve = new SolveData(time.Elapsed, scramble, "No Description Provided", currentDate, null, penalty);
-
-            if(CrossSolves.WriteSolve)
-                Saving.WriteSolve(solve);
         }
     }
 
@@ -149,5 +94,15 @@ public static partial class Solves
     {
         //List<SolveData> filteredSolves = solves.Where(solve=> ).ToList();
         return new TimeSpan();
+    }
+
+    public static void DeleteSolve(SolveData solve)
+    {
+        SolveData.Solves.Clear();
+
+        if (Path.Exists(solve.Path))
+            File.Delete(solve.Path);
+
+        Saving.UpdateValues();
     }
 }

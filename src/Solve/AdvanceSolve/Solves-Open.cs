@@ -23,8 +23,10 @@ public static partial class Solves
             ShowLabels(openedSolve);
 
             Console.WriteLine($"Date: {openedSolve.Date}");
+            Console.WriteLine($"Path: {openedSolve.Path ?? "N/A"}");
             ShowUsedAlgorithm(openedSolve);
 
+            Console.WriteLine();
             Console.WriteLine("Enter 'Des' to change the Description");
             Console.WriteLine("Enter 'Lab' to change the Labels");
             Console.WriteLine("Enter 'Rem' to delete this solve");
@@ -106,6 +108,12 @@ public static partial class Solves
 
     public static void ShowLabels(SolveData _openedSolve)
     {
+        if (_openedSolve.Labels == null)
+        {
+            Console.WriteLine("Labels: N/A");
+            return;
+        }
+        
         Console.WriteLine($"Practice: {_openedSolve.Labels.Practice}");
         Console.WriteLine($"Cube: {_openedSolve.Labels.Cube}");
 
@@ -119,6 +127,8 @@ public static partial class Solves
     public static void Delete()
     {
         if (CrossSolves.ConfirmDeletion())
-            SolveData.Solves.Remove(openedSolve);
+            Solves.DeleteSolve(openedSolve);
+
+        exit = true;
     }
 }

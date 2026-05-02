@@ -1,20 +1,10 @@
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 namespace S_Cube;
 
-public static class SeeStats
+public static partial class Stats
 {
-    public static void Home()
-    {
-        Console.Clear();
-        Console.WriteLine($"{Saving.AppName} \nSTATS\n");
-
-        if(SolveData.Cubes.Count == 1)
-        {
-            //
-        }
-    }
-
     public static void ShowTotalTimeUsed()
     {
         Console.WriteLine($"Time Used: {MainMenu.Stats.TimeUsed.Elapsed.ToString(@"d\:hh\:mm\:ss")}");
@@ -25,15 +15,15 @@ public static class SeeStats
 
     public static void ShowTotalSolves()
     {
-        Console.WriteLine($"\nTotal Solves Amount: {SolveData.Amount + BBSolveData.Amount}");
-        Console.WriteLine($"Advance Solves Amount: {SolveData.Amount}");
-        Console.WriteLine($"Bare-Bonses Solves Amount: {BBSolveData.Amount} \n");
+        Console.WriteLine($"\nTotal Solves Amount: {SolveData.Solves.Count + BBSolveData.Solves.Count}");
+        Console.WriteLine($"Advance Solves Amount: {SolveData.Solves.Count}");
+        Console.WriteLine($"Bare-Bonses Solves Amount: {BBSolveData.Solves.Count} \n");
     }
 
     public static void ShowMeanTime()
     {
         Console.Write("Mean: ");
-        if (SolveData.Amount == 0)
+        if (SolveData.Solves.Count == 0)
         {
             Console.WriteLine("N/A");
             return;
