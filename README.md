@@ -6,13 +6,14 @@ A simple cubing tool.
 * Unzip the code
 * Open the program and double click the file called "S-Cube"
 <img width="615" height="188" alt="HowToRunS-Cube" src="https://github.com/user-attachments/assets/f90c1a13-c965-4e01-b12e-feaffa1372db" />
+
 * Double click the .lnk shortcut
 
 # Types of Solves:
 
 ## -Bare Bones
 
-It contains bare minimum. Useful for quick solves where you don't want to analyse a lot
+It contains bare minimum. The best one imo.
 
 ### Bare Bone Features:
 
@@ -22,7 +23,7 @@ It contains bare minimum. Useful for quick solves where you don't want to analys
 
 ## -Advance
 
-It contains a lot of features. Useful if you want to analyse a lot
+It contains a lot of features.
 
 ### Advance Features:
 
