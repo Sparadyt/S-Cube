@@ -30,4 +30,3 @@ It contains a lot of features.
 * Time
 * Date
 * Folder
-* Lap
